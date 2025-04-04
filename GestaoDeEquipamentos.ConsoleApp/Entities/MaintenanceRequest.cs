@@ -8,6 +8,15 @@ public class MaintenanceRequest : Entity
     public DateTime OpenDate;
     public static int id = 0;
 
+    public MaintenanceRequest(string title, string description, Equipment equipment, DateTime openDate)
+    {
+        Id = ++id;
+        Title = title;
+        Description = description;
+        Equipment = equipment;
+        OpenDate = openDate;
+    }
+
     public int CalculateOpenDays()
     {
         return DateTime.Now.Day - OpenDate.Day;
