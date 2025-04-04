@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace GestaoDeEquipamentos.ConsoleApp.Entities;
 
-namespace GestaoDeEquipamentos.ConsoleApp.Entities
+public class MaintenanceRequest : Entity
 {
-    internal class MaintenanceRequest
-    {
-    }
+    public string Title;
+    public string Description;
+    public Equipment Equipment;
+    public DateTime OpenDate;
+    public static int id = 0;
 }
