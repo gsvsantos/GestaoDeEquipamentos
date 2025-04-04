@@ -5,16 +5,16 @@ public class Equipment : Entity
     public string Name;
     public double AcquisitionPrice;
     public string SerialNumber;
-    public DateTime FabricDate;
+    public DateTime ManufacturingDate;
     public string Manufacturer;
     public static int id = 0;
 
-    public Equipment(string name, double acquisitionPrice, string serialNumber, DateTime fabricDate, string manufacturer)
+    public Equipment(string name, double acquisitionPrice, DateTime manufacturingDate, string manufacturer)
     {
         Name = name;
         AcquisitionPrice = acquisitionPrice;
-        SerialNumber = serialNumber;
-        FabricDate = fabricDate;
+        SerialNumber = GetSerialNumber();
+        ManufacturingDate = manufacturingDate;
         Manufacturer = manufacturer;
         Id = ++id;
     }
