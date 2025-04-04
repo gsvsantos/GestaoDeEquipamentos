@@ -7,4 +7,9 @@ public class MaintenanceRequest : Entity
     public Equipment Equipment;
     public DateTime OpenDate;
     public static int id = 0;
+
+    public int CalculateOpenDays()
+    {
+        return DateTime.Now.Day - OpenDate.Day;
+    }
 }
