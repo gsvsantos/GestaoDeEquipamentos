@@ -11,12 +11,12 @@ public class Equipment : Entity
 
     public Equipment(string name, double acquisitionPrice, DateTime manufacturingDate, string manufacturer)
     {
+        Id = ++id;
         Name = name;
         AcquisitionPrice = acquisitionPrice;
         SerialNumber = GetSerialNumber();
         ManufacturingDate = manufacturingDate;
         Manufacturer = manufacturer;
-        Id = ++id;
     }
 
     public string GetSerialNumber()
