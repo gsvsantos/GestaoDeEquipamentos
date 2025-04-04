@@ -24,8 +24,50 @@ public class EquipmentManager
         Equipment newEquipment = new Equipment(name, acquisitionPrice, manufacturingDate, manufacturer);
         EquipmentList[equipmentListIndex++] = newEquipment;
     }
+    public void DeleteEquipment()
+    {
+        Console.Clear();
+        Console.WriteLine("- Exclusão de Equipamento -");
+
+        ShowEquipmentList("COM-ID");
+
+        Console.Write("Digite o ID do equipamento que deseja excluir: ");
+        int idChosen = Convert.ToInt32(Console.ReadLine());
+
+        bool idFound = false;
+        foreach (Equipment equipment in EquipmentList)
+        {
+            if (equipment == null)
+                continue;
+            if (equipment.Id == idChosen)
+            {
+                idFound = true;
+            }
+            if (equipment == null)
+                break;
+        }
+
+        if (!idFound)
+        {
+            Console.WriteLine("Equipamento não encontrado, tente novamente!");
+            return;
+        }
+
+
+        for (int i = 0; i < EquipmentList.Length; i++)
+        {
+            if (EquipmentList[i] == null)
+                continue;
+            else if (EquipmentList[i].Id == idChosen)
+            {
+                EquipmentList[i] = null!;
+            }
+        }
+        Console.WriteLine("\nO equipamento foi excluído com sucesso!");
+    }
     public void EditEquipment()
     {
+        Console.Clear();
         Console.WriteLine("- Edição de Equipamento -");
 
         ShowEquipmentList("COM-ID");
@@ -52,17 +94,18 @@ public class EquipmentManager
             return;
         }
 
-        Console.Write("Digite o nome do equipamento: ");
+        Console.WriteLine("Digite abaixo os novos dados do equipamento: ");
+        Console.Write("Nome do Equipamento: ");
         string name = Console.ReadLine()!;
 
-        Console.Write("Digite o nome do fabricante equipamento: ");
-        string manufacturer = Console.ReadLine()!;
-
-        Console.Write("Digite o preço de aquisição R$ ");
+        Console.Write("Preço de Aquisição: ");
         double acquisitionPrice = Convert.ToDouble(Console.ReadLine());
 
-        Console.Write("Digite a data de fabricação do equipamento (dd/MM/yyyy) ");
-        DateTime manufacturingDate = Convert.ToDateTime(Console.ReadLine());
+        Console.Write("Nome do Fabricante: ");
+        string manufacturer = Console.ReadLine()!;
+
+        Console.Write("Data de Fabricação (dd/MM/yyyy): ");
+        DateTime manufacturingDate = DateTime.Parse(Console.ReadLine()!);
 
         Equipment newEquipament = new Equipment(name, acquisitionPrice, manufacturingDate, manufacturer);
         foreach (Equipment equipment in EquipmentList)
@@ -82,7 +125,7 @@ public class EquipmentManager
     }
     public void ShowEquipmentList(string typeList)
     {
-        Console.WriteLine("- Equipamento Registrados -");
+        Console.WriteLine("- Equipamentos Registrados -");
         foreach (Equipment equipment in EquipmentList)
         {
             if (EquipmentList[0] == null)
