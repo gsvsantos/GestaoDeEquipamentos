@@ -1,4 +1,6 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp.Entities;
+﻿using GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
+
+namespace GestaoDeEquipamentos.ConsoleApp.Entities;
 
 public class MaintenanceRequestManager
 {
@@ -10,38 +12,43 @@ public class MaintenanceRequestManager
     {
         do
         {
+            ShowMenu showMenu = new ShowMenu();
+
+            showMenu.MaintenanceRequestMenu();
             Console.Write("Opção: ");
-            string option = Console.ReadLine()!;
+            string option = Console.ReadLine()!.ToUpper();
             switch (option)
             {
                 case "1":
                     RegisterMaintenanceRequest();
                     break;
                 case "2":
-                    DeleteMaintenanceRequest();
+                    ShowMaintenanceRequestList("LIMPAR-TELA");
                     break;
                 case "3":
                     EditMaintenanceRequest();
                     break;
                 case "4":
-                    ShowMaintenanceRequestList("SEM-ID");
+                    DeleteMaintenanceRequest();
                     break;
+                case "S":
+                    return;
                 default:
                     Console.WriteLine("Opção Inválida!");
-                    return;
+                    break;
             }
         } while (true);
     }
     public void RegisterMaintenanceRequest()
     {
         Console.Clear();
-        Console.WriteLine("- Registro de Chamado -");
+        ViewWrite.ShowHeader("           Registro de Chamado", 39);
 
-        Console.WriteLine("Escolha o equipamento no qual será feito o chamado: ");
-        EquipmentManager.ShowEquipmentList("COM-ID");
+        EquipmentManager.ShowEquipmentList("NAO-LIMPAR-TELA");
         if (EquipmentManager.ListIsEmpty)
             return;
-        Console.Write("Digite o ID do equipamento: ");
+
+        Console.Write("\nDigite o ID do equipamento no qual será feito o chamado: ");
         int idChosen = Convert.ToInt32(Console.ReadLine());
 
         bool idFound = false;
@@ -59,12 +66,11 @@ public class MaintenanceRequestManager
         }
         if (!idFound)
         {
-            Console.WriteLine("Equipamento não encontrado, tente novamente!");
+            Console.WriteLine("Ocorreu um problema em gerar o chamado desse equipamento, tente novamente!");
             return;
         }
 
-        Console.Clear();
-        Console.WriteLine($"- Registro de chamado para {equipmentChosen.Name} -");
+        Console.WriteLine($"\n- Registro de chamado para {equipmentChosen.Name} -");
 
         Console.Write("Título: ");
         string title = Console.ReadLine()!;
@@ -77,16 +83,16 @@ public class MaintenanceRequestManager
         MaintenanceRequest newMaintenanceRequest = new MaintenanceRequest(title, description, equipmentChosen, openDate);
         MaintenanceRequestList[MaintenanceRequestListIndex] = newMaintenanceRequest;
 
-        Console.WriteLine("Chamado registrado com sucesso!");
-        Console.WriteLine("Pressione [Enter] para voltar ao menu!");
+        Console.WriteLine("\nChamado registrado com sucesso!");
+        Console.Write("\nPressione [Enter] para voltar ao menu!");
         Console.ReadKey();
     }
     public void DeleteMaintenanceRequest()
     {
         Console.Clear();
-        Console.WriteLine("- Exclusão de Chamado -");
+        ViewWrite.ShowHeader("           Exclusão de Chamado");
 
-        ShowMaintenanceRequestList("COM-ID");
+        ShowMaintenanceRequestList("NAO-LIMPAR-TELA");
         if (ListIsEmpty)
             return;
 
@@ -128,9 +134,9 @@ public class MaintenanceRequestManager
     public void EditMaintenanceRequest()
     {
         Console.Clear();
-        Console.WriteLine("- Edição de Chamado -");
+        ViewWrite.ShowHeader("            Edição de Chamado", 39);
 
-        ShowMaintenanceRequestList("COM-ID");
+        ShowMaintenanceRequestList("NAO-LIMPAR-TELA");
         if (ListIsEmpty)
             return;
 
@@ -173,7 +179,14 @@ public class MaintenanceRequestManager
     }
     public void ShowMaintenanceRequestList(string typeList)
     {
-        Console.WriteLine("- Chamados Registrados -");
+        if (typeList == "LIMPAR-TELA")
+            Console.Clear();
+
+        ViewWrite.ShowHeader("            Lista de Chamados", 39);
+        Console.WriteLine(
+            "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -10}",
+            "Id", "Equipamento", "Data Abertura", "Descrição", "Dias Aberto");
+        Console.WriteLine(new string('-', 85));
 
         int maintenanceRequestCount = 0;
         foreach (MaintenanceRequest maintenanceRequest in MaintenanceRequestList)
@@ -182,26 +195,20 @@ public class MaintenanceRequestManager
                 continue;
 
             maintenanceRequestCount++;
+            ListIsEmpty = false;
 
-            switch (typeList)
-            {
-                case "SEM-ID":
-                    if (maintenanceRequest != null)
-                        Console.WriteLine($"Título: {maintenanceRequest.Title}\nEquipamento: {maintenanceRequest.Equipment.Name}\nData de Abertura: {maintenanceRequest.OpenDate:dd/MM/yyyy}\nDias Aberto: {maintenanceRequest.CalculateOpenDays()}\n");
-                    break;
-                case "COM-ID":
-                    if (maintenanceRequest != null)
-                        Console.WriteLine($"ID do Chamado: {maintenanceRequest.Id}\nTítulo: {maintenanceRequest.Title}\nDescrição: {maintenanceRequest.Description}\nEquipamento: {maintenanceRequest.Equipment.Name}\nData de Abertura: {maintenanceRequest.OpenDate:dd/MM/yyyy}\n");
-                    break;
-            }
+            Console.WriteLine(
+                "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -10}",
+                maintenanceRequest.Id, maintenanceRequest.Equipment.Name, maintenanceRequest.OpenDate.ToString("dd/MM/yyyy"),
+                maintenanceRequest.Description, maintenanceRequest.CalculateOpenDays().ToString());
+
             if (maintenanceRequestCount == MaintenanceRequestList.Count(m => m != null))
                 break;
         }
-
         if (maintenanceRequestCount == 0)
-            Console.WriteLine("Nenhum chamado registrado!");
-
-        Console.WriteLine("Pressione [Enter] para continuar!");
-        Console.ReadKey();
+        {
+            Console.WriteLine("Nenhum equipamento registrado!");
+            ListIsEmpty = true;
+        }
     }
 }
