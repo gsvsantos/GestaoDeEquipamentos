@@ -11,11 +11,8 @@ public class Validators
             ViewColors.WriteWithColor(prompt);
             string input = Console.ReadLine()!;
 
-            if (string.IsNullOrEmpty(input))
-            {
-                ViewErrors.InputIsNullOrEmpty(input);
+            if (IsStringNullOrEmpty(input))
                 continue;
-            }
 
             input = input.Trim();
             if (input.Contains('.') || input.Contains(','))
@@ -38,6 +35,8 @@ public class Validators
             return value;
         } while (true);
     }
+
+
     public static double IsValidDouble(string prompt, string inputError, string valueError, double minValue = 0, double maxValue = double.MaxValue)
     {
         do
@@ -45,11 +44,8 @@ public class Validators
             ViewColors.WriteWithColor(prompt, ConsoleColor.Yellow);
             string input = Console.ReadLine()!.Trim();
 
-            if (string.IsNullOrEmpty(input))
-            {
-                ViewErrors.InputIsNullOrEmpty(input);
+            if (IsStringNullOrEmpty(input))
                 continue;
-            }
 
             if (!double.TryParse(input, CultureInfo.InvariantCulture, out double value))
             {
@@ -72,11 +68,8 @@ public class Validators
             ViewColors.WriteWithColor(prompt, ConsoleColor.Yellow);
             string input = Console.ReadLine()!;
 
-            if (string.IsNullOrEmpty(input))
-            {
-                ViewErrors.InputIsNullOrEmpty(input);
+            if (IsStringNullOrEmpty(input))
                 continue;
-            }
 
             input = input.Trim();
             if (onlyLetters && !input.All(c => char.IsLetter(c) || c == ' '))
@@ -101,11 +94,8 @@ public class Validators
             ViewColors.WriteWithColor(prompt, ConsoleColor.Yellow);
             string input = Console.ReadLine()!.Trim();
 
-            if (string.IsNullOrEmpty(input))
-            {
-                ViewErrors.InputIsNullOrEmpty(input);
+            if (IsStringNullOrEmpty(input))
                 continue;
-            }
 
             if (!DateTime.TryParse(input, out DateTime date))
             {
@@ -120,5 +110,14 @@ public class Validators
 
             return date;
         } while (true);
+    }
+    private static bool IsStringNullOrEmpty(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            ViewErrors.InputIsNullOrEmpty(input);
+            return true;
+        }
+        return false;
     }
 }
