@@ -2,8 +2,8 @@
 
 public class EquipmentManager
 {
-    public Equipment[] EquipmentList = new Equipment[100];
-    public int equipmentListIndex = 0;
+    public static Equipment[] EquipmentList = new Equipment[100];
+    public int EquipmentListIndex = 0;
 
     public void RegisterEquipment()
     {
@@ -22,7 +22,7 @@ public class EquipmentManager
         DateTime manufacturingDate = DateTime.Parse(Console.ReadLine()!);
 
         Equipment newEquipment = new Equipment(name, acquisitionPrice, manufacturingDate, manufacturer);
-        EquipmentList[equipmentListIndex++] = newEquipment;
+        EquipmentList[EquipmentListIndex++] = newEquipment;
     }
     public void DeleteEquipment()
     {
@@ -42,9 +42,8 @@ public class EquipmentManager
             if (equipment.Id == idChosen)
             {
                 idFound = true;
-            }
-            if (equipment == null)
                 break;
+            }
         }
 
         if (!idFound)
@@ -83,9 +82,8 @@ public class EquipmentManager
             if (equipment.Id == idChosen)
             {
                 idFound = true;
-            }
-            if (equipment == null)
                 break;
+            }
         }
 
         if (!idFound)
@@ -123,7 +121,7 @@ public class EquipmentManager
         }
         Console.WriteLine("\nO equipamento foi editado com sucesso!");
     }
-    public void ShowEquipmentList(string typeList)
+    public static void ShowEquipmentList(string typeList)
     {
         Console.WriteLine("- Equipamentos Registrados -");
         foreach (Equipment equipment in EquipmentList)
