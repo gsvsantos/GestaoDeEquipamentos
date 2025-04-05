@@ -35,8 +35,6 @@ public class Validators
             return value;
         } while (true);
     }
-
-
     public static double IsValidDouble(string prompt, string inputError, string valueError, double minValue = 0, double maxValue = double.MaxValue)
     {
         do
