@@ -6,6 +6,32 @@ public class MaintenanceRequestManager
     public static int MaintenanceRequestListIndex = 0;
     bool ListIsEmpty = false;
 
+    public void MaintenanceRequestManagerOptions()
+    {
+        do
+        {
+            Console.Write("Opção: ");
+            string option = Console.ReadLine()!;
+            switch (option)
+            {
+                case "1":
+                    RegisterMaintenanceRequest();
+                    break;
+                case "2":
+                    DeleteMaintenanceRequest();
+                    break;
+                case "3":
+                    EditMaintenanceRequest();
+                    break;
+                case "4":
+                    ShowMaintenanceRequestList("SEM-ID");
+                    break;
+                default:
+                    Console.WriteLine("Opção Inválida!");
+                    return;
+            }
+        } while (true);
+    }
     public void RegisterMaintenanceRequest()
     {
         Console.Clear();
