@@ -1,4 +1,5 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
+﻿using System.Drawing;
+using GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
 
 namespace GestaoDeEquipamentos.ConsoleApp.Entities;
 
@@ -15,8 +16,7 @@ public class EquipmentManager
             ShowMenu showMenu = new ShowMenu();
 
             showMenu.EquipmentMenu();
-            Console.Write("Opção: ");
-            string option = Console.ReadLine()!.ToUpper();
+            string option = ViewUtils.GetOption();
             switch (option)
             {
                 case "1":
@@ -24,6 +24,7 @@ public class EquipmentManager
                     break;
                 case "2":
                     ShowEquipmentList("LIMPAR-TELA");
+                    ViewUtils.PressEnter();
                     break;
                 case "3":
                     EditEquipment();
@@ -44,68 +45,62 @@ public class EquipmentManager
         Console.Clear();
         ViewWrite.ShowHeader("         Registro de Equipamento", 39);
 
-        Console.Write("Nome do Equipamento: ");
+        ViewColors.WriteWithColor("Nome do Equipamento: ");
         string name = Console.ReadLine()!;
 
-        Console.Write("Preço de Aquisição: ");
+        ViewColors.WriteWithColor("Preço de Aquisição: ");
         double acquisitionPrice = Convert.ToDouble(Console.ReadLine());
 
-        Console.Write("Nome do Fabricante: ");
+        ViewColors.WriteWithColor("Nome do Fabricante: ");
         string manufacturer = Console.ReadLine()!;
 
-        Console.Write("Data de Fabricação (dd/MM/yyyy): ");
+        ViewColors.WriteWithColor("Data de Fabricação (dd/MM/yyyy): ");
         DateTime manufacturingDate = DateTime.Parse(Console.ReadLine()!);
 
         Equipment newEquipment = new Equipment(name, acquisitionPrice, manufacturingDate, manufacturer);
         EquipmentList[EquipmentListIndex++] = newEquipment;
 
-        Console.WriteLine("\nEquipamento registrado com sucesso!");
-        Console.WriteLine("Pressione [Enter] para voltar ao menu!");
+        ViewColors.WriteLineWithColor("\nEquipamento registrado com sucesso!");
+        ViewColors.WriteLineWithColor("Pressione [Enter] para voltar ao menu!");
         Console.ReadKey();
     }
-    public void DeleteEquipment()
+    public void ShowEquipmentList(string typeList)
     {
-        Console.Clear();
-        ViewWrite.ShowHeader("         Exclusão de Equipamento", 39);
+        if (typeList == "LIMPAR-TELA")
+            Console.Clear();
 
-        ShowEquipmentList("NAO-LIMPAR-TELA");
-        if (ListIsEmpty)
-            return;
+        ViewWrite.ShowHeader("          Lista de Equipamentos", 39);
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.WriteLine(
+            "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -15} | {5, -15}",
+            "Id", "Nome", "Num. Série", "Fabricante", "Preço", "Data de Fabricação");
+        Console.ResetColor();
+        ViewColors.WriteLineWithColor(new string('-', 110));
 
-        Console.Write("Digite o ID do equipamento que deseja excluir: ");
-        int idChosen = Convert.ToInt32(Console.ReadLine());
-
-        bool idFound = false;
+        int equipmentCount = 0;
         foreach (Equipment equipment in EquipmentList)
         {
             if (equipment == null)
                 continue;
-            if (equipment.Id == idChosen)
-            {
-                idFound = true;
-                break;
-            }
-        }
-        if (!idFound)
-        {
-            Console.WriteLine("Equipamento não encontrado, tente novamente!");
-            return;
-        }
 
-        for (int i = 0; i < EquipmentList.Length; i++)
-        {
-            if (EquipmentList[i] == null)
-                continue;
-            else if (EquipmentList[i].Id == idChosen)
-            {
-                EquipmentList[i] = null!;
-                break;
-            }
-        }
+            equipmentCount++;
+            ListIsEmpty = false;
 
-        Console.WriteLine("\nO equipamento foi excluído com sucesso!");
-        Console.WriteLine("Pressione [Enter] para voltar ao menu!");
-        Console.ReadKey();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(
+                "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -15} | {5, -15}",
+                equipment.Id, equipment.Name, equipment.SerialNumber, equipment.Manufacturer,
+                equipment.AcquisitionPrice.ToString("F2"), equipment.ManufacturingDate.ToString("dd/MM/yyyy"));
+            Console.ResetColor();
+
+            if (equipmentCount == EquipmentList.Count(e => e != null))
+                break;
+        }
+        if (equipmentCount == 0)
+        {
+            ViewColors.WriteLineWithColor("Nenhum equipamento registrado!");
+            ListIsEmpty = true;
+        }
     }
     public void EditEquipment()
     {
@@ -116,7 +111,7 @@ public class EquipmentManager
         if (ListIsEmpty)
             return;
 
-        Console.Write("Digite o ID do equipamento que deseja editar: ");
+        ViewColors.WriteWithColor("\nDigite o ID do equipamento que deseja editar: ");
         int idChosen = Convert.ToInt32(Console.ReadLine());
 
         bool idFound = false;
@@ -134,22 +129,22 @@ public class EquipmentManager
         }
         if (!idFound)
         {
-            Console.WriteLine("Equipamento não encontrado, tente novamente!");
+            ViewColors.WriteLineWithColor("\nEquipamento não encontrado, tente novamente!");
             return;
         }
 
-        Console.WriteLine("Digite abaixo os novos dados do equipamento: ");
+        ViewColors.WriteLineWithColor("\nDigite abaixo os novos dados do equipamento: ");
 
-        Console.Write("Nome do Equipamento: ");
+        ViewColors.WriteWithColor("\nNome do Equipamento: ");
         string newName = Console.ReadLine()!;
 
-        Console.Write("Preço de Aquisição: ");
+        ViewColors.WriteWithColor("Preço de Aquisição: ");
         double newAcquisitionPrice = Convert.ToDouble(Console.ReadLine());
 
-        Console.Write("Nome do Fabricante: ");
+        ViewColors.WriteWithColor("Nome do Fabricante: ");
         string newManufacturer = Console.ReadLine()!;
 
-        Console.Write("Data de Fabricação (dd/MM/yyyy): ");
+        ViewColors.WriteWithColor("Data de Fabricação (dd/MM/yyyy): ");
         DateTime newManufacturingDate = DateTime.Parse(Console.ReadLine()!);
 
         equipmentChosen.Name = newName;
@@ -157,42 +152,52 @@ public class EquipmentManager
         equipmentChosen.Manufacturer = newManufacturer;
         equipmentChosen.ManufacturingDate = newManufacturingDate;
 
-        Console.WriteLine("\nO equipamento foi editado com sucesso!");
-        Console.WriteLine("Pressione [Enter] para voltar ao menu!");
+        ViewColors.WriteLineWithColor("\nO equipamento foi editado com sucesso!");
+        ViewColors.WriteLineWithColor("Pressione [Enter] para voltar ao menu!");
         Console.ReadKey();
     }
-    public static void ShowEquipmentList(string typeList)
+    public void DeleteEquipment()
     {
-        if (typeList == "LIMPAR-TELA")
-            Console.Clear();
+        Console.Clear();
+        ViewWrite.ShowHeader("         Exclusão de Equipamento", 39);
 
-        ViewWrite.ShowHeader("          Lista de Equipamentos", 39);
-        Console.WriteLine(
-            "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -15} | {5, -15}",
-            "Id", "Nome", "Num. Série", "Fabricante", "Preço", "Data de Fabricação");
-        Console.WriteLine(new string('-', 110));
+        ShowEquipmentList("NAO-LIMPAR-TELA");
+        if (ListIsEmpty)
+            return;
 
-        int equipmentCount = 0;
+        ViewColors.WriteWithColor("\nDigite o ID do equipamento que deseja excluir: ");
+        int idChosen = Convert.ToInt32(Console.ReadLine());
+
+        bool idFound = false;
         foreach (Equipment equipment in EquipmentList)
         {
             if (equipment == null)
                 continue;
-
-            equipmentCount++;
-            ListIsEmpty = false;
-
-            Console.WriteLine(
-                "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -15} | {5, -15}",
-                equipment.Id, equipment.Name, equipment.SerialNumber, equipment.Manufacturer,
-                equipment.AcquisitionPrice.ToString("F2"), equipment.ManufacturingDate.ToString("dd/MM/yyyy"));
-
-            if (equipmentCount == EquipmentList.Count(e => e != null))
+            if (equipment.Id == idChosen)
+            {
+                idFound = true;
                 break;
+            }
         }
-        if (equipmentCount == 0)
+        if (!idFound)
         {
-            Console.WriteLine("Nenhum equipamento registrado!");
-            ListIsEmpty = true;
+            ViewColors.WriteLineWithColor("Equipamento não encontrado, tente novamente!");
+            return;
         }
+
+        for (int i = 0; i < EquipmentList.Length; i++)
+        {
+            if (EquipmentList[i] == null)
+                continue;
+            else if (EquipmentList[i].Id == idChosen)
+            {
+                EquipmentList[i] = null!;
+                break;
+            }
+        }
+
+        ViewColors.WriteLineWithColor("\nO equipamento foi excluído com sucesso!");
+        ViewColors.WriteLineWithColor("Pressione [Enter] para voltar ao menu!");
+        Console.ReadKey();
     }
 }

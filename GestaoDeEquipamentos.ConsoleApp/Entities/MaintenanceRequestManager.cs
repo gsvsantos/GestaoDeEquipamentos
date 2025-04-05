@@ -15,8 +15,7 @@ public class MaintenanceRequestManager
             ShowMenu showMenu = new ShowMenu();
 
             showMenu.MaintenanceRequestMenu();
-            Console.Write("Opção: ");
-            string option = Console.ReadLine()!.ToUpper();
+            string option = ViewUtils.GetOption();
             switch (option)
             {
                 case "1":
@@ -24,6 +23,7 @@ public class MaintenanceRequestManager
                     break;
                 case "2":
                     ShowMaintenanceRequestList("LIMPAR-TELA");
+                    ViewUtils.PressEnter();
                     break;
                 case "3":
                     EditMaintenanceRequest();
@@ -41,14 +41,16 @@ public class MaintenanceRequestManager
     }
     public void RegisterMaintenanceRequest()
     {
+        EquipmentManager equipmentManager = new EquipmentManager();
+
         Console.Clear();
         ViewWrite.ShowHeader("           Registro de Chamado", 39);
 
-        EquipmentManager.ShowEquipmentList("NAO-LIMPAR-TELA");
+        equipmentManager.ShowEquipmentList("NAO-LIMPAR-TELA");
         if (EquipmentManager.ListIsEmpty)
             return;
 
-        Console.Write("\nDigite o ID do equipamento no qual será feito o chamado: ");
+        ViewColors.WriteWithColor("\nDigite o ID do equipamento no qual será feito o chamado: ");
         int idChosen = Convert.ToInt32(Console.ReadLine());
 
         bool idFound = false;
@@ -66,16 +68,16 @@ public class MaintenanceRequestManager
         }
         if (!idFound)
         {
-            Console.WriteLine("Ocorreu um problema em gerar o chamado desse equipamento, tente novamente!");
+            ViewColors.WriteLineWithColor("Ocorreu um problema em gerar o chamado desse equipamento, tente novamente!");
             return;
         }
 
-        Console.WriteLine($"\n- Registro de chamado para {equipmentChosen.Name} -");
+        ViewColors.WriteLineWithColor($"\n- Registro de chamado para {equipmentChosen.Name} -");
 
-        Console.Write("Título: ");
+        ViewColors.WriteWithColor("\nTítulo: ");
         string title = Console.ReadLine()!;
 
-        Console.Write("Descrição: ");
+        ViewColors.WriteWithColor("Descrição: ");
         string description = Console.ReadLine()!;
 
         DateTime openDate = DateTime.Now;
@@ -83,53 +85,47 @@ public class MaintenanceRequestManager
         MaintenanceRequest newMaintenanceRequest = new MaintenanceRequest(title, description, equipmentChosen, openDate);
         MaintenanceRequestList[MaintenanceRequestListIndex] = newMaintenanceRequest;
 
-        Console.WriteLine("\nChamado registrado com sucesso!");
-        Console.Write("\nPressione [Enter] para voltar ao menu!");
+        ViewColors.WriteLineWithColor("\nChamado registrado com sucesso!");
+        ViewColors.WriteWithColor("\nPressione [Enter] para voltar ao menu!");
         Console.ReadKey();
     }
-    public void DeleteMaintenanceRequest()
+    public void ShowMaintenanceRequestList(string typeList)
     {
-        Console.Clear();
-        ViewWrite.ShowHeader("           Exclusão de Chamado");
+        if (typeList == "LIMPAR-TELA")
+            Console.Clear();
 
-        ShowMaintenanceRequestList("NAO-LIMPAR-TELA");
-        if (ListIsEmpty)
-            return;
+        ViewWrite.ShowHeader("            Lista de Chamados", 39);
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.WriteLine(
+            "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -10}", 
+            "Id", "Equipamento", "Data Abertura", "Descrição", "Dias Aberto");
+        Console.ResetColor();
+        ViewColors.WriteLineWithColor(new string('-', 85));
 
-        Console.Write("Digite o ID do chamado que deseja editar: ");
-        int idChosen = Convert.ToInt32(Console.ReadLine());
-
-        bool idFound = false;
+        int maintenanceRequestCount = 0;
         foreach (MaintenanceRequest maintenanceRequest in MaintenanceRequestList)
         {
             if (maintenanceRequest == null)
                 continue;
-            if (maintenanceRequest.Id == idChosen)
-            {
-                idFound = true;
-                break;
-            }
-        }
-        if (!idFound)
-        {
-            Console.WriteLine("Equipamento não encontrado, tente novamente!");
-            return;
-        }
 
-        for (int i = 0; i < MaintenanceRequestList.Length; i++)
-        {
-            if (MaintenanceRequestList[i] == null)
-                continue;
-            else if (MaintenanceRequestList[i].Id == idChosen)
-            {
-                MaintenanceRequestList[i] = null!;
-                break;
-            }
-        }
+            maintenanceRequestCount++;
+            ListIsEmpty = false;
 
-        Console.WriteLine("\nO chamado foi excluído com sucesso!");
-        Console.WriteLine("Pressione [Enter] para voltar ao menu!");
-        Console.ReadKey();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(
+                "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -10}",
+                maintenanceRequest.Id, maintenanceRequest.Equipment.Name, maintenanceRequest.OpenDate.ToString("dd/MM/yyyy"),
+                maintenanceRequest.Description, maintenanceRequest.CalculateOpenDays().ToString());
+            Console.ResetColor();
+
+            if (maintenanceRequestCount == MaintenanceRequestList.Count(m => m != null))
+                break;
+        }
+        if (maintenanceRequestCount == 0)
+        {
+            ViewColors.WriteLineWithColor("Nenhum equipamento registrado!");
+            ListIsEmpty = true;
+        }
     }
     public void EditMaintenanceRequest()
     {
@@ -140,7 +136,7 @@ public class MaintenanceRequestManager
         if (ListIsEmpty)
             return;
 
-        Console.Write("Digite o ID do chamado que deseja editar: ");
+        ViewColors.WriteWithColor("Digite o ID do chamado que deseja editar: ");
         int idChosen = Convert.ToInt32(Console.ReadLine());
 
         bool idFound = false;
@@ -158,57 +154,67 @@ public class MaintenanceRequestManager
         }
         if (!idFound)
         {
-            Console.WriteLine("Equipamento não encontrado, tente novamente!");
+            ViewColors.WriteLineWithColor("Equipamento não encontrado, tente novamente!");
             return;
         }
 
-        Console.WriteLine("Digite abaixo as novas informações do chamado: ");
+        ViewColors.WriteLineWithColor("Digite abaixo as novas informações do chamado: ");
 
-        Console.Write("Título: ");
+        ViewColors.WriteWithColor("Título: ");
         string newTitle = Console.ReadLine()!;
 
-        Console.Write("Descrição: ");
+        ViewColors.WriteWithColor("Descrição: ");
         string newDescription = Console.ReadLine()!;
 
         maintenanceChosen.Title = newTitle;
         maintenanceChosen.Description = newDescription;
 
-        Console.WriteLine("Chamado atualizado com sucesso!");
-        Console.WriteLine("Pressione [Enter] para voltar ao menu!");
+        ViewColors.WriteLineWithColor("Chamado atualizado com sucesso!");
+        ViewColors.WriteLineWithColor("Pressione [Enter] para voltar ao menu!");
         Console.ReadKey();
     }
-    public void ShowMaintenanceRequestList(string typeList)
+    public void DeleteMaintenanceRequest()
     {
-        if (typeList == "LIMPAR-TELA")
-            Console.Clear();
+        Console.Clear();
+        ViewWrite.ShowHeader("           Exclusão de Chamado");
 
-        ViewWrite.ShowHeader("            Lista de Chamados", 39);
-        Console.WriteLine(
-            "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -10}",
-            "Id", "Equipamento", "Data Abertura", "Descrição", "Dias Aberto");
-        Console.WriteLine(new string('-', 85));
+        ShowMaintenanceRequestList("NAO-LIMPAR-TELA");
+        if (ListIsEmpty)
+            return;
 
-        int maintenanceRequestCount = 0;
+        ViewColors.WriteWithColor("Digite o ID do chamado que deseja editar: ");
+        int idChosen = Convert.ToInt32(Console.ReadLine());
+
+        bool idFound = false;
         foreach (MaintenanceRequest maintenanceRequest in MaintenanceRequestList)
         {
             if (maintenanceRequest == null)
                 continue;
-
-            maintenanceRequestCount++;
-            ListIsEmpty = false;
-
-            Console.WriteLine(
-                "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -10}",
-                maintenanceRequest.Id, maintenanceRequest.Equipment.Name, maintenanceRequest.OpenDate.ToString("dd/MM/yyyy"),
-                maintenanceRequest.Description, maintenanceRequest.CalculateOpenDays().ToString());
-
-            if (maintenanceRequestCount == MaintenanceRequestList.Count(m => m != null))
+            if (maintenanceRequest.Id == idChosen)
+            {
+                idFound = true;
                 break;
+            }
         }
-        if (maintenanceRequestCount == 0)
+        if (!idFound)
         {
-            Console.WriteLine("Nenhum equipamento registrado!");
-            ListIsEmpty = true;
+            ViewColors.WriteLineWithColor("Equipamento não encontrado, tente novamente!");
+            return;
         }
+
+        for (int i = 0; i < MaintenanceRequestList.Length; i++)
+        {
+            if (MaintenanceRequestList[i] == null)
+                continue;
+            else if (MaintenanceRequestList[i].Id == idChosen)
+            {
+                MaintenanceRequestList[i] = null!;
+                break;
+            }
+        }
+
+        ViewColors.WriteLineWithColor("\nO chamado foi excluído com sucesso!");
+        ViewColors.WriteLineWithColor("Pressione [Enter] para voltar ao menu!");
+        Console.ReadKey();
     }
 }

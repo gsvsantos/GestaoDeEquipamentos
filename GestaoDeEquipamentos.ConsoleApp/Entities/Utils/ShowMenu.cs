@@ -6,30 +6,28 @@ public class ShowMenu
     {
         Console.Clear();
         ViewWrite.ShowHeader("              Menu Principal");
-        Console.WriteLine("1 - Gerenciar Equipamentos");
-        Console.WriteLine("2 - Gerenciar Chamados");
-        Console.WriteLine("S - Sair");
+        ViewColors.WriteLineWithColor("1 - Gerenciar Equipamentos");
+        ViewColors.WriteLineWithColor("2 - Gerenciar Chamados");
+        ViewColors.WriteLineWithColor("S - Sair");
     }
-
     public void EquipmentMenu()
     {
         Console.Clear();
         ViewWrite.ShowHeader("      Gerenciamento de Equipamentos", 39);
-        Console.WriteLine("1 - Registrar Equipamento");
-        Console.WriteLine("2 - Consultar Equipamentos");
-        Console.WriteLine("3 - Editar Equipamento");
-        Console.WriteLine("4 - Remover Equipamento");
-        Console.WriteLine("S - Voltar");
+        ViewColors.WriteLineWithColor("1 - Registrar Equipamento");
+        ViewColors.WriteLineWithColor("2 - Consultar Equipamentos");
+        ViewColors.WriteLineWithColor("3 - Editar Equipamento");
+        ViewColors.WriteLineWithColor("4 - Remover Equipamento");
+        ViewColors.WriteLineWithColor("S - Voltar");
     }
-
     public void MaintenanceRequestMenu()
     {
         Console.Clear();
         ViewWrite.ShowHeader("        Gerenciamento de Chamados", 39);
-        Console.WriteLine("1 - Criar Chamado");
-        Console.WriteLine("2 - Consultar Chamados");
-        Console.WriteLine("3 - Editar Chamado");
-        Console.WriteLine("4 - Encerrar Chamado");
-        Console.WriteLine("S - Voltar");
+        ViewColors.WriteLineWithColor("1 - Criar Chamado");
+        ViewColors.WriteLineWithColor("2 - Consultar Chamados");
+        ViewColors.WriteLineWithColor("3 - Editar Chamado");
+        ViewColors.WriteLineWithColor("4 - Encerrar Chamado");
+        ViewColors.WriteLineWithColor("S - Voltar");
     }
 }

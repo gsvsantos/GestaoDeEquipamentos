@@ -16,8 +16,7 @@ namespace GestaoDeEquipamentos.ConsoleApp
                 Console.Clear();
                 ViewWrite.ShowHeader("     Projeto - Gestão de Equipamentos");
                 showMenu.MainMenu();
-                Console.Write("Opção: ");
-                string option = Console.ReadLine()!;
+                string option = ViewUtils.GetOption();
                 switch (option)
                 {
                     case "1":
@@ -27,10 +26,10 @@ namespace GestaoDeEquipamentos.ConsoleApp
                         maintenanceRequestManager.MaintenanceRequestManagerOptions();
                         break;
                     case "S":
-                        Console.WriteLine("Adeus (T_T)/");
+                        ViewColors.WriteLineWithColor("Adeus (T_T)/", ConsoleColor.Blue);
                         return;
                     default:
-                        Console.WriteLine("Opção inválida!");
+                        ViewColors.WriteLineWithColor("Opção inválida!", ConsoleColor.Red);
                         break;
                 }
             } while (true);
