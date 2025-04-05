@@ -6,6 +6,32 @@ public class EquipmentManager
     public static int EquipmentListIndex = 0;
     public static bool ListIsEmpty = false;
 
+    public void EquipmentManagerOptions()
+    {
+        do
+        {
+            Console.Write("Opção: ");
+            string option = Console.ReadLine()!;
+            switch (option)
+            {
+                case "1":
+                    RegisterEquipment();
+                    break;
+                case "2":
+                    DeleteEquipment();
+                    break;
+                case "3":
+                    EditEquipment();
+                    break;
+                case "4":
+                    ShowEquipmentList("SEM-ID");
+                    break;
+                default:
+                    Console.WriteLine("Opção Inválida!");
+                    return;
+            }
+        } while (true);
+    }
     public void RegisterEquipment()
     {
         Console.Clear();
