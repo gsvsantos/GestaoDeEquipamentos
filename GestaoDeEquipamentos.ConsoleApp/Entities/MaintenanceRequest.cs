@@ -19,6 +19,6 @@ public class MaintenanceRequest : Entity
 
     public int CalculateOpenDays()
     {
-        return DateTime.Now.Day - OpenDate.Day;
+        return (DateTime.Now - OpenDate).Days;
     }
 }
