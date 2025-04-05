@@ -3,14 +3,18 @@
 public class MaintenanceRequestManager
 {
     public MaintenanceRequest[] MaintenanceRequestList = new MaintenanceRequest[100];
-    public int MaintenanceRequestListIndex = 0;
+    public static int MaintenanceRequestListIndex = 0;
+    bool ListIsEmpty = false;
 
     public void RegisterMaintenanceRequest()
     {
         Console.Clear();
         Console.WriteLine("- Registro de Chamado -");
+
         Console.WriteLine("Escolha o equipamento no qual será feito o chamado: ");
         EquipmentManager.ShowEquipmentList("COM-ID");
+        if (EquipmentManager.ListIsEmpty)
+            return;
         Console.Write("Digite o ID do equipamento: ");
         int idChosen = Convert.ToInt32(Console.ReadLine());
 
@@ -27,7 +31,6 @@ public class MaintenanceRequestManager
                 break;
             }
         }
-
         if (!idFound)
         {
             Console.WriteLine("Equipamento não encontrado, tente novamente!");
@@ -36,23 +39,78 @@ public class MaintenanceRequestManager
 
         Console.Clear();
         Console.WriteLine($"- Registro de chamado para {equipmentChosen.Name} -");
+
         Console.Write("Título: ");
         string title = Console.ReadLine()!;
+
         Console.Write("Descrição: ");
         string description = Console.ReadLine()!;
+
         DateTime openDate = DateTime.Now;
 
         MaintenanceRequest newMaintenanceRequest = new MaintenanceRequest(title, description, equipmentChosen, openDate);
         MaintenanceRequestList[MaintenanceRequestListIndex] = newMaintenanceRequest;
+
+        Console.WriteLine("Chamado registrado com sucesso!");
+        Console.WriteLine("Pressione [Enter] para voltar ao menu!");
+        Console.ReadKey();
+    }
+    public void EditMaintenanceRequest()
+    {
+        Console.Clear();
+        Console.WriteLine("- Edição de Chamado -");
+
+        ShowMaintenanceRequestList("COM-ID");
+        if (ListIsEmpty)
+            return;
+
+        Console.Write("Digite o ID do chamado que deseja editar: ");
+        int idChosen = Convert.ToInt32(Console.ReadLine());
+
+        bool idFound = false;
+        MaintenanceRequest maintenanceChosen= null!;
+        foreach (MaintenanceRequest maintenanceRequest in MaintenanceRequestList)
+        {
+            if (maintenanceRequest == null)
+                continue;
+            if (maintenanceRequest.Id == idChosen)
+            {
+                maintenanceChosen = maintenanceRequest;
+                idFound = true;
+                break;
+            }
+        }
+        if (!idFound)
+        {
+            Console.WriteLine("Equipamento não encontrado, tente novamente!");
+            return;
+        }
+
+        Console.WriteLine("Digite abaixo as novas informações do chamado: ");
+
+        Console.Write("Título: ");
+        string newTitle = Console.ReadLine()!;
+
+        Console.Write("Descrição: ");
+        string newDescription = Console.ReadLine()!;
+
+        maintenanceChosen.Title = newTitle;
+        maintenanceChosen.Description = newDescription;
+
+        Console.WriteLine("Chamado atualizado com sucesso!");
+        Console.WriteLine("Pressione [Enter] para voltar ao menu!");
+        Console.ReadKey();
     }
     public void ShowMaintenanceRequestList(string typeList)
     {
         Console.WriteLine("- Chamados Registrados -");
+
         foreach (MaintenanceRequest maintenanceRequest in MaintenanceRequestList)
         {
-            if (MaintenanceRequestList == null)
+            if (MaintenanceRequestList[0] == null)
             {
                 Console.WriteLine("Nenhum chamado registrado!");
+                ListIsEmpty = true;
                 break;
             }
             switch (typeList)
@@ -69,5 +127,8 @@ public class MaintenanceRequestManager
             if (maintenanceRequest == null)
                 break;
         }
+
+        Console.WriteLine("Pressione [Enter] para continuar!");
+        Console.ReadKey();
     }
 }
