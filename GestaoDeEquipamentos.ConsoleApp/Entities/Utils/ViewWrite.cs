@@ -8,8 +8,4 @@ public class ViewWrite
         Console.WriteLine(title.ToUpper());
         Console.WriteLine("\\" + new string('=', linesQuantity) + "/");
     }
-    public static void ShowTable()
-    {
-
-    }
 }
