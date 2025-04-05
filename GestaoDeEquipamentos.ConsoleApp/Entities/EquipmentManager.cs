@@ -43,14 +43,12 @@ public class EquipmentManager
         int idChosen = Convert.ToInt32(Console.ReadLine());
 
         bool idFound = false;
-        Equipment equipmentChosen = null!;
         foreach (Equipment equipment in EquipmentList)
         {
             if (equipment == null)
                 continue;
             if (equipment.Id == idChosen)
             {
-                equipmentChosen = equipment;
                 idFound = true;
                 break;
             }
@@ -134,14 +132,14 @@ public class EquipmentManager
     {
         Console.WriteLine("- Equipamentos Registrados -");
 
+        int equipmentCount = 0;
         foreach (Equipment equipment in EquipmentList)
         {
-            if (EquipmentList[0] == null)
-            {
-                Console.WriteLine("Nenhum equipamento registrado!");
-                ListIsEmpty = true;
-                break;
-            }
+            if (equipment == null)
+                continue;
+
+            equipmentCount++;
+
             switch (typeList)
             {
                 case "SEM-ID":
@@ -153,9 +151,12 @@ public class EquipmentManager
                         Console.WriteLine($"ID: {equipment.Id}\nNome: {equipment.Name}\nPreço: R$ {equipment.AcquisitionPrice}\nNúmero de Série: {equipment.SerialNumber}\nFabricante: {equipment.Manufacturer}\nData de Fabricação: {equipment.ManufacturingDate:dd/MM/yyyy}\n");
                     break;
             }
-            if (equipment == null)
+            if (equipmentCount == EquipmentList.Count(e => e != null))
                 break;
         }
+
+        if (equipmentCount == 0)
+            Console.WriteLine("Nenhum equipamento registrado!");
 
         Console.WriteLine("Pressione [Enter] para continuar!");
         Console.ReadKey();
