@@ -17,12 +17,11 @@ public class ShowMenu
 
         Console.Clear();
         ViewWrite.ShowHeader("      Gerenciamento de Equipamentos", 39);
-        Console.WriteLine("1 - Adicionar Equipamento");
-        Console.WriteLine("2 - Listar Equipamentos");
+        Console.WriteLine("1 - Registrar Equipamento");
+        Console.WriteLine("2 - Consultar Equipamentos");
         Console.WriteLine("3 - Editar Equipamento");
         Console.WriteLine("4 - Remover Equipamento");
         Console.WriteLine("S - Voltar");
-        equipmentManager.EquipmentManagerOptions();
     }
 
     public void MaintenanceRequestMenu()
@@ -32,9 +31,9 @@ public class ShowMenu
         Console.Clear();
         ViewWrite.ShowHeader("        Gerenciamento de Chamados", 39);
         Console.WriteLine("1 - Criar Chamado");
-        Console.WriteLine("2 - Listar Chamados");
-        Console.WriteLine("3 - Encerrar Chamado");
+        Console.WriteLine("2 - Consultar Chamados");
+        Console.WriteLine("3 - Editar Chamado");
+        Console.WriteLine("4 - Encerrar Chamado");
         Console.WriteLine("S - Voltar");
-        maintenanceRequestManager.MaintenanceRequestManagerOptions();
     }
 }
