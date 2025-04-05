@@ -1,4 +1,6 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp.Entities;
+﻿using GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
+
+namespace GestaoDeEquipamentos.ConsoleApp.Entities;
 
 public class EquipmentManager
 {
@@ -10,32 +12,37 @@ public class EquipmentManager
     {
         do
         {
+            ShowMenu showMenu = new ShowMenu();
+
+            showMenu.EquipmentMenu();
             Console.Write("Opção: ");
-            string option = Console.ReadLine()!;
+            string option = Console.ReadLine()!.ToUpper();
             switch (option)
             {
                 case "1":
                     RegisterEquipment();
                     break;
                 case "2":
-                    DeleteEquipment();
+                    ShowEquipmentList("LIMPAR-TELA");
                     break;
                 case "3":
                     EditEquipment();
                     break;
                 case "4":
-                    ShowEquipmentList("SEM-ID");
+                    DeleteEquipment();
                     break;
+                case "S":
+                    return;
                 default:
                     Console.WriteLine("Opção Inválida!");
-                    return;
+                    break;
             }
         } while (true);
     }
     public void RegisterEquipment()
     {
         Console.Clear();
-        Console.WriteLine("- Registro de Equipamento -");
+        ViewWrite.ShowHeader("         Registro de Equipamento", 39);
 
         Console.Write("Nome do Equipamento: ");
         string name = Console.ReadLine()!;
@@ -59,9 +66,9 @@ public class EquipmentManager
     public void DeleteEquipment()
     {
         Console.Clear();
-        Console.WriteLine("- Exclusão de Equipamento -");
+        ViewWrite.ShowHeader("         Exclusão de Equipamento", 39);
 
-        ShowEquipmentList("COM-ID");
+        ShowEquipmentList("NAO-LIMPAR-TELA");
         if (ListIsEmpty)
             return;
 
@@ -103,9 +110,9 @@ public class EquipmentManager
     public void EditEquipment()
     {
         Console.Clear();
-        Console.WriteLine("- Edição de Equipamento -");
+        ViewWrite.ShowHeader("          Edição de Equipamento", 39);
 
-        ShowEquipmentList("COM-ID");
+        ShowEquipmentList("NAO-LIMPAR-TELA");
         if (ListIsEmpty)
             return;
 
@@ -156,7 +163,14 @@ public class EquipmentManager
     }
     public static void ShowEquipmentList(string typeList)
     {
-        Console.WriteLine("- Equipamentos Registrados -");
+        if (typeList == "LIMPAR-TELA")
+            Console.Clear();
+
+        ViewWrite.ShowHeader("          Lista de Equipamentos", 39);
+        Console.WriteLine(
+            "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -15} | {5, -15}",
+            "Id", "Nome", "Num. Série", "Fabricante", "Preço", "Data de Fabricação");
+        Console.WriteLine(new string('-', 110));
 
         int equipmentCount = 0;
         foreach (Equipment equipment in EquipmentList)
@@ -165,26 +179,20 @@ public class EquipmentManager
                 continue;
 
             equipmentCount++;
+            ListIsEmpty = false;
 
-            switch (typeList)
-            {
-                case "SEM-ID":
-                    if (equipment != null)
-                        Console.WriteLine($"Nome: {equipment.Name}\nPreço: R$ {equipment.AcquisitionPrice}\nNúmero de Série: {equipment.SerialNumber}\nFabricante: {equipment.Manufacturer}\nData de Fabricação: {equipment.ManufacturingDate:dd/MM/yyyy}\n");
-                    break;
-                case "COM-ID":
-                    if (equipment != null)
-                        Console.WriteLine($"ID: {equipment.Id}\nNome: {equipment.Name}\nPreço: R$ {equipment.AcquisitionPrice}\nNúmero de Série: {equipment.SerialNumber}\nFabricante: {equipment.Manufacturer}\nData de Fabricação: {equipment.ManufacturingDate:dd/MM/yyyy}\n");
-                    break;
-            }
+            Console.WriteLine(
+                "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -15} | {5, -15}",
+                equipment.Id, equipment.Name, equipment.SerialNumber, equipment.Manufacturer,
+                equipment.AcquisitionPrice.ToString("F2"), equipment.ManufacturingDate.ToString("dd/MM/yyyy"));
+
             if (equipmentCount == EquipmentList.Count(e => e != null))
                 break;
         }
-
         if (equipmentCount == 0)
+        {
             Console.WriteLine("Nenhum equipamento registrado!");
-
-        Console.WriteLine("Pressione [Enter] para continuar!");
-        Console.ReadKey();
+            ListIsEmpty = true;
+        }
     }
 }
