@@ -55,6 +55,50 @@ public class MaintenanceRequestManager
         Console.WriteLine("Pressione [Enter] para voltar ao menu!");
         Console.ReadKey();
     }
+    public void DeleteMaintenanceRequest()
+    {
+        Console.Clear();
+        Console.WriteLine("- Exclusão de Chamado -");
+
+        ShowMaintenanceRequestList("COM-ID");
+        if (ListIsEmpty)
+            return;
+
+        Console.Write("Digite o ID do chamado que deseja editar: ");
+        int idChosen = Convert.ToInt32(Console.ReadLine());
+
+        bool idFound = false;
+        foreach (MaintenanceRequest maintenanceRequest in MaintenanceRequestList)
+        {
+            if (maintenanceRequest == null)
+                continue;
+            if (maintenanceRequest.Id == idChosen)
+            {
+                idFound = true;
+                break;
+            }
+        }
+        if (!idFound)
+        {
+            Console.WriteLine("Equipamento não encontrado, tente novamente!");
+            return;
+        }
+
+        for (int i = 0; i < MaintenanceRequestList.Length; i++)
+        {
+            if (MaintenanceRequestList[i] == null)
+                continue;
+            else if (MaintenanceRequestList[i].Id == idChosen)
+            {
+                MaintenanceRequestList[i] = null!;
+                break;
+            }
+        }
+
+        Console.WriteLine("\nO chamado foi excluído com sucesso!");
+        Console.WriteLine("Pressione [Enter] para voltar ao menu!");
+        Console.ReadKey();
+    }
     public void EditMaintenanceRequest()
     {
         Console.Clear();
@@ -68,7 +112,7 @@ public class MaintenanceRequestManager
         int idChosen = Convert.ToInt32(Console.ReadLine());
 
         bool idFound = false;
-        MaintenanceRequest maintenanceChosen= null!;
+        MaintenanceRequest maintenanceChosen = null!;
         foreach (MaintenanceRequest maintenanceRequest in MaintenanceRequestList)
         {
             if (maintenanceRequest == null)
@@ -105,14 +149,14 @@ public class MaintenanceRequestManager
     {
         Console.WriteLine("- Chamados Registrados -");
 
+        int maintenanceRequestCount = 0;
         foreach (MaintenanceRequest maintenanceRequest in MaintenanceRequestList)
         {
-            if (MaintenanceRequestList[0] == null)
-            {
-                Console.WriteLine("Nenhum chamado registrado!");
-                ListIsEmpty = true;
-                break;
-            }
+            if (maintenanceRequest == null)
+                continue;
+
+            maintenanceRequestCount++;
+
             switch (typeList)
             {
                 case "SEM-ID":
@@ -124,9 +168,12 @@ public class MaintenanceRequestManager
                         Console.WriteLine($"ID do Chamado: {maintenanceRequest.Id}\nTítulo: {maintenanceRequest.Title}\nDescrição: {maintenanceRequest.Description}\nEquipamento: {maintenanceRequest.Equipment.Name}\nData de Abertura: {maintenanceRequest.OpenDate:dd/MM/yyyy}\n");
                     break;
             }
-            if (maintenanceRequest == null)
+            if (maintenanceRequestCount == MaintenanceRequestList.Count(m => m != null))
                 break;
         }
+
+        if (maintenanceRequestCount == 0)
+            Console.WriteLine("Nenhum chamado registrado!");
 
         Console.WriteLine("Pressione [Enter] para continuar!");
         Console.ReadKey();
