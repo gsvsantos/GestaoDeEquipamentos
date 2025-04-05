@@ -13,8 +13,6 @@ public class ShowMenu
 
     public void EquipmentMenu()
     {
-        EquipmentManager equipmentManager = new EquipmentManager();
-
         Console.Clear();
         ViewWrite.ShowHeader("      Gerenciamento de Equipamentos", 39);
         Console.WriteLine("1 - Registrar Equipamento");
@@ -26,8 +24,6 @@ public class ShowMenu
 
     public void MaintenanceRequestMenu()
     {
-        MaintenanceRequestManager maintenanceRequestManager = new MaintenanceRequestManager();
-
         Console.Clear();
         ViewWrite.ShowHeader("        Gerenciamento de Chamados", 39);
         Console.WriteLine("1 - Criar Chamado");
