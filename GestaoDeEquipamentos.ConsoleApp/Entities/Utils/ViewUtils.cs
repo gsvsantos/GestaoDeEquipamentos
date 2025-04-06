@@ -2,18 +2,27 @@
 
 public class ViewUtils
 {
-    public static string GetOption()
+    public string GetOption()
     {
         ViewColors.WriteWithColor("\nOpção: ");
         string option = Console.ReadLine()!.ToUpper();
         return option;
     }
-    public static void PressEnter()
+    public void PressEnter(string type)
     {
-        ViewColors.WriteWithColor("\nPressione [Enter] para continuar.", ConsoleColor.Yellow);
-        Console.ReadKey();
+        switch (type)
+        {
+            case "CONTINUAR":
+                ViewColors.WriteWithColor("\nPressione [Enter] para continuar.", ConsoleColor.Yellow);
+                Console.ReadKey();
+                break;
+            case "VOLTAR-MENU":
+                ViewColors.WriteWithColor("\nPressione [Enter] para voltar ao menu!", ConsoleColor.Yellow);
+                Console.ReadKey();
+                break;
+        }
     }
-    public static Equipment GetEquipmentChosen(string prompt, string idNotFoundError, EquipmentManager equipmentManager)
+    public Equipment GetEquipmentChosen(string prompt, string idNotFoundError, EquipmentManager equipmentManager)
     {
         do
         {
@@ -22,7 +31,7 @@ public class ViewUtils
 
             bool idFound = false;
             Equipment equipmentChosen = null!;
-            foreach (Equipment equipment in EquipmentManager.EquipmentList)
+            foreach (Equipment equipment in equipmentManager.EquipmentList)
             {
                 if (equipment == null)
                     continue;
@@ -41,5 +50,25 @@ public class ViewUtils
 
             return equipmentChosen;
         } while (true);
+    }
+    public string GetEquipmentName()
+    {
+        ViewColors.WriteWithColor("Nome do Equipamento: ");
+        return Console.ReadLine()!;
+    }
+    public double GetEquipmentAcquisitionPrice()
+    {
+        ViewColors.WriteWithColor("Preço de Aquisição: ");
+        return Convert.ToDouble(Console.ReadLine());
+    }
+    public string GetManufacturerName()
+    {
+        ViewColors.WriteWithColor("Nome do Fabricante: ");
+        return Console.ReadLine()!;
+    }
+    public DateTime GetEquipmentManufacturingDate()
+    {
+        ViewColors.WriteWithColor("Data de Fabricação (dd/MM/yyyy): ");
+        return DateTime.Parse(Console.ReadLine()!);
     }
 }
