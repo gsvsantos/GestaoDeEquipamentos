@@ -16,18 +16,18 @@ public class ViewWrite
     {
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine(
-            "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -15} | {5, -15}",
-            "Id", "Nome", "Num. Série", "Fabricante", "Preço", "Data de Fabricação");
+            "{0, -7} | {1, -12} | {2, -20} | {3, -15} | {4, -15} | {5, -15}",
+            "Id", "Num. Série", "Nome", "Preço", "Fabricante", "Data de Fabricação");
         Console.ResetColor();
-        ViewColors.WriteLineWithColor(new string('-', 110));
+        ViewColors.WriteLineWithColor(new string('-', 104));
     }
     public void ShowEquipmentsOnListColumns(Equipment equipment)
     {
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine(
-            "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -15} | {5, -15}",
-            equipment.Id, equipment.Name, equipment.SerialNumber, equipment.Manufacturer,
-            "R$ " + equipment.AcquisitionPrice.ToString("F2"), equipment.ManufacturingDate.ToString("dd/MM/yyyy"));
+            "{0, -7} | {1, -12} | {2, -20} | {3, -15} | {4, -15} | {5, -15}",
+            equipment.Id, equipment.SerialNumber, equipment.Name,"R$ " + equipment.AcquisitionPrice.ToString("F2"),
+            equipment.Manufacturer, equipment.ManufacturingDate.ToString("dd/MM/yyyy"));
         Console.ResetColor();
     }
     public void ShowMessageInputNewEquipmentData()
@@ -62,18 +62,18 @@ public class ViewWrite
     {
         Console.ForegroundColor = ConsoleColor.Magenta;
         Console.WriteLine(
-            "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -10}",
-            "Id", "Equipamento", "Data Abertura", "Descrição", "Dias Aberto");
+            "{0, -7} | {1, -20} | {2, -20} | {3, -15} | {4, -15}",
+            "Id", "Título", "Equipamento", "Data Abertura", "Dias Aberto");
         Console.ResetColor();
-        ViewColors.WriteLineWithColor(new string('-', 85));
+        ViewColors.WriteLineWithColor(new string('-', 87));
     }
     public void ShowMaintenanceRequestOnListColumns(MaintenanceRequest maintenanceRequest)
     {
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine(
-            "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -10}",
-            maintenanceRequest.Id, maintenanceRequest.Equipment.Name, maintenanceRequest.OpenDate.ToString("dd/MM/yyyy"),
-            maintenanceRequest.Description, maintenanceRequest.CalculateOpenDays().ToString());
+            "{0, -7} | {1, -20} | {2, -20} | {3, -15} | {4, -10}",
+            maintenanceRequest.Id, maintenanceRequest.Title, maintenanceRequest.Equipment.Name,
+            maintenanceRequest.OpenDate.ToString("dd/MM/yyyy"), maintenanceRequest.CalculateOpenDays().ToString());
         Console.ResetColor();
     }
     public void ShowMessageInputNewMaintenanceRequestData()
