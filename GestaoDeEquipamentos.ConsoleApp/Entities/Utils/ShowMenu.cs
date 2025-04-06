@@ -2,6 +2,7 @@
 
 public class ShowMenu
 {
+    public ViewWrite ViewWrite = new ViewWrite();
     public void MainMenu()
     {
         Console.Clear();
