@@ -7,11 +7,12 @@ namespace GestaoDeEquipamentos.ConsoleApp
     {
         static void Main(string[] args)
         {
+            ShowMenu showMenu = new ShowMenu();
+            ViewUtils ViewUtils = new ViewUtils();
+            EquipmentManager equipmentManager = new EquipmentManager();
+            MaintenanceRequestManager maintenanceRequestManager = new MaintenanceRequestManager();
             do
             {
-                ShowMenu showMenu = new ShowMenu();
-                EquipmentManager equipmentManager = new EquipmentManager();
-                MaintenanceRequestManager maintenanceRequestManager = new MaintenanceRequestManager();
 
                 Console.Clear();
                 ViewWrite.ShowHeader("     Projeto - Gestão de Equipamentos");
@@ -23,9 +24,10 @@ namespace GestaoDeEquipamentos.ConsoleApp
                         equipmentManager.EquipmentManagerOptions();
                         break;
                     case "2":
-                        maintenanceRequestManager.MaintenanceRequestManagerOptions();
+                        maintenanceRequestManager.MaintenanceRequestManagerOptions(equipmentManager);
                         break;
                     case "S":
+                        Console.Clear();
                         ViewColors.WriteLineWithColor("Adeus (T_T)/", ConsoleColor.Blue);
                         return;
                     default:
