@@ -12,23 +12,49 @@ public class ViewWrite
     {
         ViewColors.WriteLineWithColor("\nEquipamento registrado com sucesso!");
     }
-    public void ShowEquipmentListColumns()
+    public void ShowEquipmentListColumns(string type)
     {
-        Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine(
-            "{0, -7} | {1, -12} | {2, -20} | {3, -15} | {4, -15} | {5, -15}",
-            "Id", "Num. Série", "Nome", "Preço", "Fabricante", "Data de Fabricação");
-        Console.ResetColor();
-        ViewColors.WriteLineWithColor(new string('-', 104));
+        switch (type)
+        {
+            case "COM-ID":
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine(
+                    "{0, -7} | {1, -12} | {2, -20} | {3, -15} | {4, -15} | {5, -15}",
+                    "Id", "Num. Série", "Nome", "Preço", "Fabricante", "Data de Fabricação");
+                Console.ResetColor();
+                ViewColors.WriteLineWithColor(new string('-', 104));
+                break;
+            case "SEM-ID":
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine(
+                    "{0, -12} | {1, -20} | {2, -15} | {3, -15} | {4, -15}",
+                    "Num. Série", "Nome", "Preço", "Fabricante", "Data de Fabricação");
+                Console.ResetColor();
+                ViewColors.WriteLineWithColor(new string('-', 94));
+                break;
+        }
     }
-    public void ShowEquipmentsOnListColumns(Equipment equipment)
+    public void ShowEquipmentsOnListColumns(Equipment equipment, string type)
     {
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine(
-            "{0, -7} | {1, -12} | {2, -20} | {3, -15} | {4, -15} | {5, -15}",
-            equipment.Id, equipment.SerialNumber, equipment.Name,"R$ " + equipment.AcquisitionPrice.ToString("F2"),
-            equipment.Manufacturer, equipment.ManufacturingDate.ToString("dd/MM/yyyy"));
-        Console.ResetColor();
+        switch (type)
+        {
+            case "COM-ID":
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(
+                    "{0, -7} | {1, -12} | {2, -20} | {3, -15} | {4, -15} | {5, -15}",
+                    equipment.Id, equipment.SerialNumber, equipment.Name, "R$ " + equipment.AcquisitionPrice.ToString("F2"),
+                    equipment.Manufacturer, equipment.ManufacturingDate.ToString("dd/MM/yyyy"));
+                Console.ResetColor();
+                break;
+            case "SEM-ID":
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(
+                    "{0, -12} | {1, -20} | {2, -15} | {3, -15} | {4, -15}",
+                    equipment.SerialNumber, equipment.Name, "R$ " + equipment.AcquisitionPrice.ToString("F2"),
+                    equipment.Manufacturer, equipment.ManufacturingDate.ToString("dd/MM/yyyy"));
+                Console.ResetColor();
+                break;
+        }
     }
     public void ShowMessageInputNewEquipmentData()
     {
@@ -58,27 +84,53 @@ public class ViewWrite
     {
         ViewColors.WriteLineWithColor("\nChamado registrado com sucesso!");
     }
-    public void ShowMaintenanceRequestListColumns()
+    public void ShowMaintenanceRequestListColumns(string type)
     {
-        Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine(
-            "{0, -7} | {1, -20} | {2, -20} | {3, -15} | {4, -15}",
-            "Id", "Título", "Equipamento", "Data Abertura", "Dias Aberto");
-        Console.ResetColor();
-        ViewColors.WriteLineWithColor(new string('-', 87));
+        switch (type)
+        {
+            case "COM-ID":
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine(
+                    "{0, -7} | {1, -15} | {2, -20} | {3, -25} | {4, -15} | {5, -15}",
+                    "Id", "Título", "Equipamento", "Descrição", "Data Abertura", "Dias Aberto"); // falta descrição
+                Console.ResetColor();
+                ViewColors.WriteLineWithColor(new string('-', 110));
+                break;
+            case "SEM-ID":
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine(
+                    "{0, -15} | {1, -20} | {2, -15} | {3, -15}",
+                    "Título", "Equipamento", "Data Abertura", "Dias Aberto");
+                Console.ResetColor();
+                ViewColors.WriteLineWithColor(new string('-', 72));
+                break;
+        }
     }
-    public void ShowMaintenanceRequestOnListColumns(MaintenanceRequest maintenanceRequest)
+    public void ShowMaintenanceRequestOnListColumns(MaintenanceRequest maintenanceRequest, string type)
     {
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine(
-            "{0, -7} | {1, -20} | {2, -20} | {3, -15} | {4, -10}",
-            maintenanceRequest.Id, maintenanceRequest.Title, maintenanceRequest.Equipment.Name,
-            maintenanceRequest.OpenDate.ToString("dd/MM/yyyy"), maintenanceRequest.CalculateOpenDays().ToString());
-        Console.ResetColor();
+        switch (type)
+        {
+            case "COM-ID":
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(
+                    "{0, -7} | {1, -15} | {2, -20} | {3, -25} | {4, -15} | {5, -15}",
+                    maintenanceRequest.Id, maintenanceRequest.Title, maintenanceRequest.Equipment.Name, maintenanceRequest.Description,
+                    maintenanceRequest.OpenDate.ToString("dd/MM/yyyy"), maintenanceRequest.CalculateOpenDays().ToString());
+                Console.ResetColor();
+                break;
+            case "SEM-ID":
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(
+                    "{0, -15} | {1, -20} | {2, -15} | {3, -15}",
+                    maintenanceRequest.Title, maintenanceRequest.Equipment.Name,
+                    maintenanceRequest.OpenDate.ToString("dd/MM/yyyy"), maintenanceRequest.CalculateOpenDays().ToString());
+                Console.ResetColor();
+                break;
+        }
     }
     public void ShowMessageInputNewMaintenanceRequestData()
     {
-        ViewColors.WriteLineWithColor("Digite abaixo as novas informações do chamado: ");
+        ViewColors.WriteLineWithColor("\nDigite abaixo as novas informações do chamado: ");
     }
     public string ShowMessageInputMaintenanceRequestIdToEdit()
     {
@@ -86,11 +138,11 @@ public class ViewWrite
     }
     public void ShowMessageMaintenanceRequestSuccessfullyEdited()
     {
-        ViewColors.WriteLineWithColor("Chamado atualizado com sucesso!");
+        ViewColors.WriteLineWithColor("\nChamado atualizado com sucesso!");
     }
     public string ShowMessageInputMaintenanceRequestIdToDelete()
     {
-        return "Digite o ID do chamado que deseja deletar: ";
+        return "\nDigite o ID do chamado que deseja deletar: ";
     }
     public void ShowMessageMaintenanceRequestSuccessfullyDeleted()
     {

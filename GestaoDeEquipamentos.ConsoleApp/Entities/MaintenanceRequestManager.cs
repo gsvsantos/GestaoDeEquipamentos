@@ -25,7 +25,7 @@ public class MaintenanceRequestManager
                     RegisterMaintenanceRequest(equipmentManager);
                     break;
                 case "2":
-                    ShowMaintenanceRequestList("LIMPAR-TELA");
+                    ShowMaintenanceRequestList("LIMPAR-TELA", "SEM-ID");
                     ViewUtils.PressEnter("VOLTAR-MENU");
                     break;
                 case "3":
@@ -47,7 +47,7 @@ public class MaintenanceRequestManager
         Console.Clear();
         ViewWrite.ShowHeader("           Registro de Chamado", 39);
 
-        equipmentManager.ShowEquipmentList("NAO-LIMPAR-TELA");
+        equipmentManager.ShowEquipmentList("NAO-LIMPAR-TELA", "COM-ID");
         if (equipmentManager.ListIsEmpty)
         {
             ViewUtils.PressEnter("VOLTAR-MENU");
@@ -69,13 +69,13 @@ public class MaintenanceRequestManager
         ViewWrite.ShowMessageMaintenanceRequestRegistered();
         ViewUtils.PressEnter("VOLTAR-MENU");
     }
-    public void ShowMaintenanceRequestList(string typeList)
+    public void ShowMaintenanceRequestList(string clearAction, string typeList)
     {
-        if (typeList == "LIMPAR-TELA")
+        if (clearAction == "LIMPAR-TELA")
             Console.Clear();
 
         ViewWrite.ShowHeader("            Lista de Chamados", 39);
-        ViewWrite.ShowMaintenanceRequestListColumns();
+        ViewWrite.ShowMaintenanceRequestListColumns(typeList);
 
         int maintenanceRequestCount = 0;
         foreach (MaintenanceRequest maintenanceRequest in MaintenanceRequestList)
@@ -85,7 +85,7 @@ public class MaintenanceRequestManager
 
             maintenanceRequestCount++;
             ListIsEmpty = false;
-            ViewWrite.ShowMaintenanceRequestOnListColumns(maintenanceRequest);
+            ViewWrite.ShowMaintenanceRequestOnListColumns(maintenanceRequest, typeList);
 
             if (maintenanceRequestCount == MaintenanceRequestList.Count(m => m != null))
                 break;
@@ -101,7 +101,7 @@ public class MaintenanceRequestManager
         Console.Clear();
         ViewWrite.ShowHeader("            Edição de Chamado", 39);
 
-        ShowMaintenanceRequestList("NAO-LIMPAR-TELA");
+        ShowMaintenanceRequestList("NAO-LIMPAR-TELA", "COM-ID");
         if (ListIsEmpty)
         {
             ViewUtils.PressEnter("VOLTAR-MENU");
@@ -125,7 +125,7 @@ public class MaintenanceRequestManager
         Console.Clear();
         ViewWrite.ShowHeader("           Exclusão de Chamado");
 
-        ShowMaintenanceRequestList("NAO-LIMPAR-TELA");
+        ShowMaintenanceRequestList("NAO-LIMPAR-TELA", "COM-ID");
         if (ListIsEmpty)
         {
             ViewUtils.PressEnter("VOLTAR-MENU");

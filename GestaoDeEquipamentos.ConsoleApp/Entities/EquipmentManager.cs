@@ -25,7 +25,7 @@ public class EquipmentManager
                     RegisterEquipment();
                     break;
                 case "2":
-                    ShowEquipmentList("LIMPAR-TELA");
+                    ShowEquipmentList("LIMPAR-TELA", "SEM-ID");
                     ViewUtils.PressEnter("VOLTAR-MENU");
                     break;
                 case "3":
@@ -58,13 +58,13 @@ public class EquipmentManager
         ViewWrite.ShowMessageEquipmentRegistered();
         ViewUtils.PressEnter("VOLTAR-MENU");
     }
-    public void ShowEquipmentList(string typeList)
+    public void ShowEquipmentList(string clearAction, string typeList)
     {
-        if (typeList == "LIMPAR-TELA")
+        if (clearAction == "LIMPAR-TELA")
             Console.Clear();
 
         ViewWrite.ShowHeader("          Lista de Equipamentos", 39);
-        ViewWrite.ShowEquipmentListColumns();
+        ViewWrite.ShowEquipmentListColumns(typeList);
 
         int equipmentCount = 0;
         foreach (Equipment equipment in EquipmentList)
@@ -74,7 +74,7 @@ public class EquipmentManager
 
             equipmentCount++;
             ListIsEmpty = false;
-            ViewWrite.ShowEquipmentsOnListColumns(equipment);
+            ViewWrite.ShowEquipmentsOnListColumns(equipment, typeList);
 
             if (equipmentCount == EquipmentList.Count(e => e != null))
                 break;
@@ -90,7 +90,7 @@ public class EquipmentManager
         Console.Clear();
         ViewWrite.ShowHeader("          Edição de Equipamento", 39);
 
-        ShowEquipmentList("NAO-LIMPAR-TELA");
+        ShowEquipmentList("NAO-LIMPAR-TELA", "COM-ID");
         if (ListIsEmpty)
         {
             ViewUtils.PressEnter("VOLTAR-MENU");
@@ -118,7 +118,7 @@ public class EquipmentManager
         Console.Clear();
         ViewWrite.ShowHeader("         Exclusão de Equipamento", 39);
 
-        ShowEquipmentList("NAO-LIMPAR-TELA");
+        ShowEquipmentList("NAO-LIMPAR-TELA", "COM-ID");
         if (ListIsEmpty)
         {
             ViewUtils.PressEnter("VOLTAR-MENU");
