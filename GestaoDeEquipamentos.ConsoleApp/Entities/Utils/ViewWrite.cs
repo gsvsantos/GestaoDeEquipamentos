@@ -34,10 +34,6 @@ public class ViewWrite
     {
         ViewColors.WriteLineWithColor("\nDigite abaixo os novos dados do equipamento: ");
     }
-    public void ShowMessageNoneEquipmentRegistered()
-    {
-        ViewColors.WriteLineWithColor("Nenhum equipamento registrado!");
-    }
     public string ShowMessageInputEquipmentIdToEdit()
     {
         return "\nDigite o ID do equipamento que deseja editar: ";
@@ -54,8 +50,50 @@ public class ViewWrite
     {
         ViewColors.WriteLineWithColor("\nO equipamento foi excluído com sucesso!");
     }
-    public string ShowMessageEquipmentNotFound()
+    public string ShowMessageInputEquipmentIdToCreateATicket()
     {
-        return "\nEquipamento não encontrado, tente novamente!";
+        return "\nDigite o ID do equipamento no qual será feito o chamado: ";
+    }
+    public void ShowMessageMaintenanceRequestRegistered()
+    {
+        ViewColors.WriteLineWithColor("\nChamado registrado com sucesso!");
+    }
+    public void ShowMaintenanceRequestListColumns()
+    {
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.WriteLine(
+            "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -10}",
+            "Id", "Equipamento", "Data Abertura", "Descrição", "Dias Aberto");
+        Console.ResetColor();
+        ViewColors.WriteLineWithColor(new string('-', 85));
+    }
+    public void ShowMaintenanceRequestOnListColumns(MaintenanceRequest maintenanceRequest)
+    {
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine(
+            "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -10}",
+            maintenanceRequest.Id, maintenanceRequest.Equipment.Name, maintenanceRequest.OpenDate.ToString("dd/MM/yyyy"),
+            maintenanceRequest.Description, maintenanceRequest.CalculateOpenDays().ToString());
+        Console.ResetColor();
+    }
+    public void ShowMessageInputNewMaintenanceRequestData()
+    {
+        ViewColors.WriteLineWithColor("Digite abaixo as novas informações do chamado: ");
+    }
+    public string ShowMessageInputMaintenanceRequestIdToEdit()
+    {
+        return "\nDigite o ID do chamado que deseja editar: ";
+    }
+    public void ShowMessageMaintenanceRequestSuccessfullyEdited()
+    {
+        ViewColors.WriteLineWithColor("Chamado atualizado com sucesso!");
+    }
+    public string ShowMessageInputMaintenanceRequestIdToDelete()
+    {
+        return "Digite o ID do chamado que deseja deletar: ";
+    }
+    public void ShowMessageMaintenanceRequestSuccessfullyDeleted()
+    {
+        ViewColors.WriteLineWithColor("\nO chamado foi excluído com sucesso!");
     }
 }
