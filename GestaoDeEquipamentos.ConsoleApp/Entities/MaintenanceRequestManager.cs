@@ -4,7 +4,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.Entities;
 
 public class MaintenanceRequestManager
 {
-    public MaintenanceRequest[] MaintenanceRequestList = new MaintenanceRequest[100];
+    public static MaintenanceRequest[] MaintenanceRequestList = new MaintenanceRequest[100];
     public static int MaintenanceRequestListIndex = 0;
     bool ListIsEmpty = false;
 
@@ -50,27 +50,7 @@ public class MaintenanceRequestManager
         if (EquipmentManager.ListIsEmpty)
             return;
 
-        ViewColors.WriteWithColor("\nDigite o ID do equipamento no qual será feito o chamado: ");
-        int idChosen = Convert.ToInt32(Console.ReadLine());
-
-        bool idFound = false;
-        Equipment equipmentChosen = null!;
-        foreach (Equipment equipment in EquipmentManager.EquipmentList)
-        {
-            if (equipment == null)
-                continue;
-            if (equipment.Id == idChosen)
-            {
-                equipmentChosen = equipment;
-                idFound = true;
-                break;
-            }
-        }
-        if (!idFound)
-        {
-            ViewColors.WriteLineWithColor("Ocorreu um problema em gerar o chamado desse equipamento, tente novamente!");
-            return;
-        }
+        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen("\nDigite o ID do equipamento no qual será feito o chamado: ", "Ocorreu um problema em gerar o chamado desse equipamento, tente novamente!", equipmentManager);
 
         ViewColors.WriteLineWithColor($"\n- Registro de chamado para {equipmentChosen.Name} -");
 

@@ -111,27 +111,7 @@ public class EquipmentManager
         if (ListIsEmpty)
             return;
 
-        ViewColors.WriteWithColor("\nDigite o ID do equipamento que deseja editar: ");
-        int idChosen = Convert.ToInt32(Console.ReadLine());
-
-        bool idFound = false;
-        Equipment equipmentChosen = null!;
-        foreach (Equipment equipment in EquipmentList)
-        {
-            if (equipment == null)
-                continue;
-            if (equipment.Id == idChosen)
-            {
-                equipmentChosen = equipment;
-                idFound = true;
-                break;
-            }
-        }
-        if (!idFound)
-        {
-            ViewColors.WriteLineWithColor("\nEquipamento não encontrado, tente novamente!");
-            return;
-        }
+        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen("\nDigite o ID do equipamento que deseja editar: ", "\nEquipamento não encontrado, tente novamente!", this);
 
         ViewColors.WriteLineWithColor("\nDigite abaixo os novos dados do equipamento: ");
 
