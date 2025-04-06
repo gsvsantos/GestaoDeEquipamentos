@@ -4,7 +4,8 @@ namespace GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
 
 public class Validators
 {
-    public static int IsValidInt(string prompt, int minValue = 0, int maxValue = int.MaxValue)
+    ViewErrors ViewErrors = new ViewErrors();
+    public int IsValidInt(string prompt, int minValue = 0, int maxValue = int.MaxValue)
     {
         do
         {
@@ -17,25 +18,25 @@ public class Validators
             input = input.Trim();
             if (input.Contains('.') || input.Contains(','))
             {
-                ViewErrors.IntCannotHaveDotOrComma();
+                ViewErrors.ShowMessageIntCannotHaveDotOrComma();
                 continue;
             }
 
             if (!int.TryParse(input, out int value))
             {
-                ViewErrors.InvalidValueInput();
+                ViewErrors.ShowMessageInvalidValueInput();
                 continue;
             }
             if (value < minValue || value > maxValue)
             {
-                ViewErrors.IntNeedBetweenMinAndMax(minValue, maxValue);
+                ViewErrors.ShowMessageIntNeedBetweenMinAndMax(minValue, maxValue);
                 continue;
             }
 
             return value;
         } while (true);
     }
-    public static double IsValidDouble(string prompt, string inputError, string valueError, double minValue = 0, double maxValue = double.MaxValue)
+    public double IsValidDouble(string prompt, string inputError, string valueError, double minValue = 0, double maxValue = double.MaxValue)
     {
         do
         {
@@ -47,19 +48,19 @@ public class Validators
 
             if (!double.TryParse(input, CultureInfo.InvariantCulture, out double value))
             {
-                ViewErrors.InvalidValueInput();
+                ViewErrors.ShowMessageInvalidValueInput();
                 continue;
             }
             if (value < minValue || value > maxValue)
             {
-                ViewErrors.DoubleNeedBetweenMinAndMax(minValue, maxValue);
+                ViewErrors.ShowMessageDoubleNeedBetweenMinAndMax(minValue, maxValue);
                 continue;
             }
 
             return value;
         } while (true);
     }
-    public static string IsValidString(string prompt, string lenghtError, int minLenght, int maxLenght = int.MaxValue, bool onlyLetters = false)
+    public string IsValidString(string prompt, string lenghtError, int minLenght, int maxLenght = int.MaxValue, bool onlyLetters = false)
     {
         do
         {
@@ -72,19 +73,19 @@ public class Validators
             input = input.Trim();
             if (onlyLetters && !input.All(c => char.IsLetter(c) || c == ' '))
             {
-                ViewErrors.InputNeedsToBeOnlyLetters();
+                ViewErrors.ShowMessageInputNeedsToBeOnlyLetters();
                 continue;
             }
             if (input.Length < minLenght || input.Length > maxLenght)
             {
-                ViewErrors.StringNeedBetweenMinAndMax(lenghtError);
+                ViewErrors.ShowMessageStringNeedBetweenMinAndMax(lenghtError);
                 continue;
             }
 
             return input;
         } while (true);
     }
-    public static DateTime IsValidDate(string prompt, string format = "dd/MM/yyyy")
+    public DateTime IsValidDate(string prompt, string format = "dd/MM/yyyy")
     {
 
         do
@@ -97,23 +98,23 @@ public class Validators
 
             if (!DateTime.TryParse(input, out DateTime date))
             {
-                ViewErrors.InvalidDateFormat(format);
+                ViewErrors.ShowMessageInvalidDateFormat(format);
                 continue;
             }
             if (date > DateTime.Now)
             {
-                ViewErrors.DateIsOnFuture();
+                ViewErrors.ShowMessageDateIsOnFuture();
                 continue;
             }
 
             return date;
         } while (true);
     }
-    private static bool IsStringNullOrEmpty(string input)
+    private bool IsStringNullOrEmpty(string input)
     {
         if (string.IsNullOrEmpty(input))
         {
-            ViewErrors.InputIsNullOrEmpty(input);
+            ViewErrors.ShowMessageInputIsNullOrEmpty(input);
             return true;
         }
         return false;
