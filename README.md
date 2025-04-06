@@ -1,6 +1,8 @@
 # Gestao De Equipamentos
 Um simples programa que permite registrar, listar, editar e excluir equipamentos e chamados de manunteção.
 
+![](https://i.imgur.com/z246mOI.gif)
+
 ## Diagrama do Projeto
 Planejamento do projeto no Whimsical: [Atividade - Gestão de Equipamentos](https://whimsical.com/atividade-gestao-de-equipamentos-EFv5bntPie38qufMixdGjg)
 
