@@ -44,7 +44,7 @@ public class ViewUtils
             }
             if (!idFound)
             {
-                ViewColors.WriteLineWithColor($"{idNotFoundError}");
+                ViewColors.WriteLineWithColor(idNotFoundError);
                 continue;
             }
 
