@@ -5,6 +5,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
 public class Validators
 {
     ViewErrors ViewErrors = new ViewErrors();
+
     public int IsValidInt(string prompt, int minValue = 0, int maxValue = int.MaxValue)
     {
         do
@@ -36,16 +37,17 @@ public class Validators
             return value;
         } while (true);
     }
-    public double IsValidDouble(string prompt, string inputError, string valueError, double minValue = 0, double maxValue = double.MaxValue)
+    public double IsValidDouble(string prompt, double minValue = 0, double maxValue = double.MaxValue)
     {
         do
         {
             ViewColors.WriteWithColor(prompt, ConsoleColor.Yellow);
-            string input = Console.ReadLine()!.Trim();
+            string input = Console.ReadLine()!;
 
             if (IsStringNullOrEmpty(input))
                 continue;
 
+            input = input.Trim();
             if (!double.TryParse(input, CultureInfo.InvariantCulture, out double value))
             {
                 ViewErrors.ShowMessageInvalidValueInput();
@@ -91,11 +93,12 @@ public class Validators
         do
         {
             ViewColors.WriteWithColor(prompt, ConsoleColor.Yellow);
-            string input = Console.ReadLine()!.Trim();
+            string input = Console.ReadLine()!;
 
             if (IsStringNullOrEmpty(input))
                 continue;
 
+            input = input.Trim();
             if (!DateTime.TryParse(input, out DateTime date))
             {
                 ViewErrors.ShowMessageInvalidDateFormat(format);
