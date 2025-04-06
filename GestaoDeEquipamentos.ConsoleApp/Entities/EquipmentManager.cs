@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
+﻿using GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
 
 namespace GestaoDeEquipamentos.ConsoleApp.Entities;
 
@@ -9,10 +8,12 @@ public class EquipmentManager
     public int EquipmentListIndex = 0;
     public bool ListIsEmpty = false;
     public ViewUtils ViewUtils = new ViewUtils();
+    public ViewWrite ViewWrite = new ViewWrite();
 
     public void EquipmentManagerOptions()
     {
         ShowMenu showMenu = new ShowMenu();
+
         do
         {
             showMenu.EquipmentMenu();
@@ -24,6 +25,7 @@ public class EquipmentManager
                     break;
                 case "2":
                     ShowEquipmentList("LIMPAR-TELA");
+                    ViewUtils.PressEnter("VOLTAR-MENU");
                     break;
                 case "3":
                     EditEquipment();
@@ -34,7 +36,6 @@ public class EquipmentManager
                 case "S":
                     return;
                 default:
-                    Console.WriteLine("Opção Inválida!");
                     break;
             }
         } while (true);
@@ -45,17 +46,14 @@ public class EquipmentManager
         ViewWrite.ShowHeader("         Registro de Equipamento", 39);
 
         string name = ViewUtils.GetEquipmentName();
-;
         double acquisitionPrice = ViewUtils.GetEquipmentAcquisitionPrice();
-
         string manufacturer = ViewUtils.GetManufacturerName();
-
         DateTime manufacturingDate = ViewUtils.GetEquipmentManufacturingDate();
 
         Equipment newEquipment = new Equipment(name, acquisitionPrice, manufacturingDate, manufacturer);
         EquipmentList[EquipmentListIndex++] = newEquipment;
 
-        ViewColors.WriteLineWithColor("\nEquipamento registrado com sucesso!");
+        ViewWrite.ShowMessageEquipmentRegistered();
         ViewUtils.PressEnter("VOLTAR-MENU");
     }
     public void ShowEquipmentList(string typeList)
@@ -64,12 +62,7 @@ public class EquipmentManager
             Console.Clear();
 
         ViewWrite.ShowHeader("          Lista de Equipamentos", 39);
-        Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine(
-            "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -15} | {5, -15}",
-            "Id", "Nome", "Num. Série", "Fabricante", "Preço", "Data de Fabricação");
-        Console.ResetColor();
-        ViewColors.WriteLineWithColor(new string('-', 110));
+        ViewWrite.ShowEquipmentListColumns();
 
         int equipmentCount = 0;
         foreach (Equipment equipment in EquipmentList)
@@ -79,21 +72,14 @@ public class EquipmentManager
 
             equipmentCount++;
             ListIsEmpty = false;
-
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(
-                "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -15} | {5, -15}",
-                equipment.Id, equipment.Name, equipment.SerialNumber, equipment.Manufacturer,
-                equipment.AcquisitionPrice.ToString("F2"), equipment.ManufacturingDate.ToString("dd/MM/yyyy"));
-            Console.ResetColor();
+            ViewWrite.ShowEquipmentsOnListColumns(equipment);
 
             if (equipmentCount == EquipmentList.Count(e => e != null))
                 break;
         }
         if (equipmentCount == 0)
         {
-            ViewColors.WriteLineWithColor("Nenhum equipamento registrado!");
-            ViewUtils.PressEnter("VOLTAR-MENU");
+            ViewWrite.ShowMessageNoneEquipmentRegistered();
             ListIsEmpty = true;
         }
     }
@@ -104,30 +90,29 @@ public class EquipmentManager
 
         ShowEquipmentList("NAO-LIMPAR-TELA");
         if (ListIsEmpty)
+        {
+            ViewUtils.PressEnter("VOLTAR-MENU");
             return;
+        }
 
-        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen("\nDigite o ID do equipamento que deseja editar: ", "\nEquipamento não encontrado, tente novamente!", this);
+        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen(ViewWrite.ShowMessageInputEquipmentIdToEdit(), ViewWrite.ShowMessageEquipmentNotFound(), this);
 
-        ViewColors.WriteLineWithColor("\nDigite abaixo os novos dados do equipamento: ");
+        ViewWrite.ShowMessageInputNewEquipmentData();
 
-        ViewColors.WriteWithColor("\nNome do Equipamento: ");
-        string newName = Console.ReadLine()!;
+        string newName = ViewUtils.GetEquipmentName();
 
-        ViewColors.WriteWithColor("Preço de Aquisição: ");
-        double newAcquisitionPrice = Convert.ToDouble(Console.ReadLine());
+        double newAcquisitionPrice = ViewUtils.GetEquipmentAcquisitionPrice();
 
-        ViewColors.WriteWithColor("Nome do Fabricante: ");
-        string newManufacturer = Console.ReadLine()!;
+        string newManufacturer = ViewUtils.GetManufacturerName();
 
-        ViewColors.WriteWithColor("Data de Fabricação (dd/MM/yyyy): ");
-        DateTime newManufacturingDate = DateTime.Parse(Console.ReadLine()!);
+        DateTime newManufacturingDate = ViewUtils.GetEquipmentManufacturingDate();
 
         equipmentChosen.Name = newName;
         equipmentChosen.AcquisitionPrice = newAcquisitionPrice;
         equipmentChosen.Manufacturer = newManufacturer;
         equipmentChosen.ManufacturingDate = newManufacturingDate;
 
-        ViewColors.WriteLineWithColor("\nO equipamento foi editado com sucesso!");
+        ViewWrite.ShowMessageEquipmentSuccessfullyEdited();
     }
     public void DeleteEquipment()
     {
@@ -136,41 +121,25 @@ public class EquipmentManager
 
         ShowEquipmentList("NAO-LIMPAR-TELA");
         if (ListIsEmpty)
-            return;
-
-        ViewColors.WriteWithColor("\nDigite o ID do equipamento que deseja excluir: ");
-        int idChosen = Convert.ToInt32(Console.ReadLine());
-
-        bool idFound = false;
-        foreach (Equipment equipment in EquipmentList)
         {
-            if (equipment == null)
-                continue;
-            if (equipment.Id == idChosen)
-            {
-                idFound = true;
-                break;
-            }
-        }
-        if (!idFound)
-        {
-            ViewColors.WriteLineWithColor("Equipamento não encontrado, tente novamente!");
+            ViewUtils.PressEnter("VOLTAR-MENU");
             return;
         }
+
+        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen(ViewWrite.ShowMessageInputEquipmentIdToDelete(), ViewWrite.ShowMessageEquipmentNotFound(), this);
 
         for (int i = 0; i < EquipmentList.Length; i++)
         {
             if (EquipmentList[i] == null)
                 continue;
-            else if (EquipmentList[i].Id == idChosen)
+            else if (EquipmentList[i].Id == equipmentChosen.Id)
             {
                 EquipmentList[i] = null!;
                 break;
             }
         }
 
-        ViewColors.WriteLineWithColor("\nO equipamento foi excluído com sucesso!");
-        ViewColors.WriteLineWithColor("Pressione [Enter] para voltar ao menu!");
-        Console.ReadKey();
+        ViewWrite.ShowMessageEquipmentSuccessfullyDeleted();
+        ViewUtils.PressEnter("VOLTAR-MENU");
     }
 }
