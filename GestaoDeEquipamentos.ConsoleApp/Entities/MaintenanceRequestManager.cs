@@ -6,8 +6,9 @@ public class MaintenanceRequestManager
 {
     public MaintenanceRequest[] MaintenanceRequestList = new MaintenanceRequest[100];
     public int MaintenanceRequestListIndex = 0;
-    bool ListIsEmpty = false;
+    public bool ListIsEmpty = false;
     public ViewUtils ViewUtils = new ViewUtils();
+    public ViewWrite ViewWrite = new ViewWrite();
 
     public void MaintenanceRequestManagerOptions(EquipmentManager equipmentManager)
     {
@@ -23,6 +24,7 @@ public class MaintenanceRequestManager
                     break;
                 case "2":
                     ShowMaintenanceRequestList("LIMPAR-TELA");
+                    ViewUtils.PressEnter("VOLTAR-MENU");
                     break;
                 case "3":
                     EditMaintenanceRequest();
@@ -100,7 +102,6 @@ public class MaintenanceRequestManager
         if (maintenanceRequestCount == 0)
         {
             ViewColors.WriteLineWithColor("Nenhum equipamento registrado!");
-            ViewUtils.PressEnter("VOLTAR-MENU");
             ListIsEmpty = true;
         }
     }
