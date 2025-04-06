@@ -4,7 +4,7 @@ public class ViewErrors
 {
     public void ShowMessageInputIsNullOrEmpty(string input)
     {
-        ViewColors.WriteLineWithColor($"'{input}' pode ser vazio...", ConsoleColor.Red);
+        ViewColors.WriteLineWithColor($"'{input}' não pode ser vazio...", ConsoleColor.Red);
     }
     public void ShowMessageIntCannotHaveDotOrComma()
     {
@@ -45,5 +45,21 @@ public class ViewErrors
     public void ShowMessageInvalidOption()
     {
         ViewColors.WriteLineWithColor("Opção Inválida!", ConsoleColor.Red);
+    }
+    public string ShowMessageEquipmentNotFound()
+    {
+        return "\nEquipamento não encontrado, tente novamente!";
+    }
+    public void ShowMessageNoneEquipmentRegistered()
+    {
+        ViewColors.WriteLineWithColor("Nenhum equipamento registrado!");
+    }
+    public void ShowMessageNoneMaintenanceRequestRegistered()
+    {
+        ViewColors.WriteLineWithColor("Nenhum chamado registrado!");
+    }
+    public string ShowMessageMaintenanceRequestNotFound()
+    {
+        return "\nChamado não encontrado, tente novamente!";
     }
 }
