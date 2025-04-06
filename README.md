@@ -76,4 +76,4 @@ dotnet run --project GestaoDeEquipamentos.ConsoleApp
 
 # Sobre o Projeto
 
-Este projeto foi desenvolvido como parte de um trabalho da [Academia do Programador](https://www.instagram.com/academiadoprogramador/).
+Este projeto foi desenvolvido como parte de uma atividade da [Academia do Programador](https://www.instagram.com/academiadoprogramador/).
