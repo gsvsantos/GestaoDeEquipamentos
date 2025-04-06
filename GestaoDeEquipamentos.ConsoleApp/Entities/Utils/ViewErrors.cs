@@ -2,44 +2,48 @@
 
 public class ViewErrors
 {
-    public static void InputIsNullOrEmpty(string input)
+    public void ShowMessageInputIsNullOrEmpty(string input)
     {
         ViewColors.WriteLineWithColor($"'{input}' pode ser vazio...", ConsoleColor.Red);
     }
-    public static void IntCannotHaveDotOrComma()
+    public void ShowMessageIntCannotHaveDotOrComma()
     {
         ViewColors.WriteLineWithColor("O valor não pode conter ponto (.), ou vírgula (,)!", ConsoleColor.Red);
     }
-    public static void InvalidValueInput()
+    public void ShowMessageInvalidValueInput()
     {
         ViewColors.WriteLineWithColor("O valor digitado não é um número válido.", ConsoleColor.Red);
     }
-    public static void IntNeedBetweenMinAndMax(int minValue, int maxValue)
+    public void ShowMessageIntNeedBetweenMinAndMax(int minValue, int maxValue)
     {
         ViewColors.WriteLineWithColor($"O valor deve estar entre {minValue} e {maxValue}.", ConsoleColor.Red);
     }
-    public static void DoubleNeedBetweenMinAndMax(double minValue, double maxValue)
+    public void ShowMessageDoubleNeedBetweenMinAndMax(double minValue, double maxValue)
     {
         ViewColors.WriteLineWithColor($"O valor deve estar entre {minValue} e {maxValue}.", ConsoleColor.Red);
     }
-    public static void InvalidString(string input)
+    public void ShowMessageInvalidString(string input)
     {
         ViewColors.WriteLineWithColor($"Tem algo de errado com essa palavra... ({input})", ConsoleColor.Red);
     }
-    public static void StringNeedBetweenMinAndMax(string lenghtError)
+    public void ShowMessageStringNeedBetweenMinAndMax(string lenghtError)
     {
         ViewColors.WriteLineWithColor(lenghtError, ConsoleColor.Red);
     }
-    public static void InputNeedsToBeOnlyLetters()
+    public void ShowMessageInputNeedsToBeOnlyLetters()
     {
         ViewColors.WriteLineWithColor("Precisa ser apenas letras!", ConsoleColor.Red);
     }
-    public static void InvalidDateFormat(string format)
+    public void ShowMessageInvalidDateFormat(string format)
     {
         ViewColors.WriteLineWithColor($"O formato de data inserido é inválido! Por favor, use {format}!", ConsoleColor.Red);
     }
-    public static void DateIsOnFuture()
+    public void ShowMessageDateIsOnFuture()
     {
         ViewColors.WriteLineWithColor($"A data não pode ser futurística...", ConsoleColor.Red);
+    }
+    public void ShowMessageInvalidOption()
+    {
+        ViewColors.WriteLineWithColor("Opção Inválida!", ConsoleColor.Red);
     }
 }
