@@ -2,11 +2,11 @@
 
 public class ViewUtils
 {
+    Validators Validators = new Validators();
+
     public string GetOption()
     {
-        ViewColors.WriteWithColor("\nOpção: ");
-        string option = Console.ReadLine()!.ToUpper();
-        return option;
+        return Validators.IsValidString("\nOpção: ", "Opção inválida!", 1, 1).ToUpper();
     }
     public void PressEnter(string type)
     {
@@ -26,8 +26,7 @@ public class ViewUtils
     {
         do
         {
-            ViewColors.WriteWithColor(prompt);
-            int idChosen = Convert.ToInt32(Console.ReadLine());
+            int idChosen = Validators.IsValidInt(prompt);
 
             bool idFound = false;
             Equipment equipmentChosen = null!;
@@ -53,22 +52,52 @@ public class ViewUtils
     }
     public string GetEquipmentName()
     {
-        ViewColors.WriteWithColor("Nome do Equipamento: ");
-        return Console.ReadLine()!;
+        return Validators.IsValidString("\nNome do Equipamento: ", "Esse não é um nome válido!", 2);
     }
     public double GetEquipmentAcquisitionPrice()
     {
-        ViewColors.WriteWithColor("Preço de Aquisição: ");
-        return Convert.ToDouble(Console.ReadLine());
+        return Validators.IsValidDouble("Preço de Aquisição: ", 1);
     }
     public string GetManufacturerName()
     {
-        ViewColors.WriteWithColor("Nome do Fabricante: ");
-        return Console.ReadLine()!;
+        return Validators.IsValidString("Nome do Fabricante: ", "Esse não é um nome válido!", 2);
     }
     public DateTime GetEquipmentManufacturingDate()
     {
-        ViewColors.WriteWithColor("Data de Fabricação (dd/MM/yyyy): ");
-        return DateTime.Parse(Console.ReadLine()!);
+        return Validators.IsValidDate("Data de Fabricação (dd/MM/yyyy): ");
+    }
+    public string GetMaintenanceRequestTitle()
+    {
+        return Validators.IsValidString("\nTítulo: ", "Esse não é um título válido!", 3);
+    }
+    public string GetMaintenanceRequestDescription()
+    {
+        return Validators.IsValidString("Descrição: ", "Esse não é uma descrição válida!", 5);
+    }
+    public MaintenanceRequest GetMaintenanceRequest(string prompt, string idNotFoundError, MaintenanceRequestManager maintenanceRequestList)
+    {
+        do
+        {
+            int idChosen = Validators.IsValidInt(prompt);
+
+            bool idFound = false;
+            MaintenanceRequest maintenanceChosen = null!;
+            foreach (MaintenanceRequest maintenanceRequest in maintenanceRequestList.MaintenanceRequestList)
+            {
+                if (maintenanceRequest == null)
+                    continue;
+                if (maintenanceRequest.Id == idChosen)
+                {
+                    maintenanceChosen = maintenanceRequest;
+                    idFound = true;
+                    break;
+                }
+            }
+            if (!idFound)
+            {
+                continue;
+            }
+            return maintenanceChosen;
+        } while (true);
     }
 }
