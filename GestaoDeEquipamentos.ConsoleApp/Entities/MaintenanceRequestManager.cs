@@ -4,26 +4,25 @@ namespace GestaoDeEquipamentos.ConsoleApp.Entities;
 
 public class MaintenanceRequestManager
 {
-    public static MaintenanceRequest[] MaintenanceRequestList = new MaintenanceRequest[100];
-    public static int MaintenanceRequestListIndex = 0;
+    public MaintenanceRequest[] MaintenanceRequestList = new MaintenanceRequest[100];
+    public int MaintenanceRequestListIndex = 0;
     bool ListIsEmpty = false;
+    public ViewUtils ViewUtils = new ViewUtils();
 
-    public void MaintenanceRequestManagerOptions()
+    public void MaintenanceRequestManagerOptions(EquipmentManager equipmentManager)
     {
+        ShowMenu showMenu = new ShowMenu();
         do
         {
-            ShowMenu showMenu = new ShowMenu();
-
             showMenu.MaintenanceRequestMenu();
             string option = ViewUtils.GetOption();
             switch (option)
             {
                 case "1":
-                    RegisterMaintenanceRequest();
+                    RegisterMaintenanceRequest(equipmentManager);
                     break;
                 case "2":
                     ShowMaintenanceRequestList("LIMPAR-TELA");
-                    ViewUtils.PressEnter();
                     break;
                 case "3":
                     EditMaintenanceRequest();
@@ -39,15 +38,13 @@ public class MaintenanceRequestManager
             }
         } while (true);
     }
-    public void RegisterMaintenanceRequest()
+    public void RegisterMaintenanceRequest(EquipmentManager equipmentManager)
     {
-        EquipmentManager equipmentManager = new EquipmentManager();
-
         Console.Clear();
         ViewWrite.ShowHeader("           Registro de Chamado", 39);
 
         equipmentManager.ShowEquipmentList("NAO-LIMPAR-TELA");
-        if (EquipmentManager.ListIsEmpty)
+        if (equipmentManager.ListIsEmpty)
             return;
 
         Equipment equipmentChosen = ViewUtils.GetEquipmentChosen("\nDigite o ID do equipamento no qual será feito o chamado: ", "Ocorreu um problema em gerar o chamado desse equipamento, tente novamente!", equipmentManager);
@@ -66,8 +63,7 @@ public class MaintenanceRequestManager
         MaintenanceRequestList[MaintenanceRequestListIndex] = newMaintenanceRequest;
 
         ViewColors.WriteLineWithColor("\nChamado registrado com sucesso!");
-        ViewColors.WriteWithColor("\nPressione [Enter] para voltar ao menu!");
-        Console.ReadKey();
+        ViewUtils.PressEnter("VOLTAR-MENU");
     }
     public void ShowMaintenanceRequestList(string typeList)
     {
@@ -104,6 +100,7 @@ public class MaintenanceRequestManager
         if (maintenanceRequestCount == 0)
         {
             ViewColors.WriteLineWithColor("Nenhum equipamento registrado!");
+            ViewUtils.PressEnter("VOLTAR-MENU");
             ListIsEmpty = true;
         }
     }
@@ -150,8 +147,7 @@ public class MaintenanceRequestManager
         maintenanceChosen.Description = newDescription;
 
         ViewColors.WriteLineWithColor("Chamado atualizado com sucesso!");
-        ViewColors.WriteLineWithColor("Pressione [Enter] para voltar ao menu!");
-        Console.ReadKey();
+        ViewUtils.PressEnter("VOLTAR-MENU");
     }
     public void DeleteMaintenanceRequest()
     {
@@ -194,7 +190,6 @@ public class MaintenanceRequestManager
         }
 
         ViewColors.WriteLineWithColor("\nO chamado foi excluído com sucesso!");
-        ViewColors.WriteLineWithColor("Pressione [Enter] para voltar ao menu!");
-        Console.ReadKey();
+        ViewUtils.PressEnter("VOLTAR-MENU");
     }
 }

@@ -5,16 +5,16 @@ namespace GestaoDeEquipamentos.ConsoleApp.Entities;
 
 public class EquipmentManager
 {
-    public static Equipment[] EquipmentList = new Equipment[100];
-    public static int EquipmentListIndex = 0;
-    public static bool ListIsEmpty = false;
+    public Equipment[] EquipmentList = new Equipment[100];
+    public int EquipmentListIndex = 0;
+    public bool ListIsEmpty = false;
+    public ViewUtils ViewUtils = new ViewUtils();
 
     public void EquipmentManagerOptions()
     {
+        ShowMenu showMenu = new ShowMenu();
         do
         {
-            ShowMenu showMenu = new ShowMenu();
-
             showMenu.EquipmentMenu();
             string option = ViewUtils.GetOption();
             switch (option)
@@ -24,7 +24,6 @@ public class EquipmentManager
                     break;
                 case "2":
                     ShowEquipmentList("LIMPAR-TELA");
-                    ViewUtils.PressEnter();
                     break;
                 case "3":
                     EditEquipment();
@@ -45,24 +44,19 @@ public class EquipmentManager
         Console.Clear();
         ViewWrite.ShowHeader("         Registro de Equipamento", 39);
 
-        ViewColors.WriteWithColor("Nome do Equipamento: ");
-        string name = Console.ReadLine()!;
+        string name = ViewUtils.GetEquipmentName();
+;
+        double acquisitionPrice = ViewUtils.GetEquipmentAcquisitionPrice();
 
-        ViewColors.WriteWithColor("Preço de Aquisição: ");
-        double acquisitionPrice = Convert.ToDouble(Console.ReadLine());
+        string manufacturer = ViewUtils.GetManufacturerName();
 
-        ViewColors.WriteWithColor("Nome do Fabricante: ");
-        string manufacturer = Console.ReadLine()!;
-
-        ViewColors.WriteWithColor("Data de Fabricação (dd/MM/yyyy): ");
-        DateTime manufacturingDate = DateTime.Parse(Console.ReadLine()!);
+        DateTime manufacturingDate = ViewUtils.GetEquipmentManufacturingDate();
 
         Equipment newEquipment = new Equipment(name, acquisitionPrice, manufacturingDate, manufacturer);
         EquipmentList[EquipmentListIndex++] = newEquipment;
 
         ViewColors.WriteLineWithColor("\nEquipamento registrado com sucesso!");
-        ViewColors.WriteLineWithColor("Pressione [Enter] para voltar ao menu!");
-        Console.ReadKey();
+        ViewUtils.PressEnter("VOLTAR-MENU");
     }
     public void ShowEquipmentList(string typeList)
     {
@@ -99,6 +93,7 @@ public class EquipmentManager
         if (equipmentCount == 0)
         {
             ViewColors.WriteLineWithColor("Nenhum equipamento registrado!");
+            ViewUtils.PressEnter("VOLTAR-MENU");
             ListIsEmpty = true;
         }
     }
@@ -133,8 +128,6 @@ public class EquipmentManager
         equipmentChosen.ManufacturingDate = newManufacturingDate;
 
         ViewColors.WriteLineWithColor("\nO equipamento foi editado com sucesso!");
-        ViewColors.WriteLineWithColor("Pressione [Enter] para voltar ao menu!");
-        Console.ReadKey();
     }
     public void DeleteEquipment()
     {
