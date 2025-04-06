@@ -7,12 +7,14 @@ public class MaintenanceRequestManager
     public MaintenanceRequest[] MaintenanceRequestList = new MaintenanceRequest[100];
     public int MaintenanceRequestListIndex = 0;
     public bool ListIsEmpty = false;
+    public ViewErrors ViewErrors = new ViewErrors();
     public ViewUtils ViewUtils = new ViewUtils();
     public ViewWrite ViewWrite = new ViewWrite();
 
     public void MaintenanceRequestManagerOptions(EquipmentManager equipmentManager)
     {
         ShowMenu showMenu = new ShowMenu();
+
         do
         {
             showMenu.MaintenanceRequestMenu();
@@ -35,7 +37,7 @@ public class MaintenanceRequestManager
                 case "S":
                     return;
                 default:
-                    Console.WriteLine("Opção Inválida!");
+                    ViewErrors.ShowMessageInvalidOption();
                     break;
             }
         } while (true);
@@ -47,24 +49,24 @@ public class MaintenanceRequestManager
 
         equipmentManager.ShowEquipmentList("NAO-LIMPAR-TELA");
         if (equipmentManager.ListIsEmpty)
+        {
+            ViewUtils.PressEnter("VOLTAR-MENU");
             return;
+        }
 
-        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen("\nDigite o ID do equipamento no qual será feito o chamado: ", "Ocorreu um problema em gerar o chamado desse equipamento, tente novamente!", equipmentManager);
+        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen(ViewWrite.ShowMessageInputEquipmentIdToCreateATicket(), ViewErrors.ShowMessageEquipmentNotFound(), equipmentManager);
 
-        ViewColors.WriteLineWithColor($"\n- Registro de chamado para {equipmentChosen.Name} -");
+        Console.Clear();
+        ViewWrite.ShowHeader($"   Registro de chamado para {equipmentChosen.Name}", 39);
 
-        ViewColors.WriteWithColor("\nTítulo: ");
-        string title = Console.ReadLine()!;
-
-        ViewColors.WriteWithColor("Descrição: ");
-        string description = Console.ReadLine()!;
-
+        string title = ViewUtils.GetMaintenanceRequestTitle();
+        string description = ViewUtils.GetMaintenanceRequestDescription();
         DateTime openDate = DateTime.Now;
 
         MaintenanceRequest newMaintenanceRequest = new MaintenanceRequest(title, description, equipmentChosen, openDate);
-        MaintenanceRequestList[MaintenanceRequestListIndex] = newMaintenanceRequest;
+        MaintenanceRequestList[MaintenanceRequestListIndex++] = newMaintenanceRequest;
 
-        ViewColors.WriteLineWithColor("\nChamado registrado com sucesso!");
+        ViewWrite.ShowMessageMaintenanceRequestRegistered();
         ViewUtils.PressEnter("VOLTAR-MENU");
     }
     public void ShowMaintenanceRequestList(string typeList)
@@ -73,12 +75,7 @@ public class MaintenanceRequestManager
             Console.Clear();
 
         ViewWrite.ShowHeader("            Lista de Chamados", 39);
-        Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine(
-            "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -10}", 
-            "Id", "Equipamento", "Data Abertura", "Descrição", "Dias Aberto");
-        Console.ResetColor();
-        ViewColors.WriteLineWithColor(new string('-', 85));
+        ViewWrite.ShowMaintenanceRequestListColumns();
 
         int maintenanceRequestCount = 0;
         foreach (MaintenanceRequest maintenanceRequest in MaintenanceRequestList)
@@ -88,20 +85,14 @@ public class MaintenanceRequestManager
 
             maintenanceRequestCount++;
             ListIsEmpty = false;
-
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(
-                "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -10}",
-                maintenanceRequest.Id, maintenanceRequest.Equipment.Name, maintenanceRequest.OpenDate.ToString("dd/MM/yyyy"),
-                maintenanceRequest.Description, maintenanceRequest.CalculateOpenDays().ToString());
-            Console.ResetColor();
+            ViewWrite.ShowMaintenanceRequestOnListColumns(maintenanceRequest);
 
             if (maintenanceRequestCount == MaintenanceRequestList.Count(m => m != null))
                 break;
         }
         if (maintenanceRequestCount == 0)
         {
-            ViewColors.WriteLineWithColor("Nenhum equipamento registrado!");
+            ViewErrors.ShowMessageNoneMaintenanceRequestRegistered();
             ListIsEmpty = true;
         }
     }
@@ -112,43 +103,22 @@ public class MaintenanceRequestManager
 
         ShowMaintenanceRequestList("NAO-LIMPAR-TELA");
         if (ListIsEmpty)
-            return;
-
-        ViewColors.WriteWithColor("Digite o ID do chamado que deseja editar: ");
-        int idChosen = Convert.ToInt32(Console.ReadLine());
-
-        bool idFound = false;
-        MaintenanceRequest maintenanceChosen = null!;
-        foreach (MaintenanceRequest maintenanceRequest in MaintenanceRequestList)
         {
-            if (maintenanceRequest == null)
-                continue;
-            if (maintenanceRequest.Id == idChosen)
-            {
-                maintenanceChosen = maintenanceRequest;
-                idFound = true;
-                break;
-            }
-        }
-        if (!idFound)
-        {
-            ViewColors.WriteLineWithColor("Equipamento não encontrado, tente novamente!");
+            ViewUtils.PressEnter("VOLTAR-MENU");
             return;
         }
 
-        ViewColors.WriteLineWithColor("Digite abaixo as novas informações do chamado: ");
+        MaintenanceRequest maintenanceRequestChosen = ViewUtils.GetMaintenanceRequest(ViewWrite.ShowMessageInputMaintenanceRequestIdToEdit(), ViewErrors.ShowMessageMaintenanceRequestNotFound(), this);
 
-        ViewColors.WriteWithColor("Título: ");
-        string newTitle = Console.ReadLine()!;
+        ViewWrite.ShowMessageInputNewMaintenanceRequestData();
 
-        ViewColors.WriteWithColor("Descrição: ");
-        string newDescription = Console.ReadLine()!;
+        string newTitle = ViewUtils.GetMaintenanceRequestTitle();
+        string newDescription = ViewUtils.GetMaintenanceRequestDescription();
 
-        maintenanceChosen.Title = newTitle;
-        maintenanceChosen.Description = newDescription;
+        maintenanceRequestChosen.Title = newTitle;
+        maintenanceRequestChosen.Description = newDescription;
 
-        ViewColors.WriteLineWithColor("Chamado atualizado com sucesso!");
-        ViewUtils.PressEnter("VOLTAR-MENU");
+        ViewWrite.ShowMessageMaintenanceRequestSuccessfullyEdited();
     }
     public void DeleteMaintenanceRequest()
     {
@@ -157,40 +127,25 @@ public class MaintenanceRequestManager
 
         ShowMaintenanceRequestList("NAO-LIMPAR-TELA");
         if (ListIsEmpty)
-            return;
-
-        ViewColors.WriteWithColor("Digite o ID do chamado que deseja editar: ");
-        int idChosen = Convert.ToInt32(Console.ReadLine());
-
-        bool idFound = false;
-        foreach (MaintenanceRequest maintenanceRequest in MaintenanceRequestList)
         {
-            if (maintenanceRequest == null)
-                continue;
-            if (maintenanceRequest.Id == idChosen)
-            {
-                idFound = true;
-                break;
-            }
-        }
-        if (!idFound)
-        {
-            ViewColors.WriteLineWithColor("Equipamento não encontrado, tente novamente!");
+            ViewUtils.PressEnter("VOLTAR-MENU");
             return;
         }
+
+        MaintenanceRequest maintenanceRequestChosen = ViewUtils.GetMaintenanceRequest(ViewWrite.ShowMessageInputMaintenanceRequestIdToDelete(), ViewErrors.ShowMessageMaintenanceRequestNotFound(), this);
 
         for (int i = 0; i < MaintenanceRequestList.Length; i++)
         {
             if (MaintenanceRequestList[i] == null)
                 continue;
-            else if (MaintenanceRequestList[i].Id == idChosen)
+            else if (MaintenanceRequestList[i].Id == maintenanceRequestChosen.Id)
             {
                 MaintenanceRequestList[i] = null!;
                 break;
             }
         }
 
-        ViewColors.WriteLineWithColor("\nO chamado foi excluído com sucesso!");
+        ViewWrite.ShowMessageMaintenanceRequestSuccessfullyDeleted();
         ViewUtils.PressEnter("VOLTAR-MENU");
     }
 }
