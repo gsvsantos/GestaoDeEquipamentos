@@ -7,6 +7,7 @@ public class EquipmentManager
     public Equipment[] EquipmentList = new Equipment[100];
     public int EquipmentListIndex = 0;
     public bool ListIsEmpty = false;
+    public ViewErrors ViewErrors = new ViewErrors();
     public ViewUtils ViewUtils = new ViewUtils();
     public ViewWrite ViewWrite = new ViewWrite();
 
@@ -36,6 +37,7 @@ public class EquipmentManager
                 case "S":
                     return;
                 default:
+                    ViewErrors.ShowMessageInvalidOption();
                     break;
             }
         } while (true);
@@ -79,7 +81,7 @@ public class EquipmentManager
         }
         if (equipmentCount == 0)
         {
-            ViewWrite.ShowMessageNoneEquipmentRegistered();
+            ViewErrors.ShowMessageNoneEquipmentRegistered();
             ListIsEmpty = true;
         }
     }
@@ -95,16 +97,13 @@ public class EquipmentManager
             return;
         }
 
-        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen(ViewWrite.ShowMessageInputEquipmentIdToEdit(), ViewWrite.ShowMessageEquipmentNotFound(), this);
+        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen(ViewWrite.ShowMessageInputEquipmentIdToEdit(), ViewErrors.ShowMessageEquipmentNotFound(), this);
 
         ViewWrite.ShowMessageInputNewEquipmentData();
 
         string newName = ViewUtils.GetEquipmentName();
-
         double newAcquisitionPrice = ViewUtils.GetEquipmentAcquisitionPrice();
-
         string newManufacturer = ViewUtils.GetManufacturerName();
-
         DateTime newManufacturingDate = ViewUtils.GetEquipmentManufacturingDate();
 
         equipmentChosen.Name = newName;
@@ -126,7 +125,7 @@ public class EquipmentManager
             return;
         }
 
-        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen(ViewWrite.ShowMessageInputEquipmentIdToDelete(), ViewWrite.ShowMessageEquipmentNotFound(), this);
+        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen(ViewWrite.ShowMessageInputEquipmentIdToDelete(), ViewErrors.ShowMessageEquipmentNotFound(), this);
 
         for (int i = 0; i < EquipmentList.Length; i++)
         {
