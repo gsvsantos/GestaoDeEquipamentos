@@ -56,7 +56,7 @@ public class ViewUtils
     }
     public double GetEquipmentAcquisitionPrice()
     {
-        return Validators.IsValidDouble("Preço de Aquisição: ", 1);
+        return Validators.IsValidDouble("Preço de Aquisição: R$ ", 1);
     }
     public string GetManufacturerName()
     {

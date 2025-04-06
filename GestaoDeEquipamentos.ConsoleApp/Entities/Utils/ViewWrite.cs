@@ -27,7 +27,7 @@ public class ViewWrite
         Console.WriteLine(
             "{0, -10} | {1, -20} | {2, -15} | {3, -15} | {4, -15} | {5, -15}",
             equipment.Id, equipment.Name, equipment.SerialNumber, equipment.Manufacturer,
-            equipment.AcquisitionPrice.ToString("F2"), equipment.ManufacturingDate.ToString("dd/MM/yyyy"));
+            "R$ " + equipment.AcquisitionPrice.ToString("F2"), equipment.ManufacturingDate.ToString("dd/MM/yyyy"));
         Console.ResetColor();
     }
     public void ShowMessageInputNewEquipmentData()
