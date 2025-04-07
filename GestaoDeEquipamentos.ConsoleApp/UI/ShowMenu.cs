@@ -1,4 +1,5 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp.UI;
+﻿
+namespace GestaoDeEquipamentos.ConsoleApp.UI;
 
 public class ShowMenu
 {
@@ -29,6 +30,17 @@ public class ShowMenu
         ViewColors.WriteLineWithColor("2 - Consultar Chamados");
         ViewColors.WriteLineWithColor("3 - Editar Chamado");
         ViewColors.WriteLineWithColor("4 - Encerrar Chamado");
+        ViewColors.WriteLineWithColor("S - Voltar");
+    }
+
+    internal void ManufacturerMenu()
+    {
+        Console.Clear();
+        ViewWrite.ShowHeader("        Gerenciamento de Fabricantes", 39);
+        ViewColors.WriteLineWithColor("1 - Cadastrar Fabricante");
+        ViewColors.WriteLineWithColor("2 - Consultar Fabricantes");
+        ViewColors.WriteLineWithColor("3 - Editar Fabricante");
+        ViewColors.WriteLineWithColor("4 - Encerrar Fabricante");
         ViewColors.WriteLineWithColor("S - Voltar");
     }
 }
