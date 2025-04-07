@@ -1,5 +1,5 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.Entities;
-using GestaoDeEquipamentos.ConsoleApp.Services;
+using GestaoDeEquipamentos.ConsoleApp.Repositories;
 using GestaoDeEquipamentos.ConsoleApp.Utils;
 
 namespace GestaoDeEquipamentos.ConsoleApp.UI;
@@ -26,7 +26,7 @@ public class ViewUtils
                 break;
         }
     }
-    public Equipment GetEquipmentChosen(string prompt, string idNotFoundError, EquipmentManager equipmentManager)
+    public Equipment GetEquipmentChosen(string prompt, string idNotFoundError, EquipmentRepository equipmentRepository)
     {
         do
         {
@@ -34,7 +34,7 @@ public class ViewUtils
 
             bool idFound = false;
             Equipment equipmentChosen = null!;
-            foreach (Equipment equipment in equipmentManager.EquipmentList)
+            foreach (Equipment equipment in equipmentRepository.EquipmentList)
             {
                 if (equipment == null)
                     continue;
@@ -78,7 +78,7 @@ public class ViewUtils
     {
         return Validators.IsValidString("Descrição: ", "Esse não é uma descrição válida!", 5);
     }
-    public MaintenanceRequest GetMaintenanceRequest(string prompt, string idNotFoundError, MaintenanceRequestManager maintenanceRequestList)
+    public MaintenanceRequest GetMaintenanceRequest(string prompt, string idNotFoundError, MaintenanceRequestRepository maintenanceRequestRepository)
     {
         do
         {
@@ -86,7 +86,7 @@ public class ViewUtils
 
             bool idFound = false;
             MaintenanceRequest maintenanceChosen = null!;
-            foreach (MaintenanceRequest maintenanceRequest in maintenanceRequestList.MaintenanceRequestList)
+            foreach (MaintenanceRequest maintenanceRequest in maintenanceRequestRepository.MaintenanceRequestList)
             {
                 if (maintenanceRequest == null)
                     continue;
