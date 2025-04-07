@@ -1,4 +1,8 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
+﻿using GestaoDeEquipamentos.ConsoleApp.Entities;
+using GestaoDeEquipamentos.ConsoleApp.Services;
+using GestaoDeEquipamentos.ConsoleApp.Utils;
+
+namespace GestaoDeEquipamentos.ConsoleApp.UI;
 
 public class ViewUtils
 {

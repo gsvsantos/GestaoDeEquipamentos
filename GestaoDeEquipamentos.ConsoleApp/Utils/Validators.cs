@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
+using GestaoDeEquipamentos.ConsoleApp.UI;
 
-namespace GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
+namespace GestaoDeEquipamentos.ConsoleApp.Utils;
 
 public class Validators
 {

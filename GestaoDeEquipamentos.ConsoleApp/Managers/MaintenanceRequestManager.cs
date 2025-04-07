@@ -1,6 +1,7 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
+﻿using GestaoDeEquipamentos.ConsoleApp.Entities;
+using GestaoDeEquipamentos.ConsoleApp.UI;
 
-namespace GestaoDeEquipamentos.ConsoleApp.Entities;
+namespace GestaoDeEquipamentos.ConsoleApp.Services;
 
 public class MaintenanceRequestManager
 {

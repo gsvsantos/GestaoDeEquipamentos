@@ -1,4 +1,4 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
+﻿namespace GestaoDeEquipamentos.ConsoleApp.UI;
 
 public class ShowMenu
 {

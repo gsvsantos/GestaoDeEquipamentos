@@ -1,5 +1,5 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.Entities;
-using GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
+﻿using GestaoDeEquipamentos.ConsoleApp.Services;
+using GestaoDeEquipamentos.ConsoleApp.UI;
 
 namespace GestaoDeEquipamentos.ConsoleApp;
 

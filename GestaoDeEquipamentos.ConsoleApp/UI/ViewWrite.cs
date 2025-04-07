@@ -1,4 +1,6 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
+﻿using GestaoDeEquipamentos.ConsoleApp.Entities;
+
+namespace GestaoDeEquipamentos.ConsoleApp.UI;
 
 public class ViewWrite
 {
