@@ -44,7 +44,7 @@ public class ViewWrite
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(
                     "{0, -7} | {1, -12} | {2, -20} | {3, -15} | {4, -15} | {5, -15}",
-                    equipment.Id, equipment.SerialNumber, equipment.Name, "R$ " + equipment.AcquisitionPrice.ToString("F2"),
+                    equipment.Id, equipment.GetSerialNumber(), equipment.Name, "R$ " + equipment.AcquisitionPrice.ToString("F2"),
                     equipment.Manufacturer, equipment.ManufacturingDate.ToString("dd/MM/yyyy"));
                 Console.ResetColor();
                 break;
@@ -52,7 +52,7 @@ public class ViewWrite
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(
                     "{0, -12} | {1, -20} | {2, -15} | {3, -15} | {4, -15}",
-                    equipment.SerialNumber, equipment.Name, "R$ " + equipment.AcquisitionPrice.ToString("F2"),
+                    equipment.GetSerialNumber(), equipment.Name, "R$ " + equipment.AcquisitionPrice.ToString("F2"),
                     equipment.Manufacturer, equipment.ManufacturingDate.ToString("dd/MM/yyyy"));
                 Console.ResetColor();
                 break;
