@@ -1,18 +1,23 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.Entities;
+using GestaoDeEquipamentos.ConsoleApp.Repositories;
 using GestaoDeEquipamentos.ConsoleApp.UI;
 
 namespace GestaoDeEquipamentos.ConsoleApp.Services;
 
 public class MaintenanceRequestManager
 {
-    public MaintenanceRequest[] MaintenanceRequestList = new MaintenanceRequest[100];
-    public int MaintenanceRequestListIndex = 0;
-    public bool ListIsEmpty = false;
+    EquipmentRepository EquipmentRepository;
+    MaintenanceRequestRepository MaintenanceRequestRepository;
     public ViewErrors ViewErrors = new ViewErrors();
     public ViewUtils ViewUtils = new ViewUtils();
     public ViewWrite ViewWrite = new ViewWrite();
 
-    public void MaintenanceRequestManagerOptions(EquipmentManager equipmentManager)
+    public MaintenanceRequestManager(EquipmentRepository equipmentRepository)
+    {
+        EquipmentRepository = equipmentRepository;
+        MaintenanceRequestRepository = new MaintenanceRequestRepository();
+    }
+    public void MaintenanceRequestManagerOptions()
     {
         ShowMenu showMenu = new ShowMenu();
 
@@ -23,7 +28,7 @@ public class MaintenanceRequestManager
             switch (option)
             {
                 case "1":
-                    RegisterMaintenanceRequest(equipmentManager);
+                    RegisterMaintenanceRequest();
                     break;
                 case "2":
                     ShowMaintenanceRequestList("LIMPAR-TELA", "SEM-ID");
@@ -43,19 +48,19 @@ public class MaintenanceRequestManager
             }
         } while (true);
     }
-    public void RegisterMaintenanceRequest(EquipmentManager equipmentManager)
+    public void RegisterMaintenanceRequest()
     {
         Console.Clear();
         ViewWrite.ShowHeader("           Registro de Chamado", 39);
 
-        equipmentManager.ShowEquipmentList("NAO-LIMPAR-TELA", "COM-ID");
-        if (equipmentManager.ListIsEmpty)
+        ShowEquipmentList("NAO-LIMPAR-TELA", "COM-ID");
+        if (EquipmentRepository.ListIsEmpty)
         {
             ViewUtils.PressEnter("VOLTAR-MENU");
             return;
         }
 
-        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen(ViewWrite.ShowMessageInputEquipmentIdToCreateATicket(), ViewErrors.ShowMessageEquipmentNotFound(), equipmentManager);
+        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen(ViewWrite.ShowMessageInputEquipmentIdToCreateATicket(), ViewErrors.ShowMessageEquipmentNotFound(), EquipmentRepository);
 
         Console.Clear();
         ViewWrite.ShowHeader($"   Registro de chamado para {equipmentChosen.Name}", 39);
@@ -65,7 +70,7 @@ public class MaintenanceRequestManager
         DateTime openDate = DateTime.Now;
 
         MaintenanceRequest newMaintenanceRequest = new MaintenanceRequest(title, description, equipmentChosen, openDate);
-        MaintenanceRequestList[MaintenanceRequestListIndex++] = newMaintenanceRequest;
+        MaintenanceRequestRepository.RegisterMaintenanceRequest(newMaintenanceRequest);
 
         ViewWrite.ShowMessageMaintenanceRequestRegistered();
         ViewUtils.PressEnter("VOLTAR-MENU");
@@ -78,23 +83,25 @@ public class MaintenanceRequestManager
         ViewWrite.ShowHeader("            Lista de Chamados", 39);
         ViewWrite.ShowMaintenanceRequestListColumns(typeList);
 
+        MaintenanceRequest[] registeredMaintenanceRequest = MaintenanceRequestRepository.GetRegisteredMaintenanceRequests();
+
         int maintenanceRequestCount = 0;
-        foreach (MaintenanceRequest maintenanceRequest in MaintenanceRequestList)
+        foreach (MaintenanceRequest maintenanceRequest in registeredMaintenanceRequest)
         {
             if (maintenanceRequest == null)
                 continue;
 
             maintenanceRequestCount++;
-            ListIsEmpty = false;
+            MaintenanceRequestRepository.ListIsEmpty = false;
             ViewWrite.ShowMaintenanceRequestOnListColumns(maintenanceRequest, typeList);
 
-            if (maintenanceRequestCount == MaintenanceRequestList.Count(m => m != null))
+            if (maintenanceRequestCount == registeredMaintenanceRequest.Count(m => m != null))
                 break;
         }
         if (maintenanceRequestCount == 0)
         {
             ViewErrors.ShowMessageNoneMaintenanceRequestRegistered();
-            ListIsEmpty = true;
+            MaintenanceRequestRepository.ListIsEmpty = true;
         }
     }
     public void EditMaintenanceRequest()
@@ -103,21 +110,20 @@ public class MaintenanceRequestManager
         ViewWrite.ShowHeader("            Edição de Chamado", 39);
 
         ShowMaintenanceRequestList("NAO-LIMPAR-TELA", "COM-ID");
-        if (ListIsEmpty)
+        if (MaintenanceRequestRepository.ListIsEmpty)
         {
             ViewUtils.PressEnter("VOLTAR-MENU");
             return;
         }
 
-        MaintenanceRequest maintenanceRequestChosen = ViewUtils.GetMaintenanceRequest(ViewWrite.ShowMessageInputMaintenanceRequestIdToEdit(), ViewErrors.ShowMessageMaintenanceRequestNotFound(), this);
+        MaintenanceRequest maintenanceRequestChosen = ViewUtils.GetMaintenanceRequest(ViewWrite.ShowMessageInputMaintenanceRequestIdToEdit(), ViewErrors.ShowMessageMaintenanceRequestNotFound(), MaintenanceRequestRepository);
 
         ViewWrite.ShowMessageInputNewMaintenanceRequestData();
 
         string newTitle = ViewUtils.GetMaintenanceRequestTitle();
         string newDescription = ViewUtils.GetMaintenanceRequestDescription();
 
-        maintenanceRequestChosen.Title = newTitle;
-        maintenanceRequestChosen.Description = newDescription;
+        MaintenanceRequestRepository.EditMaintenanceRequest(maintenanceRequestChosen, new MaintenanceRequest(newTitle, newDescription, maintenanceRequestChosen.Equipment, DateTime.Now));
 
         ViewWrite.ShowMessageMaintenanceRequestSuccessfullyEdited();
     }
@@ -127,26 +133,46 @@ public class MaintenanceRequestManager
         ViewWrite.ShowHeader("           Exclusão de Chamado");
 
         ShowMaintenanceRequestList("NAO-LIMPAR-TELA", "COM-ID");
-        if (ListIsEmpty)
+        if (MaintenanceRequestRepository.ListIsEmpty)
         {
             ViewUtils.PressEnter("VOLTAR-MENU");
             return;
         }
 
-        MaintenanceRequest maintenanceRequestChosen = ViewUtils.GetMaintenanceRequest(ViewWrite.ShowMessageInputMaintenanceRequestIdToDelete(), ViewErrors.ShowMessageMaintenanceRequestNotFound(), this);
+        MaintenanceRequest maintenanceRequestChosen = ViewUtils.GetMaintenanceRequest(ViewWrite.ShowMessageInputMaintenanceRequestIdToDelete(), ViewErrors.ShowMessageMaintenanceRequestNotFound(), MaintenanceRequestRepository);
 
-        for (int i = 0; i < MaintenanceRequestList.Length; i++)
-        {
-            if (MaintenanceRequestList[i] == null)
-                continue;
-            else if (MaintenanceRequestList[i].Id == maintenanceRequestChosen.Id)
-            {
-                MaintenanceRequestList[i] = null!;
-                break;
-            }
-        }
+        MaintenanceRequestRepository.DeleteEquipment(maintenanceRequestChosen);
 
         ViewWrite.ShowMessageMaintenanceRequestSuccessfullyDeleted();
         ViewUtils.PressEnter("VOLTAR-MENU");
+    }
+    public void ShowEquipmentList(string clearAction, string typeList)
+    {
+        if (clearAction == "LIMPAR-TELA")
+            Console.Clear();
+
+        ViewWrite.ShowHeader("          Lista de Equipamentos", 39);
+        ViewWrite.ShowEquipmentListColumns(typeList);
+
+        Equipment[] registeredEquipments = EquipmentRepository.GetRegisteredEquipments();
+
+        int equipmentCount = 0;
+        foreach (Equipment equipment in registeredEquipments)
+        {
+            if (equipment == null)
+                continue;
+
+            equipmentCount++;
+            MaintenanceRequestRepository.ListIsEmpty = false;
+            ViewWrite.ShowEquipmentsOnListColumns(equipment, typeList);
+
+            if (equipmentCount == registeredEquipments.Count(e => e != null))
+                break;
+        }
+        if (equipmentCount == 0)
+        {
+            ViewErrors.ShowMessageNoneEquipmentRegistered();
+            MaintenanceRequestRepository.ListIsEmpty = true;
+        }
     }
 }
