@@ -3,7 +3,7 @@ Um simples programa que permite registrar, listar, editar e excluir equipamentos
 
 ## Diagrama do Projeto
 Planejamento do projeto no Whimsical: [Atividade - Gestão de Equipamentos v1](https://whimsical.com/atividade-gestao-de-equipamentos-EFv5bntPie38qufMixdGjg)   
-*versão 2(atual) não consta no planejamento no Whimsical!*
+*versão atual não consta no planejamento no Whimsical!*
 
 ## Como Usar
 1. Menu de equipamentos contém:
@@ -31,28 +31,33 @@ Planejamento do projeto no Whimsical: [Atividade - Gestão de Equipamentos v1](ht
 ## Estrutura do Projeto
 O projeto está organizado na seguinte forma:
 
-- **[Entities/](https://github.com/gsvsantos/GestaoDeEquipamentos/tree/v2/GestaoDeEquipamentos.ConsoleApp/Entities)** Contém as classes principais que representam os objetos do sistema.  
-  - **[Entity.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Entities/Entity.cs)**: Serve como base para lidar com os ids das classes Equipment.cs e MaintenanceRequest.cs.
-  - **[Equipment.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Entities/Equipment.cs)**: Contém os atributos e método dos equipamentos.
-  - **[MaintenanceRequest.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Entities/MaintenanceRequest.cs)**: Contém os atributos e método dos chamados.
-  - **[Manufacturer.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Entities/Manufacturer.cs)**: Contém os atributos e método dos fabricantes.
-- **[Managers/](https://github.com/gsvsantos/GestaoDeEquipamentos/tree/v2/GestaoDeEquipamentos.ConsoleApp/Managers)** Contém a lógica das operações sobre as entidades.  
-  - **[EquipmentManager.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Managers/EquipmentManager.cs)**: Serve para o gerenciamento da lógica dos equipamentos.
-  - **[MaintenanceRequestManager.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Managers/MaintenanceRequestManager.cs)**: Serve para o gerenciamento da lógica dos chamados.
-  - **[ManufacturerManager.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Managers/ManufacturerManager.cs)**: Serve para o gerenciamento da lógica dos fabricantes.
-- **[Repositories/](https://github.com/gsvsantos/GestaoDeEquipamentos/tree/v2/GestaoDeEquipamentos.ConsoleApp/Managers)** Contém a lógica do gerenciamento dos dados das entidades.  
-  - **[EquipmentRepository.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Repositories/EquipmentRepository.cs)**: Serve para o gerenciamento dos dados dos equipamentos.
-  - **[MaintenanceRequestRepository.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Repositories/MaintenanceRequestRepository.cs)**: Serve para o gerenciamento dos dados dos equipamentos.
-  - **[ManufacturerRepository.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Repositories/ManufacturerRepository.cs)**: Serve para o gerenciamento dos dados dos equipamentos.
-- **[UI/](https://github.com/gsvsantos/GestaoDeEquipamentos/tree/v2/GestaoDeEquipamentos.ConsoleApp/UI)** Contém os arquivos responsáveis pela **interface do usuário** no console.  
-  - **[ShowMenu.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/UI/ShowMenu.cs)**: Lida com as impressões dos menus no console.
-  - **[ViewColors.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/UI/ViewColors.cs)**: Lida com a coloração das impressões no console.
-  - **[ViewErrors.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/UI/ViewErrors.cs)**: Lida com as impressões de mensagens de erros.
-  - **[ViewUtils.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/UI/ViewUtils.cs)**: Lida com a entrada de dados do usuário e imprime mensagens interativas no console.
-  - **[ViewWrite.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/UI/ViewWrite.cs)**: Lida com impressões de gerais no console.
-- **[Utils/](https://github.com/gsvsantos/GestaoDeEquipamentos/tree/v2/GestaoDeEquipamentos.ConsoleApp/Utils)** Contém funções auxiliares.  
-  - **[Validators.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Utils/Validators.cs)**: Lida com as validações gerais dos inputs do usuário.
-- **[Program.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Program.cs)**: Arquivo principal, nele contém o necessário para inicializar e executar o programa.
+- **[Compartilhado/](https://github.com/gsvsantos/GestaoDeEquipamentos/tree/v2/GestaoDeEquipamentos.ConsoleApp/Compartilhado)** Contém classes auxiliares e compartilhadas pelo sistema.  
+  - **[Entidade.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Compartilhado/Entidade.cs)**: Serve como base para lidar com os IDs das classes Equipamento.cs e Chamado.cs.
+  - **[TelaPrincipal.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Compartilhado/TelaPrincipal.cs)**: Lida com as impressões dos menus no console.
+  - **[Validador.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Compartilhado/Validador.cs)**: Lida com as validações gerais dos inputs do usuário.
+  - **[VisualizacaoCores.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Compartilhado/VisualizacaoCores.cs)**: Lida com a coloração das impressões no console.
+  - **[VisualizacaoErros.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Compartilhado/VisualizacaoErros.cs)**: Lida com as impressões de mensagens de erros.
+  - **[UtilitariosVisualizacao.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Compartilhado/UtilitariosVisualizacao.cs)**: Lida com a entrada de dados do usuário e imprime mensagens interativas no console.
+  - **[EscritaVisualizacao.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Compartilhado/EscritaVisualizacao.cs)**: Lida com impressões gerais no console.
+
+- **[ModuloEquipamento/](https://github.com/gsvsantos/GestaoDeEquipamentos/tree/v2/GestaoDeEquipamentos.ConsoleApp/ModuloEquipamento)** Contém arquivos relacionados aos equipamentos.  
+  - **[Equipamento.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/ModuloEquipamento/Equipamento.cs)**: Contém os atributos e métodos dos equipamentos.
+  - **[TelaEquipamento.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/ModuloEquipamento/TelaEquipamento.cs)**: Responsável pela interface do usuário relacionada a equipamentos.
+  - **[RepositorioEquipamento.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/ModuloEquipamento/RepositorioEquipamento.cs)**: Gerencia os dados dos equipamentos.
+
+- **[ModuloChamado/](https://github.com/gsvsantos/GestaoDeEquipamentos/tree/v2/GestaoDeEquipamentos.ConsoleApp/ModuloChamado)** Contém arquivos relacionados aos chamados.  
+  - **[Chamado.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/ModuloChamado/Chamado.cs)**: Contém os atributos e métodos dos chamados.
+  - **[TelaChamado.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/ModuloChamado/TelaChamado.cs)**: Responsável pela interface do usuário relacionada a chamados.
+  - **[RepositorioChamado.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/ModuloChamado/RepositorioChamado.cs)**: Gerencia os dados dos chamados.
+
+- **[ModuloFabricante/](https://github.com/gsvsantos/GestaoDeEquipamentos/tree/v2/GestaoDeEquipamentos.ConsoleApp/ModuloFabricante)** Contém arquivos relacionados aos fabricantes.  
+  - **[Fabricante.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/ModuloFabricante/Fabricante.cs)**: Contém os atributos e métodos dos fabricantes.
+  - **[TelaFabricante.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/ModuloFabricante/TelaFabricante.cs)**: Responsável pela interface do usuário relacionada a fabricantes.
+  - **[RepositorioFabricante.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/ModuloFabricante/RepositorioFabricante.cs)**: Gerencia os dados dos fabricantes.
+
+- **[Program.cs](https://github.com/gsvsantos/GestaoDeEquipamentos/blob/v2/GestaoDeEquipamentos.ConsoleApp/Program.cs)**: Arquivo principal, contém o necessário para inicializar e executar o programa.
+
+
  
 ## Requisitos
 

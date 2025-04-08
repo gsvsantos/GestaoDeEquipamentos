@@ -1,6 +1,6 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.Managers;
-using GestaoDeEquipamentos.ConsoleApp.Repositories;
-using GestaoDeEquipamentos.ConsoleApp.Services;
+﻿using GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
+using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 using GestaoDeEquipamentos.ConsoleApp.UI;
 
 namespace GestaoDeEquipamentos.ConsoleApp;
@@ -9,20 +9,20 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        ShowMenu showMenu = new ShowMenu();
-        ViewUtils ViewUtils = new ViewUtils();
-        ViewWrite ViewWrite = new ViewWrite();
-        EquipmentManager equipmentManager = new EquipmentManager();
-        EquipmentRepository equipmentRepository = equipmentManager.EquipmentRepository;
-        MaintenanceRequestManager maintenanceRequestManager = new MaintenanceRequestManager(equipmentRepository);
-        ManufacturerManager manufacturerManager = new ManufacturerManager(equipmentRepository);
+        MostrarMenu showMenu = new MostrarMenu();
+        UtilitariosVisualizacao ViewUtils = new UtilitariosVisualizacao();
+        EscritaVisualizacao ViewWrite = new EscritaVisualizacao();
+        TelaEquipamento equipmentManager = new TelaEquipamento();
+        RepositorioEquipamento equipmentRepository = equipmentManager.RepositorioEquipamento;
+        TelaChamado maintenanceRequestManager = new TelaChamado(equipmentRepository);
+        TelaFabricante manufacturerManager = new TelaFabricante(equipmentRepository);
 
         do
         {
             Console.Clear();
-            ViewWrite.ShowHeader("     Projeto - Gestão de Equipamentos");
-            showMenu.MainMenu();
-            string option = ViewUtils.GetOption();
+            ViewWrite.MostrarCabecalho("     Projeto - Gestão de Equipamentos");
+            showMenu.MenuPrincipal();
+            string option = ViewUtils.PegarOpcao();
             switch (option)
             {
                 case "1":
@@ -36,10 +36,10 @@ internal class Program
                     break;
                 case "S":
                     Console.Clear();
-                    ViewColors.WriteLineWithColor("Adeus (T_T)/", ConsoleColor.Blue);
+                    VisualizacaoCores.EscrevaColoridoComLinha("Adeus (T_T)/", ConsoleColor.Blue);
                     return;
                 default:
-                    ViewColors.WriteLineWithColor("Opção inválida!", ConsoleColor.Red);
+                    VisualizacaoCores.EscrevaColoridoComLinha("Opção inválida!", ConsoleColor.Red);
                     break;
             }
         } while (true);

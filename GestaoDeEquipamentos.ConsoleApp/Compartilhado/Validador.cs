@@ -1,154 +1,154 @@
 ﻿using System.Globalization;
 using GestaoDeEquipamentos.ConsoleApp.UI;
 
-namespace GestaoDeEquipamentos.ConsoleApp.Utils;
+namespace GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 
-public class Validators
+public class Validador
 {
-    ViewErrors ViewErrors = new ViewErrors();
+    VisualizacaoErros VisualizacaoErros = new VisualizacaoErros();
 
-    public int IsValidInt(string prompt, int minValue = 0, int maxValue = int.MaxValue)
+    public int InteiroEValido(string prompt, int minValue = 0, int maxValue = int.MaxValue)
     {
         do
         {
-            ViewColors.WriteWithColor(prompt);
+            VisualizacaoCores.EscrevaColoridoSemLinha(prompt);
             string input = Console.ReadLine()!;
 
-            if (IsStringNullOrEmpty(input))
+            if (StringEmBrancoOuVazia(input))
                 continue;
 
             input = input.Trim();
             if (input.Contains('.') || input.Contains(','))
             {
-                ViewErrors.ShowMessageIntCannotHaveDotOrComma();
+                VisualizacaoErros.MostrarMensagemPontoOuVirgula();
                 continue;
             }
 
             if (!int.TryParse(input, out int value))
             {
-                ViewErrors.ShowMessageInvalidValueInput();
+                VisualizacaoErros.MostrarMensagemNumeroInvalido();
                 continue;
             }
             if (value < minValue || value > maxValue)
             {
-                ViewErrors.ShowMessageIntNeedBetweenMinAndMax(minValue, maxValue);
+                VisualizacaoErros.MostrarMensagemInteiroMinimoEMaximo(minValue, maxValue);
                 continue;
             }
 
             return value;
         } while (true);
     }
-    public double IsValidDouble(string prompt, double minValue = 0, double maxValue = double.MaxValue)
+    public double DoubleEValido(string prompt, double minValue = 0, double maxValue = double.MaxValue)
     {
         do
         {
-            ViewColors.WriteWithColor(prompt, ConsoleColor.Yellow);
+            VisualizacaoCores.EscrevaColoridoSemLinha(prompt, ConsoleColor.Yellow);
             string input = Console.ReadLine()!;
 
-            if (IsStringNullOrEmpty(input))
+            if (StringEmBrancoOuVazia(input))
                 continue;
 
             input = input.Trim();
             if (!double.TryParse(input, CultureInfo.InvariantCulture, out double value))
             {
-                ViewErrors.ShowMessageInvalidValueInput();
+                VisualizacaoErros.MostrarMensagemNumeroInvalido();
                 continue;
             }
             if (value < minValue || value > maxValue)
             {
-                ViewErrors.ShowMessageDoubleNeedBetweenMinAndMax(minValue, maxValue);
+                VisualizacaoErros.MostrarMensagemDoubleMinimoEMaximo(minValue, maxValue);
                 continue;
             }
 
             return value;
         } while (true);
     }
-    public string IsValidString(string prompt, string lenghtError, int minLenght, int maxLenght = int.MaxValue, bool onlyLetters = false)
+    public string StringEValido(string prompt, string lenghtError, int minLenght, int maxLenght = int.MaxValue, bool onlyLetters = false)
     {
         do
         {
-            ViewColors.WriteWithColor(prompt, ConsoleColor.Yellow);
+            VisualizacaoCores.EscrevaColoridoSemLinha(prompt, ConsoleColor.Yellow);
             string input = Console.ReadLine()!;
 
-            if (IsStringNullOrEmpty(input))
+            if (StringEmBrancoOuVazia(input))
                 continue;
 
             input = input.Trim();
             if (onlyLetters && !input.All(c => char.IsLetter(c) || c == ' '))
             {
-                ViewErrors.ShowMessageInputNeedsToBeOnlyLetters();
+                VisualizacaoErros.MostrarMensagemEntradaApenasLetras();
                 continue;
             }
             if (input.Length < minLenght || input.Length > maxLenght)
             {
-                ViewErrors.ShowMessageStringNeedBetweenMinAndMax(lenghtError);
+                VisualizacaoErros.MostrarMensagemStringMinimoEMaximo(lenghtError);
                 continue;
             }
 
             return input;
         } while (true);
     }
-    public DateTime IsValidDate(string prompt, string format = "dd/MM/yyyy")
+    public DateTime DataEValida(string prompt, string format = "dd/MM/yyyy")
     {
 
         do
         {
-            ViewColors.WriteWithColor(prompt, ConsoleColor.Yellow);
+            VisualizacaoCores.EscrevaColoridoSemLinha(prompt, ConsoleColor.Yellow);
             string input = Console.ReadLine()!;
 
-            if (IsStringNullOrEmpty(input))
+            if (StringEmBrancoOuVazia(input))
                 continue;
 
             input = input.Trim();
             if (!DateTime.TryParse(input, out DateTime date))
             {
-                ViewErrors.ShowMessageInvalidDateFormat(format);
+                VisualizacaoErros.MostrarMensagemFormatoDataInvalida(format);
                 continue;
             }
             if (date > DateTime.Now)
             {
-                ViewErrors.ShowMessageDateIsOnFuture();
+                VisualizacaoErros.MostrarMensagemDataNoFuturo();
                 continue;
             }
 
             return date;
         } while (true);
     }
-    private bool IsStringNullOrEmpty(string input)
+    private bool StringEmBrancoOuVazia(string input)
     {
         if (string.IsNullOrEmpty(input))
         {
-            ViewErrors.ShowMessageInputIsNullOrEmpty(input);
+            VisualizacaoErros.MostrarMensagemEntradaVazia(input);
             return true;
         }
         return false;
     }
-    public string IsValidEmail(string prompt, int minLenght = 11, string templates = "exemplo@gmail.com | exemplo@hotmail.com | exemplo@yahoo.com")
+    public string EmailEValido(string prompt, int minLenght = 11, string templates = "exemplo@gmail.com | exemplo@hotmail.com | exemplo@yahoo.com")
     {
         string[] emailsTypes = ["@gmail.com", "@hotmail.com", "@yahoo.com", "msn.com", "outlook.com"];
 
         do
         {
-            ViewColors.WriteWithColor(prompt, ConsoleColor.Yellow);
+            VisualizacaoCores.EscrevaColoridoSemLinha(prompt, ConsoleColor.Yellow);
             string input = Console.ReadLine()!;
 
-            if (IsStringNullOrEmpty(input))
+            if (StringEmBrancoOuVazia(input))
                 continue;
 
             input = input.Trim();
             if (input.All(c => c == ' '))
             {
-                ViewErrors.ShowMessageInvalidEmail(templates);
+                VisualizacaoErros.MostrarMensagemEmailInvalido(templates);
                 continue;
             }
             if (input.Length < minLenght)
             {
-                ViewErrors.ShowMessageInvalidEmail(templates);
+                VisualizacaoErros.MostrarMensagemEmailInvalido(templates);
                 continue;
             }
             if (!emailsTypes.Any(domain => input.EndsWith(domain)))
             {
-                ViewErrors.ShowMessageInvalidEmail(templates);
+                VisualizacaoErros.MostrarMensagemEmailInvalido(templates);
                 continue;
             }
 
@@ -156,25 +156,25 @@ public class Validators
         } while (true);
     }
 
-    public string IsValidPhone(string prompt, int minLenght = 10, int maxLenght = 11, string format = "51999999999")
+    public string NumeroCelularEValido(string prompt, int minLenght = 10, int maxLenght = 11, string format = "51999999999")
     {
         do
         {
-            ViewColors.WriteWithColor(prompt, ConsoleColor.Yellow);
+            VisualizacaoCores.EscrevaColoridoSemLinha(prompt, ConsoleColor.Yellow);
             string input = Console.ReadLine()!;
 
-            if (IsStringNullOrEmpty(input))
+            if (StringEmBrancoOuVazia(input))
                 continue;
 
             input = input.Trim();
             if (!input.All(char.IsNumber))
             {
-                ViewErrors.ShowMessageInvalidPhone(format);
+                VisualizacaoErros.MostrarMensagemNumeroCelularInvalido(format);
                 continue;
             }
             if (input.Length < minLenght || input.Length > maxLenght)
             {
-                ViewErrors.ShowMessageInvalidPhone(format);
+                VisualizacaoErros.MostrarMensagemNumeroCelularInvalido(format);
                 continue;
             }
 

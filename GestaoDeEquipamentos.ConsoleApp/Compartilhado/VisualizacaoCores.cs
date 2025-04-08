@@ -1,14 +1,14 @@
 ﻿namespace GestaoDeEquipamentos.ConsoleApp.UI;
 
-public class ViewColors
+public class VisualizacaoCores
 {
-    public static void WriteWithColor(string message, ConsoleColor color = ConsoleColor.White)
+    public static void EscrevaColoridoSemLinha(string message, ConsoleColor color = ConsoleColor.White)
     {
         Console.ForegroundColor = color;
         Console.Write(message);
         Console.ResetColor();
     }
-    public static void WriteLineWithColor(string message, ConsoleColor color = ConsoleColor.White)
+    public static void EscrevaColoridoComLinha(string message, ConsoleColor color = ConsoleColor.White)
     {
         Console.ForegroundColor = color;
         Console.WriteLine(message);
