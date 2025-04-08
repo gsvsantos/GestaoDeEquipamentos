@@ -11,10 +11,10 @@ public class TelaEquipamento
     public UtilitariosVisualizacao UtilitariosVisualizacao = new UtilitariosVisualizacao();
     public EscritaVisualizacao EscritaVisualizacao = new EscritaVisualizacao();
 
-    public TelaEquipamento()
+    public TelaEquipamento(RepositorioEquipamento repositorioEquipamento, RepositorioFabricante repositorioFabricante)
     {
-        RepositorioEquipamento = new RepositorioEquipamento();
-        RepositorioFabricante = new RepositorioFabricante();
+        RepositorioEquipamento = repositorioEquipamento;
+        RepositorioFabricante = repositorioFabricante;
     }
     public void OpcoesTelaEquipamento()
     {
@@ -64,12 +64,7 @@ public class TelaEquipamento
         Console.Clear();
         EscritaVisualizacao.MostrarCabecalho($"   Registro de equipamento do fabricante {fabricanteEscolhido.Nome}", 45);
 
-        string nome = UtilitariosVisualizacao.PegarNomeDoEquipamento();
-        double precoDeAquisicao = UtilitariosVisualizacao.PegarPrecoDeAquisicaoDoEquipamento();
-        Fabricante fabricante = fabricanteEscolhido;
-        DateTime dataDeFabricacao = UtilitariosVisualizacao.PegarDataDeFabricaDoEquipamento();
-
-        Equipamento novoEquipamento = new Equipamento(nome, precoDeAquisicao, dataDeFabricacao, fabricante);
+        Equipamento novoEquipamento = ObterDadosEquipamentos(fabricanteEscolhido);
         RepositorioEquipamento.RegistrarEquipamento(novoEquipamento);
 
         EscritaVisualizacao.MostrarMensagemEquipamentoRegistrado();
@@ -120,17 +115,18 @@ public class TelaEquipamento
 
         EscritaVisualizacao.MostrarMensagemInserirNovosDadosDoEquipamento();
 
+        MostrarListaDeFabricantes("NAO-LIMPAR-TELA", "COM-ID");
+        if (RepositorioFabricante.ListaVazia)
+        {
+            UtilitariosVisualizacao.PressioneEnterPara("VOLTAR-MENU");
+            return;
+        }
         Fabricante fabricanteEscolhido = UtilitariosVisualizacao.PegarFabricanteEscolhido(EscritaVisualizacao.MostrarMensagemInserirIdDoFabricanteParaRegistrarEquipamento(), VisualizacaoErros.MostrarMensagemFabricanteNaoEncontrado(), RepositorioFabricante);
 
         Console.Clear();
         EscritaVisualizacao.MostrarCabecalho($"   Atualização de equipamento do fabricante {fabricanteEscolhido.Nome}", 45);
 
-        string novoNome = UtilitariosVisualizacao.PegarNomeDoEquipamento();
-        double novoPrecoDeAquisicao = UtilitariosVisualizacao.PegarPrecoDeAquisicaoDoEquipamento();
-        Fabricante novoFabricante = fabricanteEscolhido;
-        DateTime novaDataDeFabricacao = UtilitariosVisualizacao.PegarDataDeFabricaDoEquipamento();
-
-        RepositorioEquipamento.EditarEquipamentos(equipamentoEscolhido, new Equipamento(novoNome, novoPrecoDeAquisicao, novaDataDeFabricacao, novoFabricante));
+        RepositorioEquipamento.EditarEquipamentos(equipamentoEscolhido, ObterDadosEquipamentos(fabricanteEscolhido));
 
         EscritaVisualizacao.MostrarMensagemEquipamentoEditado();
     }
@@ -182,5 +178,15 @@ public class TelaEquipamento
             VisualizacaoErros.MostrarMensagemNenhumFabricanteRegistrado();
             RepositorioFabricante.ListaVazia = true;
         }
+    }
+    public Equipamento ObterDadosEquipamentos(Fabricante fabricanteEscolhido)
+    {
+        string nome = UtilitariosVisualizacao.PegarNomeDoEquipamento();
+        double precoDeAquisicao = UtilitariosVisualizacao.PegarPrecoDeAquisicaoDoEquipamento();
+        DateTime dataDeFabricacao = UtilitariosVisualizacao.PegarDataDeFabricaDoEquipamento();
+        Fabricante fabricante = fabricanteEscolhido;
+
+        Equipamento equipamento = new Equipamento(nome, precoDeAquisicao, dataDeFabricacao, fabricante);
+        return equipamento;
     }
 }

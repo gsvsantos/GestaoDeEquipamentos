@@ -52,11 +52,7 @@ public class TelaFabricante
         Console.Clear();
         EscritaVisualizacao.MostrarCabecalho("          Registro de Fabricante", 40);
 
-        string nome = UtilitariosVisualizacao.PegarNomeDoFabricanteDoEquipamento();
-        string email = UtilitariosVisualizacao.PegarEmailDoFabricante();
-        string numeroCelular = UtilitariosVisualizacao.PegarNumeroDoFabricante();
-
-        Fabricante novoFabricante = new Fabricante(nome, email, numeroCelular);
+        Fabricante novoFabricante = ObterDadosFabricante();
         RepositorioFabricante.RegistrarFabricante(novoFabricante);
 
         EscritaVisualizacao.MostrarMensagemChamadoRegistrado();
@@ -108,11 +104,7 @@ public class TelaFabricante
 
         EscritaVisualizacao.MostrarMensagemInserirNovosDadosDoEquipamento();
 
-        string novoNome = UtilitariosVisualizacao.PegarNomeDoFabricanteDoEquipamento();
-        string novoEmail = UtilitariosVisualizacao.PegarEmailDoFabricante();
-        string novoNumeroCelular = UtilitariosVisualizacao.PegarNumeroDoFabricante();
-
-        RepositorioFabricante.EditarFabricante(fabricanteEscolhido, new Fabricante(novoNome, novoEmail, novoNumeroCelular));
+        RepositorioFabricante.EditarFabricante(fabricanteEscolhido, ObterDadosFabricante());
 
         EscritaVisualizacao.MostrarMensagemFabricanteEditado();
     }
@@ -134,5 +126,14 @@ public class TelaFabricante
 
         EscritaVisualizacao.MostrarMensagemFabricanteDeletado();
         UtilitariosVisualizacao.PressioneEnterPara("VOLTAR-MENU");
+    }
+    public Fabricante ObterDadosFabricante()
+    {
+        string nome = UtilitariosVisualizacao.PegarNomeDoFabricanteDoEquipamento();
+        string email = UtilitariosVisualizacao.PegarEmailDoFabricante();
+        string numeroCelular = UtilitariosVisualizacao.PegarNumeroDoFabricante();
+
+        Fabricante fabricante = new Fabricante(nome, email, numeroCelular);
+        return fabricante;
     }
 }
