@@ -11,10 +11,10 @@ public class TelaChamado
     public UtilitariosVisualizacao UtilitariosVisualizacao = new UtilitariosVisualizacao();
     public EscritaVisualizacao EscritaVisualizacao = new EscritaVisualizacao();
 
-    public TelaChamado(RepositorioEquipamento repositorioEquipamento)
+    public TelaChamado(RepositorioChamado repositorioChamado, RepositorioEquipamento repositorioEquipamento)
     {
+        RepositorioChamado = repositorioChamado;
         RepositorioEquipamento = repositorioEquipamento;
-        RepositorioChamado = new RepositorioChamado();
     }
     public void OpcoesTelaChamado()
     {

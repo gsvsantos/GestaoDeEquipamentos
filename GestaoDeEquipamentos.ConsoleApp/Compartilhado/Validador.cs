@@ -123,10 +123,9 @@ public class Validador
         }
         return false;
     }
-    public string EmailEValido(string prompt, int minLenght = 11, string templates = "exemplo@gmail.com | exemplo@hotmail.com | exemplo@yahoo.com")
+    public string EmailEValido(string prompt, int minLenght = 11)
     {
-        string[] emailsTypes = ["@gmail.com", "@hotmail.com", "@yahoo.com", "msn.com", "outlook.com"];
-
+        string exemplos = "exemplo@gmail.com | exemplo@hotmail.com | exemplo@yahoo.com | exemplo@msn.com | exemplo@outlook.com";
         do
         {
             VisualizacaoCores.EscrevaColoridoSemLinha(prompt, ConsoleColor.Yellow);
@@ -135,20 +134,29 @@ public class Validador
             if (StringEmBrancoOuVazia(input))
                 continue;
 
-            input = input.Trim();
-            if (input.All(c => c == ' '))
+            input = input.Trim().ToLower();
+            if (input.Contains(' '))
             {
-                VisualizacaoErros.MostrarMensagemEmailInvalido(templates);
+                VisualizacaoErros.MostrarMensagemEmailInvalido(exemplos);
                 continue;
             }
             if (input.Length < minLenght)
             {
-                VisualizacaoErros.MostrarMensagemEmailInvalido(templates);
+                VisualizacaoErros.MostrarMensagemEmailInvalido(exemplos);
                 continue;
             }
-            if (!emailsTypes.Any(domain => input.EndsWith(domain)))
+
+            int posArroba = input.IndexOf('@');
+            int posPonto = input.LastIndexOf('.');
+
+            if (posArroba < 1 || posArroba > input.Length - 3)
             {
-                VisualizacaoErros.MostrarMensagemEmailInvalido(templates);
+                VisualizacaoErros.MostrarMensagemEmailInvalido(exemplos);
+                continue;
+            }
+            if (posPonto < posArroba + 2 || posPonto == input.Length - 1)
+            {
+                VisualizacaoErros.MostrarMensagemEmailInvalido(exemplos);
                 continue;
             }
 

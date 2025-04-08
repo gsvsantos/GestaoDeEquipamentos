@@ -9,10 +9,12 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        TelaEquipamento telaEquipamento = new TelaEquipamento();
-        RepositorioEquipamento repositorioEquipamento = telaEquipamento.RepositorioEquipamento;
-        RepositorioFabricante repositorioFabricante = telaEquipamento.RepositorioFabricante;
-        TelaChamado telaChamado = new TelaChamado(repositorioEquipamento);
+        RepositorioChamado repositorioChamado = new RepositorioChamado();
+        RepositorioEquipamento repositorioEquipamento = new RepositorioEquipamento();
+        RepositorioFabricante repositorioFabricante = new RepositorioFabricante();
+
+        TelaChamado telaChamado = new TelaChamado(repositorioChamado, repositorioEquipamento);
+        TelaEquipamento telaEquipamento = new TelaEquipamento(repositorioEquipamento, repositorioFabricante);
         TelaFabricante telaFabricante = new TelaFabricante(repositorioEquipamento, repositorioFabricante);
 
         MostrarMenu mostrarMenu = new MostrarMenu();
