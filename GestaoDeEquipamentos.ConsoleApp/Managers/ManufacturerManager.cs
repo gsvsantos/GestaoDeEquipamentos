@@ -48,11 +48,10 @@ public class ManufacturerManager
             }
         } while (true);
     }
-
     public void RegisterManufacturer()
     {
         Console.Clear();
-        ViewWrite.ShowHeader("         Registro de Fabricante", 39);
+        ViewWrite.ShowHeader("          Registro de Fabricante", 40);
 
         string name = ViewUtils.GetManufacturerName();
         string email = ViewUtils.GetManufacturerEmail();
@@ -61,7 +60,7 @@ public class ManufacturerManager
         Manufacturer newManufacturer = new Manufacturer(name, email, phone);
         ManufacturerRepository.RegisterManufacturer(newManufacturer);
 
-        ViewWrite.ShowMessageManufacturerRegistered();
+        ViewWrite.ShowMessageManufacturerSuccessfullyRegistered();
         ViewUtils.PressEnter("VOLTAR-MENU");
     }
     public void ShowManufacturerList(string clearAction, string typeList)
@@ -69,7 +68,7 @@ public class ManufacturerManager
         if (clearAction == "LIMPAR-TELA")
             Console.Clear();
 
-        ViewWrite.ShowHeader("            Lista de Fabricantes", 39);
+        ViewWrite.ShowHeader("           Lista de Fabricantes", 40);
         ViewWrite.ShowManufacturerListColumns(typeList);
 
         Manufacturer[] registeredManufacturer = ManufacturerRepository.GetRegisteredMaintenanceRequests();
@@ -82,6 +81,7 @@ public class ManufacturerManager
 
             ManufacturerCount++;
             ManufacturerRepository.ListIsEmpty = false;
+            ManufacturerRepository.GetQuantityManufacturerEquipmentsRegistered(EquipmentRepository);
             ViewWrite.ShowManufacturerOnListColumns(EquipmentRepository, manufacturer, ManufacturerRepository, typeList);
 
             if (ManufacturerCount == registeredManufacturer.Count(m => m != null))
@@ -115,7 +115,25 @@ public class ManufacturerManager
 
         ManufacturerRepository.EditManufacturer(manufacturerChosen, new Manufacturer(newName, newEmail, newPhone));
 
-        ViewWrite.ShowMessageEquipmentSuccessfullyEdited();
+        ViewWrite.ShowMessageManufacturerSuccessfullyEdited();
     }
+    public void DeleteManufacturer()
+    {
+        Console.Clear();
+        ViewWrite.ShowHeader("         Exclusão de Fabricantes", 39);
 
+        ShowManufacturerList("NAO-LIMPAR-TELA", "COM-ID");
+        if (ManufacturerRepository.ListIsEmpty)
+        {
+            ViewUtils.PressEnter("VOLTAR-MENU");
+            return;
+        }
+
+        Manufacturer manufacturerChosen = ViewUtils.GetManufacturerChosen(ViewWrite.ShowMessageInputManufacturerIdToEdit(), ViewErrors.ShowMessageManufacturerNotFound(), ManufacturerRepository);
+
+        ManufacturerRepository.DeleteManufacturer(manufacturerChosen);
+
+        ViewWrite.ShowMessageManufacturerSuccessfullyDeleted();
+        ViewUtils.PressEnter("VOLTAR-MENU");
+    }
 }
