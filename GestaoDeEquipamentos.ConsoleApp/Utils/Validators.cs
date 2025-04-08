@@ -123,4 +123,62 @@ public class Validators
         }
         return false;
     }
+    public string IsValidEmail(string prompt, int minLenght = 11, string templates = "exemplo@gmail.com | exemplo@hotmail.com | exemplo@yahoo.com")
+    {
+        string[] emailsTypes = ["@gmail.com", "@hotmail.com", "@yahoo.com", "msn.com", "outlook.com"];
+
+        do
+        {
+            ViewColors.WriteWithColor(prompt, ConsoleColor.Yellow);
+            string input = Console.ReadLine()!;
+
+            if (IsStringNullOrEmpty(input))
+                continue;
+
+            input = input.Trim();
+            if (input.All(c => c == ' '))
+            {
+                ViewErrors.ShowMessageInvalidEmail(templates);
+                continue;
+            }
+            if (input.Length < minLenght)
+            {
+                ViewErrors.ShowMessageInvalidEmail(templates);
+                continue;
+            }
+            if (!emailsTypes.Any(domain => input.EndsWith(domain)))
+            {
+                ViewErrors.ShowMessageInvalidEmail(templates);
+                continue;
+            }
+
+            return input;
+        } while (true);
+    }
+
+    public string IsValidPhone(string prompt, int minLenght = 10, int maxLenght = 11, string format = "51999999999")
+    {
+        do
+        {
+            ViewColors.WriteWithColor(prompt, ConsoleColor.Yellow);
+            string input = Console.ReadLine()!;
+
+            if (IsStringNullOrEmpty(input))
+                continue;
+
+            input = input.Trim();
+            if (!input.All(char.IsNumber))
+            {
+                ViewErrors.ShowMessageInvalidPhone(format);
+                continue;
+            }
+            if (input.Length < minLenght || input.Length > maxLenght)
+            {
+                ViewErrors.ShowMessageInvalidPhone(format);
+                continue;
+            }
+
+            return input;
+        } while (true);
+    }
 }
