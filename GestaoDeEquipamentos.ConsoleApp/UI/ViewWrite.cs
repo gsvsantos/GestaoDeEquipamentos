@@ -151,7 +151,7 @@ public class ViewWrite
     {
         ViewColors.WriteLineWithColor("\nO chamado foi excluído com sucesso!");
     }
-    public void ShowMessageManufacturerRegistered()
+    public void ShowMessageManufacturerSuccessfullyRegistered()
     {
         ViewColors.WriteLineWithColor("\nFabricante registrado com sucesso!");
     }
@@ -186,7 +186,7 @@ public class ViewWrite
                 Console.WriteLine(
                     "{0, -7} | {1, -15} | {2, -20} | {3, -25} | {4, -15}",
                     manufacturer.Id, manufacturer.Name, manufacturer.Email, manufacturer.Phone,
-                    manufacturerRepository.GetQuantityManufacturerEquipmentsRegistered(equipmentRepository));
+                    manufacturer.EquipmentCount);
                 Console.ResetColor();
                 break;
             case "SEM-ID":
@@ -194,9 +194,22 @@ public class ViewWrite
                 Console.WriteLine(
                     "{0, -15} | {1, -20} | {2, -15} | {3, -15}",
                     manufacturer.Name, manufacturer.Email, manufacturer.Phone,
-                    manufacturerRepository.GetQuantityManufacturerEquipmentsRegistered(equipmentRepository));
+                    manufacturer.EquipmentCount);
                 Console.ResetColor();
                 break;
         }
+    }
+    public string ShowMessageInputManufacturerIdToEdit()
+    {
+        return "\nDigite o ID do fabricante que deseja editar: ";
+    }
+    public void ShowMessageManufacturerSuccessfullyEdited()
+    {
+        ViewColors.WriteLineWithColor("\nFabricante atualizado com sucesso!");
+    }
+
+    internal void ShowMessageManufacturerSuccessfullyDeleted()
+    {
+        ViewColors.WriteLineWithColor("\nO fabricante foi excluído com sucesso!");
     }
 }
