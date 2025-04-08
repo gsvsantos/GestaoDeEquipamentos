@@ -150,4 +150,8 @@ public class ViewWrite
     {
         ViewColors.WriteLineWithColor("\nO chamado foi excluído com sucesso!");
     }
+    public void ShowMessageManufacturerRegistered()
+    {
+        ViewColors.WriteLineWithColor("\nFabricante registrado com sucesso!");
+    }
 }
