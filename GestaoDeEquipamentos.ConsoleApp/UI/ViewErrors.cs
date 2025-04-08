@@ -72,4 +72,14 @@ public class ViewErrors
     {
         ViewColors.WriteLineWithColor($"Esse não é um número válido!\nExemplo: {format}", ConsoleColor.Red);
     }
+
+    internal void ShowMessageNoneManufacturerRegistered()
+    {
+        ViewColors.WriteLineWithColor("Nenhum fabricante registrado!");
+    }
+
+    internal string ShowMessageManufacturerNotFound()
+    {
+        return "\nFabricante não encontrado, tente novamente!";
+    }
 }
