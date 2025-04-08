@@ -9,30 +9,32 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        MostrarMenu MostrarMenu = new MostrarMenu();
-        UtilitariosVisualizacao UtilitariosVisualizacao = new UtilitariosVisualizacao();
-        EscritaVisualizacao EscritaVisualizacao = new EscritaVisualizacao();
-        TelaEquipamento TelaEquipamento = new TelaEquipamento();
-        RepositorioEquipamento RepositorioEquipamento = TelaEquipamento.RepositorioEquipamento;
-        TelaChamado TelaChamado = new TelaChamado(RepositorioEquipamento);
-        TelaFabricante TelaFabricante = new TelaFabricante(RepositorioEquipamento);
+        TelaEquipamento telaEquipamento = new TelaEquipamento();
+        RepositorioEquipamento repositorioEquipamento = telaEquipamento.RepositorioEquipamento;
+        RepositorioFabricante repositorioFabricante = telaEquipamento.RepositorioFabricante;
+        TelaChamado telaChamado = new TelaChamado(repositorioEquipamento);
+        TelaFabricante telaFabricante = new TelaFabricante(repositorioEquipamento, repositorioFabricante);
+
+        MostrarMenu mostrarMenu = new MostrarMenu();
+        UtilitariosVisualizacao utilitariosVisualizacao = new UtilitariosVisualizacao();
+        EscritaVisualizacao escritaVisualizacao = new EscritaVisualizacao();
 
         do
         {
             Console.Clear();
-            EscritaVisualizacao.MostrarCabecalho("     Projeto - Gestão de Equipamentos");
-            MostrarMenu.MenuPrincipal();
-            string opcao = UtilitariosVisualizacao.PegarOpcao();
+            escritaVisualizacao.MostrarCabecalho("     Projeto - Gestão de Equipamentos");
+            mostrarMenu.MenuPrincipal();
+            string opcao = utilitariosVisualizacao.PegarOpcao();
             switch (opcao)
             {
                 case "1":
-                    TelaEquipamento.OpcoesTelaEquipamento();
+                    telaEquipamento.OpcoesTelaEquipamento();
                     break;
                 case "2":
-                    TelaChamado.OpcoesTelaChamado();
+                    telaChamado.OpcoesTelaChamado();
                     break;
                 case "3":
-                    TelaFabricante.OpcoesTelaFabricante();
+                    telaFabricante.OpcoesTelaFabricante();
                     break;
                 case "S":
                     Console.Clear();
