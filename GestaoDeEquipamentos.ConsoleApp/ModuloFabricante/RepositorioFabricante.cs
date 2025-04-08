@@ -41,7 +41,7 @@ public class RepositorioFabricante
                 if (fabricante == null)
                     continue;
 
-                else if (equipamento.Fabricante == fabricante.Nome)
+                else if (equipamento.Fabricante == fabricante)
                     fabricante.Equipamentos++;
             }
         }
