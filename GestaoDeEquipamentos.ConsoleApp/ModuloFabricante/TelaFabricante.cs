@@ -1,4 +1,5 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
+using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 using GestaoDeEquipamentos.ConsoleApp.UI;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
@@ -116,6 +117,16 @@ public class TelaFabricante
         }
 
         Fabricante fabricanteEscolhido = UtilitariosVisualizacao.PegarFabricanteEscolhido(EscritaVisualizacao.MostrarMensagemInserirIdDoFabricanteParaEditar(), VisualizacaoErros.MostrarMensagemFabricanteNaoEncontrado(), RepositorioFabricante);
+
+        if (fabricanteEscolhido.Equipamentos != 0)
+        {
+            bool deveDeletarEquipamentos = Validador.DeveDeletarOFabricanteDaLista("Excluir esse fabricante irá deletar os equipamentos dele, deseja continuar? (S/n)");
+            if (!deveDeletarEquipamentos)
+                return;
+
+            RepositorioFabricante.DeletarEquipamentos(fabricanteEscolhido, RepositorioEquipamento);
+        }
+
 
         RepositorioFabricante.DeletarFabricante(fabricanteEscolhido);
 

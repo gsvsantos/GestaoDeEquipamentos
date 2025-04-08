@@ -59,4 +59,17 @@ public class RepositorioFabricante
             }
         }
     }
+    public void DeletarEquipamentos(Fabricante fabricanteEscolhido, RepositorioEquipamento repositorioEquipamento)
+    {
+        foreach (Equipamento equipamento in repositorioEquipamento.ListaDeEquipamentos)
+        {
+            if (equipamento == null)
+                continue;
+            else if (equipamento.Fabricante.Id == fabricanteEscolhido.Id)
+            {
+                repositorioEquipamento.DeletarEquipamento(equipamento);
+                continue;
+            }
+        }
+    }
 }

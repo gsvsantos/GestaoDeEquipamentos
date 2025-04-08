@@ -186,8 +186,23 @@ public static class Validador
             return input;
         } while (true);
     }
-    public static bool DeveDeletarOFabricanteDaLista()
+    public static bool DeveDeletarOFabricanteDaLista(string prompt)
     {
-
+        do
+        {
+            VisualizacaoCores.EscrevaColoridoSemLinha(prompt, ConsoleColor.Yellow);
+            string opcao = Console.ReadLine()!.ToUpper();
+            if (opcao == "S" || opcao == "SIM" || opcao == "SI")
+            {
+                return true;
+            }
+            else if (opcao == "N" || opcao == "NAO" || opcao == "NO")
+                return false;
+            else
+            {
+                VisualizacaoErros.MostrarMensagemOpcaoInvalida();
+                continue;
+            }
+        } while (true);
     }
 }
