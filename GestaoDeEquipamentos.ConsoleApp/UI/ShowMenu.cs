@@ -10,6 +10,7 @@ public class ShowMenu
         ViewWrite.ShowHeader("              Menu Principal");
         ViewColors.WriteLineWithColor("1 - Gerenciar Equipamentos");
         ViewColors.WriteLineWithColor("2 - Gerenciar Chamados");
+        ViewColors.WriteLineWithColor("3 - Gerenciar Fabricantes");
         ViewColors.WriteLineWithColor("S - Sair");
     }
     public void EquipmentMenu()
@@ -36,7 +37,7 @@ public class ShowMenu
     internal void ManufacturerMenu()
     {
         Console.Clear();
-        ViewWrite.ShowHeader("        Gerenciamento de Fabricantes", 39);
+        ViewWrite.ShowHeader("       Gerenciamento de Fabricantes", 40);
         ViewColors.WriteLineWithColor("1 - Cadastrar Fabricante");
         ViewColors.WriteLineWithColor("2 - Consultar Fabricantes");
         ViewColors.WriteLineWithColor("3 - Editar Fabricante");
