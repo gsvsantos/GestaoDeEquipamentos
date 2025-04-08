@@ -11,7 +11,7 @@ public class ManufacturerRepository
     public void RegisterManufacturer(Manufacturer newManufacturer)
     {
         newManufacturer.GenerateId();
-        ManufacturerList[ManufacturerListIndex] = newManufacturer;
+        ManufacturerList[ManufacturerListIndex++] = newManufacturer;
     }
     public Manufacturer[] GetRegisteredMaintenanceRequests()
     {
@@ -23,18 +23,40 @@ public class ManufacturerRepository
         manufacturerChosen.Email = newManufacturerData.Email;
         manufacturerChosen.Phone = newManufacturerData.Phone;
     }
-    public int GetQuantityManufacturerEquipmentsRegistered(EquipmentRepository equipmentRepository)
+    public void GetQuantityManufacturerEquipmentsRegistered(EquipmentRepository equipmentRepository)
     {
-        int manufacturerEquipmentsCount = 0;
+        foreach (Manufacturer manufacturer in ManufacturerList)
+        {
+            if (manufacturer != null)
+                manufacturer.EquipmentCount = 0;
+        }
 
         foreach (Equipment equipment in equipmentRepository.EquipmentList)
         {
+            if (equipment == null)
+                continue;
+
             foreach (Manufacturer manufacturer in ManufacturerList)
             {
-                if (manufacturer != null && equipment.Manufacturer == manufacturer.Name)
-                    manufacturerEquipmentsCount++;
+                if (manufacturer == null)
+                    continue;
+
+                else if (equipment.Manufacturer == manufacturer.Name)
+                    manufacturer.EquipmentCount++;
             }
         }
-        return manufacturerEquipmentsCount;
+    }
+    public void DeleteManufacturer(Manufacturer manufacturerChosen)
+    {
+        for (int i = 0; i < ManufacturerList.Length; i++)
+        {
+            if (ManufacturerList[i] == null)
+                continue;
+            else if (ManufacturerList[i].Id == manufacturerChosen.Id)
+            {
+                ManufacturerList[i] = null!;
+                break;
+            }
+        }
     }
 }
