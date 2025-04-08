@@ -99,6 +99,7 @@ public class ViewUtils
             }
             if (!idFound)
             {
+                ViewColors.WriteLineWithColor(idNotFoundError);
                 continue;
             }
             return maintenanceChosen;
@@ -112,6 +113,32 @@ public class ViewUtils
     {
         return Validators.IsValidPhone("\nNúmero do Fabricante: ");
     }
-}
+    public Manufacturer GetManufacturerChosen(string prompt, string idNotFoundError, ManufacturerRepository manufacturerRepository)
+    {
+        do
+        {
+            int idChosen = Validators.IsValidInt(prompt);
 
+            bool idFound = false;
+            Manufacturer manufacturerChosen = null!;
+            foreach (Manufacturer manufacturer in manufacturerRepository.ManufacturerList)
+            {
+                if (manufacturer == null)
+                    continue;
+                if (manufacturer.Id == idChosen)
+                {
+                    manufacturerChosen = manufacturer;
+                    idFound = true;
+                    break;
+                }
+            }
+            if (!idFound)
+            {
+                ViewColors.WriteLineWithColor(idNotFoundError);
+                continue;
+            }
+
+            return manufacturerChosen;
+        } while (true);
+    }
 }
