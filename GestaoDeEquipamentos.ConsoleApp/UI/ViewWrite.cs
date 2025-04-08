@@ -1,4 +1,5 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.Entities;
+using GestaoDeEquipamentos.ConsoleApp.Repositories;
 
 namespace GestaoDeEquipamentos.ConsoleApp.UI;
 
@@ -14,9 +15,9 @@ public class ViewWrite
     {
         ViewColors.WriteLineWithColor("\nEquipamento registrado com sucesso!");
     }
-    public void ShowEquipmentListColumns(string type)
+    public void ShowEquipmentListColumns(string typeList)
     {
-        switch (type)
+        switch (typeList)
         {
             case "COM-ID":
                 Console.ForegroundColor = ConsoleColor.Magenta;
@@ -36,9 +37,9 @@ public class ViewWrite
                 break;
         }
     }
-    public void ShowEquipmentsOnListColumns(Equipment equipment, string type)
+    public void ShowEquipmentsOnListColumns(Equipment equipment, string typeList)
     {
-        switch (type)
+        switch (typeList)
         {
             case "COM-ID":
                 Console.ForegroundColor = ConsoleColor.White;
@@ -86,9 +87,9 @@ public class ViewWrite
     {
         ViewColors.WriteLineWithColor("\nChamado registrado com sucesso!");
     }
-    public void ShowMaintenanceRequestListColumns(string type)
+    public void ShowMaintenanceRequestListColumns(string typeList)
     {
-        switch (type)
+        switch (typeList)
         {
             case "COM-ID":
                 Console.ForegroundColor = ConsoleColor.Magenta;
@@ -108,9 +109,9 @@ public class ViewWrite
                 break;
         }
     }
-    public void ShowMaintenanceRequestOnListColumns(MaintenanceRequest maintenanceRequest, string type)
+    public void ShowMaintenanceRequestOnListColumns(MaintenanceRequest maintenanceRequest, string typeList)
     {
-        switch (type)
+        switch (typeList)
         {
             case "COM-ID":
                 Console.ForegroundColor = ConsoleColor.White;
@@ -153,5 +154,49 @@ public class ViewWrite
     public void ShowMessageManufacturerRegistered()
     {
         ViewColors.WriteLineWithColor("\nFabricante registrado com sucesso!");
+    }
+    public void ShowManufacturerListColumns(string typeList)
+    {
+        switch (typeList)
+        {
+            case "COM-ID":
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine(
+                    "{0, -7} | {1, -15} | {2, -20} | {3, -25} | {4, -20}",
+                    "Id", "Nome", "Email", "Telefone", "Equipamentos Registrados"); // falta descrição
+                Console.ResetColor();
+                ViewColors.WriteLineWithColor(new string('-', 110));
+                break;
+            case "SEM-ID":
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine(
+                    "{0, -15} | {1, -20} | {2, -15} | {3, -15}",
+                    "Nome", "Email", "Telefone", "Equipamentos Registrados");
+                Console.ResetColor();
+                ViewColors.WriteLineWithColor(new string('-', 72));
+                break;
+        }
+    }
+    public void ShowManufacturerOnListColumns(EquipmentRepository equipmentRepository, Manufacturer manufacturer, ManufacturerRepository manufacturerRepository, string typeList)
+    {
+        switch (typeList)
+        {
+            case "COM-ID":
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(
+                    "{0, -7} | {1, -15} | {2, -20} | {3, -25} | {4, -15}",
+                    manufacturer.Id, manufacturer.Name, manufacturer.Email, manufacturer.Phone,
+                    manufacturerRepository.GetQuantityManufacturerEquipmentsRegistered(equipmentRepository));
+                Console.ResetColor();
+                break;
+            case "SEM-ID":
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(
+                    "{0, -15} | {1, -20} | {2, -15} | {3, -15}",
+                    manufacturer.Name, manufacturer.Email, manufacturer.Phone,
+                    manufacturerRepository.GetQuantityManufacturerEquipmentsRegistered(equipmentRepository));
+                Console.ResetColor();
+                break;
+        }
     }
 }
