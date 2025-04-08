@@ -1,4 +1,5 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp.UI;
+﻿
+namespace GestaoDeEquipamentos.ConsoleApp.UI;
 
 public class ViewErrors
 {
@@ -61,5 +62,14 @@ public class ViewErrors
     public string ShowMessageMaintenanceRequestNotFound()
     {
         return "\nChamado não encontrado, tente novamente!";
+    }
+    public void ShowMessageInvalidEmail(string templates)
+    {
+        ViewColors.WriteLineWithColor($"Esse não é um email válido!\nExemplos: {templates}", ConsoleColor.Red);
+    }
+
+    internal void ShowMessageInvalidPhone(string format)
+    {
+        ViewColors.WriteLineWithColor($"Esse não é um número válido!\nExemplo: {format}", ConsoleColor.Red);
     }
 }
