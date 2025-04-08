@@ -1,10 +1,12 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.UI;
+﻿using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
+using GestaoDeEquipamentos.ConsoleApp.UI;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 
 public class TelaEquipamento
 {
     public RepositorioEquipamento RepositorioEquipamento;
+    public RepositorioFabricante RepositorioFabricante;
     public VisualizacaoErros VisualizacaoErros = new VisualizacaoErros();
     public UtilitariosVisualizacao UtilitariosVisualizacao = new UtilitariosVisualizacao();
     public EscritaVisualizacao EscritaVisualizacao = new EscritaVisualizacao();
@@ -12,6 +14,7 @@ public class TelaEquipamento
     public TelaEquipamento()
     {
         RepositorioEquipamento = new RepositorioEquipamento();
+        RepositorioFabricante = new RepositorioFabricante();
     }
     public void OpcoesTelaEquipamento()
     {
@@ -49,9 +52,21 @@ public class TelaEquipamento
         Console.Clear();
         EscritaVisualizacao.MostrarCabecalho("         Registro de Equipamento", 39);
 
+        MostrarListaDeFabricantes("NAO-LIMPAR-TELA", "COM-ID");
+        if (RepositorioFabricante.ListaVazia)
+        {
+            UtilitariosVisualizacao.PressioneEnterPara("VOLTAR-MENU");
+            return;
+        }
+
+        Fabricante fabricanteEscolhido = UtilitariosVisualizacao.PegarFabricanteEscolhido(EscritaVisualizacao.MostrarMensagemInserirIdDoFabricanteParaRegistrarEquipamento(), VisualizacaoErros.MostrarMensagemFabricanteNaoEncontrado(), RepositorioFabricante);
+
+        Console.Clear();
+        EscritaVisualizacao.MostrarCabecalho($"   Registro de equipamento do fabricante {fabricanteEscolhido.Nome}", 45);
+
         string nome = UtilitariosVisualizacao.PegarNomeDoEquipamento();
         double precoDeAquisicao = UtilitariosVisualizacao.PegarPrecoDeAquisicaoDoEquipamento();
-        string fabricante = UtilitariosVisualizacao.PegarNomeDoFabricanteDoEquipamento();
+        Fabricante fabricante = fabricanteEscolhido;
         DateTime dataDeFabricacao = UtilitariosVisualizacao.PegarDataDeFabricaDoEquipamento();
 
         Equipamento novoEquipamento = new Equipamento(nome, precoDeAquisicao, dataDeFabricacao, fabricante);
@@ -105,9 +120,14 @@ public class TelaEquipamento
 
         EscritaVisualizacao.MostrarMensagemInserirNovosDadosDoEquipamento();
 
+        Fabricante fabricanteEscolhido = UtilitariosVisualizacao.PegarFabricanteEscolhido(EscritaVisualizacao.MostrarMensagemInserirIdDoFabricanteParaRegistrarEquipamento(), VisualizacaoErros.MostrarMensagemFabricanteNaoEncontrado(), RepositorioFabricante);
+
+        Console.Clear();
+        EscritaVisualizacao.MostrarCabecalho($"   Atualização de equipamento do fabricante {fabricanteEscolhido.Nome}", 45);
+
         string novoNome = UtilitariosVisualizacao.PegarNomeDoEquipamento();
         double novoPrecoDeAquisicao = UtilitariosVisualizacao.PegarPrecoDeAquisicaoDoEquipamento();
-        string novoFabricante = UtilitariosVisualizacao.PegarNomeDoFabricanteDoEquipamento();
+        Fabricante novoFabricante = fabricanteEscolhido;
         DateTime novaDataDeFabricacao = UtilitariosVisualizacao.PegarDataDeFabricaDoEquipamento();
 
         RepositorioEquipamento.EditarEquipamentos(equipamentoEscolhido, new Equipamento(novoNome, novoPrecoDeAquisicao, novaDataDeFabricacao, novoFabricante));
@@ -132,5 +152,35 @@ public class TelaEquipamento
 
         EscritaVisualizacao.MostrarMensagemEquipamentoDeletado();
         UtilitariosVisualizacao.PressioneEnterPara("VOLTAR-MENU");
+    }
+    public void MostrarListaDeFabricantes(string acaoLimpeza, string tipoDeLista)
+    {
+        if (acaoLimpeza == "LIMPAR-TELA")
+            Console.Clear();
+
+        EscritaVisualizacao.MostrarCabecalho("           Lista de Fabricantes", 40);
+        EscritaVisualizacao.MostrarColunasListaDeFabricantes(tipoDeLista);
+
+        Fabricante[] fabricantesRegistrados = RepositorioFabricante.PegarFabricantesRegistrados();
+
+        int quantidadeFabricantes = 0;
+        foreach (Fabricante fabricante in fabricantesRegistrados)
+        {
+            if (fabricante == null)
+                continue;
+
+            quantidadeFabricantes++;
+            RepositorioFabricante.ListaVazia = false;
+            RepositorioFabricante.PegarQuantidadeDeEquipamentosDoFabricante(RepositorioEquipamento);
+            EscritaVisualizacao.MostrarFabricantesNaListaComColunas(RepositorioEquipamento, fabricante, RepositorioFabricante, tipoDeLista);
+
+            if (quantidadeFabricantes == fabricantesRegistrados.Count(m => m != null))
+                break;
+        }
+        if (quantidadeFabricantes == 0)
+        {
+            VisualizacaoErros.MostrarMensagemNenhumFabricanteRegistrado();
+            RepositorioFabricante.ListaVazia = true;
+        }
     }
 }
