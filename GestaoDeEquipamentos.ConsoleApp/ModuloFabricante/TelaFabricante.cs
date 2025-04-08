@@ -11,10 +11,10 @@ public class TelaFabricante
     public UtilitariosVisualizacao UtilitariosVisualizacao = new UtilitariosVisualizacao();
     public EscritaVisualizacao EscritaVisualizacao = new EscritaVisualizacao();
 
-    public TelaFabricante(RepositorioEquipamento repositorioEquipamento)
+    public TelaFabricante(RepositorioEquipamento repositorioEquipamento, RepositorioFabricante repositorioFabricante)
     {
         RepositorioEquipamento = repositorioEquipamento;
-        RepositorioFabricante = new RepositorioFabricante();
+        RepositorioFabricante = repositorioFabricante;
     }
     public void OpcoesTelaFabricante()
     {
