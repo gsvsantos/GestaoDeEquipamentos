@@ -17,6 +17,12 @@ public class ManufacturerRepository
     {
         return ManufacturerList;
     }
+    public void EditManufacturer(Manufacturer manufacturerChosen, Manufacturer newManufacturerData)
+    {
+        manufacturerChosen.Name = newManufacturerData.Name;
+        manufacturerChosen.Email = newManufacturerData.Email;
+        manufacturerChosen.Phone = newManufacturerData.Phone;
+    }
     public int GetQuantityManufacturerEquipmentsRegistered(EquipmentRepository equipmentRepository)
     {
         int manufacturerEquipmentsCount = 0;
