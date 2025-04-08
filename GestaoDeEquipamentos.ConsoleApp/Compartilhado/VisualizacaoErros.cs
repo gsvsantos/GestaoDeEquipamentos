@@ -63,9 +63,9 @@ public class VisualizacaoErros
     {
         return "\nChamado não encontrado, tente novamente!";
     }
-    public void MostrarMensagemEmailInvalido(string templates)
+    public void MostrarMensagemEmailInvalido(string exemplos)
     {
-        VisualizacaoCores.EscrevaColoridoComLinha($"Esse não é um email válido!\nExemplos: {templates}", ConsoleColor.Red);
+        VisualizacaoCores.EscrevaColoridoComLinha($"Esse não é um email válido!\nExemplos: {exemplos}", ConsoleColor.Red);
     }
     public void MostrarMensagemNumeroCelularInvalido(string format)
     {

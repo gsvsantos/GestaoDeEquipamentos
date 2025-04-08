@@ -166,7 +166,7 @@ public class EscritaVisualizacao
                     "{0, -7} | {1, -15} | {2, -20} | {3, -25} | {4, -20}",
                     "Id", "Nome", "Email", "Telefone", "Equipamentos Registrados"); // falta descrição
                 Console.ResetColor();
-                VisualizacaoCores.EscrevaColoridoComLinha(new string('-', 110));
+                VisualizacaoCores.EscrevaColoridoComLinha(new string('-', 105));
                 break;
             case "SEM-ID":
                 Console.ForegroundColor = ConsoleColor.Magenta;
@@ -174,7 +174,7 @@ public class EscritaVisualizacao
                     "{0, -15} | {1, -20} | {2, -15} | {3, -15}",
                     "Nome", "Email", "Telefone", "Equipamentos Registrados");
                 Console.ResetColor();
-                VisualizacaoCores.EscrevaColoridoComLinha(new string('-', 72));
+                VisualizacaoCores.EscrevaColoridoComLinha(new string('-', 85));
                 break;
         }
     }
