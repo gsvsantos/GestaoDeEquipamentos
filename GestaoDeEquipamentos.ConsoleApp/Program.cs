@@ -1,4 +1,5 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.Repositories;
+﻿using GestaoDeEquipamentos.ConsoleApp.Managers;
+using GestaoDeEquipamentos.ConsoleApp.Repositories;
 using GestaoDeEquipamentos.ConsoleApp.Services;
 using GestaoDeEquipamentos.ConsoleApp.UI;
 
@@ -14,6 +15,7 @@ internal class Program
         EquipmentManager equipmentManager = new EquipmentManager();
         EquipmentRepository equipmentRepository = equipmentManager.EquipmentRepository;
         MaintenanceRequestManager maintenanceRequestManager = new MaintenanceRequestManager(equipmentRepository);
+        ManufacturerManager manufacturerManager = new ManufacturerManager(equipmentRepository);
 
         do
         {
@@ -28,6 +30,9 @@ internal class Program
                     break;
                 case "2":
                     maintenanceRequestManager.MaintenanceRequestManagerOptions();
+                    break;
+                case "3":
+                    manufacturerManager.ManufacturerOptions();
                     break;
                 case "S":
                     Console.Clear();
