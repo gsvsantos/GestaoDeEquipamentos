@@ -5,6 +5,7 @@ public class Manufacturer : Entity
     public string Name;
     public string Email;
     public string Phone;
+    public int EquipmentCount = 0;
     private static int id = 0;
 
     public Manufacturer(string name, string email, string phone)
