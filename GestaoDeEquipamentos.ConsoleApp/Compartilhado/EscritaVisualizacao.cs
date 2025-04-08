@@ -4,19 +4,19 @@ using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
 namespace GestaoDeEquipamentos.ConsoleApp.UI;
 
-public class EscritaVisualizacao
+public static class EscritaVisualizacao
 {
-    public void MostrarCabecalho(string title, int linesQuantity = 40)
+    public static void MostrarCabecalho(string title, int linesQuantity = 40)
     {
         VisualizacaoCores.EscrevaColoridoComLinha("/" + new string('=', linesQuantity) + "\\");
         VisualizacaoCores.EscrevaColoridoComLinha(title.ToUpper(), ConsoleColor.Cyan);
         VisualizacaoCores.EscrevaColoridoComLinha("\\" + new string('=', linesQuantity) + "/\n");
     }
-    public void MostrarMensagemEquipamentoRegistrado()
+    public static void MostrarMensagemEquipamentoRegistrado()
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nEquipamento registrado com sucesso!");
     }
-    public void MostrarColunasListaDeEquipamentos(string typeList)
+    public static void MostrarColunasListaDeEquipamentos(string typeList)
     {
         switch (typeList)
         {
@@ -38,7 +38,7 @@ public class EscritaVisualizacao
                 break;
         }
     }
-    public void MostrarEquipamentosNaListaComColunas(Equipamento equipment, string typeList)
+    public static void MostrarEquipamentosNaListaComColunas(Equipamento equipment, string typeList)
     {
         switch (typeList)
         {
@@ -60,35 +60,35 @@ public class EscritaVisualizacao
                 break;
         }
     }
-    public void MostrarMensagemInserirNovosDadosDoEquipamento()
+    public static void MostrarMensagemInserirNovosDadosDoEquipamento()
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nDigite abaixo os novos dados do equipamento: ");
     }
-    public string MostrarMensagemInserirIdDoEquipamentoParaEditar()
+    public static string MostrarMensagemInserirIdDoEquipamentoParaEditar()
     {
         return "\nDigite o ID do equipamento que deseja editar: ";
     }
-    public void MostrarMensagemEquipamentoEditado()
+    public static void MostrarMensagemEquipamentoEditado()
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nO equipamento foi editado com sucesso!");
     }
-    public string MostrarMensagemInserirIdDoEquipamentoParaDeletar()
+    public static string MostrarMensagemInserirIdDoEquipamentoParaDeletar()
     {
         return "\nDigite o ID do equipamento que deseja excluir: ";
     }
-    public void MostrarMensagemEquipamentoDeletado()
+    public static void MostrarMensagemEquipamentoDeletado()
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nO equipamento foi excluído com sucesso!");
     }
-    public string MostrarMensagemInserirIdDoEquipamentoParaAbrirChamado()
+    public static string MostrarMensagemInserirIdDoEquipamentoParaAbrirChamado()
     {
         return "\nDigite o ID do equipamento no qual será feito o chamado: ";
     }
-    public void MostrarMensagemFabricanteRegistrado()
+    public static void MostrarMensagemFabricanteRegistrado()
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nChamado registrado com sucesso!");
     }
-    public void MostrarColunasListaDeChamados(string typeList)
+    public static void MostrarColunasListaDeChamados(string typeList)
     {
         switch (typeList)
         {
@@ -110,7 +110,7 @@ public class EscritaVisualizacao
                 break;
         }
     }
-    public void MostrarChamadosNaListaComColunas(Chamado maintenanceRequest, string typeList)
+    public static void MostrarChamadosNaListaComColunas(Chamado maintenanceRequest, string typeList)
     {
         switch (typeList)
         {
@@ -132,31 +132,31 @@ public class EscritaVisualizacao
                 break;
         }
     }
-    public void MostrarMensagemInserirNovosDadosDoChamado()
+    public static void MostrarMensagemInserirNovosDadosDoChamado()
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nDigite abaixo as novas informações do chamado: ");
     }
-    public string MostrarMensagemInserirIdDoChamadoParaEditar()
+    public static string MostrarMensagemInserirIdDoChamadoParaEditar()
     {
         return "\nDigite o ID do chamado que deseja editar: ";
     }
-    public void MostrarMensagemChamadoEditado()
+    public static void MostrarMensagemChamadoEditado()
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nChamado atualizado com sucesso!");
     }
-    public string MostrarMensagemInserirIdDoChamadoParaDeletar()
+    public static string MostrarMensagemInserirIdDoChamadoParaDeletar()
     {
         return "\nDigite o ID do chamado que deseja deletar: ";
     }
-    public void MostrarMensagemChamadoDeletado()
+    public static void MostrarMensagemChamadoDeletado()
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nO chamado foi excluído com sucesso!");
     }
-    public void MostrarMensagemChamadoRegistrado()
+    public static void MostrarMensagemChamadoRegistrado()
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nFabricante registrado com sucesso!");
     }
-    public void MostrarColunasListaDeFabricantes(string typeList)
+    public static void MostrarColunasListaDeFabricantes(string typeList)
     {
         switch (typeList)
         {
@@ -178,7 +178,7 @@ public class EscritaVisualizacao
                 break;
         }
     }
-    public void MostrarFabricantesNaListaComColunas(RepositorioEquipamento equipmentRepository, Fabricante manufacturer, RepositorioFabricante manufacturerRepository, string typeList)
+    public static void MostrarFabricantesNaListaComColunas(RepositorioEquipamento equipmentRepository, Fabricante manufacturer, RepositorioFabricante manufacturerRepository, string typeList)
     {
         switch (typeList)
         {
@@ -200,19 +200,19 @@ public class EscritaVisualizacao
                 break;
         }
     }
-    public string MostrarMensagemInserirIdDoFabricanteParaEditar()
+    public static string MostrarMensagemInserirIdDoFabricanteParaEditar()
     {
         return "\nDigite o ID do fabricante que deseja editar: ";
     }
-    public void MostrarMensagemFabricanteEditado()
+    public static void MostrarMensagemFabricanteEditado()
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nFabricante atualizado com sucesso!");
     }
-    public void MostrarMensagemFabricanteDeletado()
+    public static void MostrarMensagemFabricanteDeletado()
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nO fabricante foi excluído com sucesso!");
     }
-    public string MostrarMensagemInserirIdDoFabricanteParaRegistrarEquipamento()
+    public static string MostrarMensagemInserirIdDoFabricanteParaRegistrarEquipamento()
     {
         return "\nDigite o ID do fabricante do equipamento: ";
     }

@@ -17,16 +17,12 @@ internal class Program
         TelaEquipamento telaEquipamento = new TelaEquipamento(repositorioEquipamento, repositorioFabricante);
         TelaFabricante telaFabricante = new TelaFabricante(repositorioEquipamento, repositorioFabricante);
 
-        MostrarMenu mostrarMenu = new MostrarMenu();
-        UtilitariosVisualizacao utilitariosVisualizacao = new UtilitariosVisualizacao();
-        EscritaVisualizacao escritaVisualizacao = new EscritaVisualizacao();
-
         do
         {
             Console.Clear();
-            escritaVisualizacao.MostrarCabecalho("     Projeto - Gestão de Equipamentos");
-            mostrarMenu.MenuPrincipal();
-            string opcao = utilitariosVisualizacao.PegarOpcao();
+            EscritaVisualizacao.MostrarCabecalho("     Projeto - Gestão de Equipamentos");
+            MostrarMenu.MenuPrincipal();
+            string opcao = UtilitariosVisualizacao.PegarOpcao();
             switch (opcao)
             {
                 case "1":

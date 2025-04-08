@@ -7,9 +7,6 @@ public class TelaChamado
 {
     RepositorioEquipamento RepositorioEquipamento;
     RepositorioChamado RepositorioChamado;
-    public VisualizacaoErros VisualizacaoErros = new VisualizacaoErros();
-    public UtilitariosVisualizacao UtilitariosVisualizacao = new UtilitariosVisualizacao();
-    public EscritaVisualizacao EscritaVisualizacao = new EscritaVisualizacao();
 
     public TelaChamado(RepositorioChamado repositorioChamado, RepositorioEquipamento repositorioEquipamento)
     {
@@ -18,11 +15,9 @@ public class TelaChamado
     }
     public void OpcoesTelaChamado()
     {
-        MostrarMenu mostrarMenu = new MostrarMenu();
-
         do
         {
-            mostrarMenu.MenuChamado();
+            MostrarMenu.MenuChamado();
             string opcao = UtilitariosVisualizacao.PegarOpcao();
             switch (opcao)
             {

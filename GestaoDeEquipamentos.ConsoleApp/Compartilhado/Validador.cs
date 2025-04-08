@@ -3,11 +3,9 @@ using GestaoDeEquipamentos.ConsoleApp.UI;
 
 namespace GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 
-public class Validador
+public static class Validador
 {
-    VisualizacaoErros VisualizacaoErros = new VisualizacaoErros();
-
-    public int InteiroEValido(string prompt, int minValue = 0, int maxValue = int.MaxValue)
+    public static int InteiroEValido(string prompt, int minValue = 0, int maxValue = int.MaxValue)
     {
         do
         {
@@ -38,7 +36,7 @@ public class Validador
             return value;
         } while (true);
     }
-    public double DoubleEValido(string prompt, double minValue = 0, double maxValue = double.MaxValue)
+    public static double DoubleEValido(string prompt, double minValue = 0, double maxValue = double.MaxValue)
     {
         do
         {
@@ -63,7 +61,7 @@ public class Validador
             return value;
         } while (true);
     }
-    public string StringEValido(string prompt, string lenghtError, int minLenght, int maxLenght = int.MaxValue, bool onlyLetters = false)
+    public static string StringEValido(string prompt, string lenghtError, int minLenght, int maxLenght = int.MaxValue, bool onlyLetters = false)
     {
         do
         {
@@ -88,7 +86,7 @@ public class Validador
             return input;
         } while (true);
     }
-    public DateTime DataEValida(string prompt, string format = "dd/MM/yyyy")
+    public static DateTime DataEValida(string prompt, string format = "dd/MM/yyyy")
     {
 
         do
@@ -114,7 +112,7 @@ public class Validador
             return date;
         } while (true);
     }
-    private bool StringEmBrancoOuVazia(string input)
+    private static bool StringEmBrancoOuVazia(string input)
     {
         if (string.IsNullOrEmpty(input))
         {
@@ -123,7 +121,7 @@ public class Validador
         }
         return false;
     }
-    public string EmailEValido(string prompt, int minLenght = 11)
+    public static string EmailEValido(string prompt, int minLenght = 11)
     {
         string exemplos = "exemplo@gmail.com | exemplo@hotmail.com | exemplo@yahoo.com | exemplo@msn.com | exemplo@outlook.com";
         do
@@ -163,8 +161,7 @@ public class Validador
             return input;
         } while (true);
     }
-
-    public string NumeroCelularEValido(string prompt, int minLenght = 10, int maxLenght = 11, string format = "51999999999")
+    public static string NumeroCelularEValido(string prompt, int minLenght = 10, int maxLenght = 11, string format = "51999999999")
     {
         do
         {
@@ -188,5 +185,9 @@ public class Validador
 
             return input;
         } while (true);
+    }
+    public static bool DeveDeletarOFabricanteDaLista()
+    {
+
     }
 }

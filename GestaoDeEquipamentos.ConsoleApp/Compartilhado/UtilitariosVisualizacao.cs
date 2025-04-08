@@ -5,15 +5,13 @@ using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
 namespace GestaoDeEquipamentos.ConsoleApp.UI;
 
-public class UtilitariosVisualizacao
+public static class UtilitariosVisualizacao
 {
-    Validador Validador = new Validador();
-
-    public string PegarOpcao()
+    public static string PegarOpcao()
     {
         return Validador.StringEValido("\nOpção: ", "Opção inválida!", 1, 1).ToUpper();
     }
-    public void PressioneEnterPara(string tipo)
+    public static void PressioneEnterPara(string tipo)
     {
         switch (tipo)
         {
@@ -27,7 +25,7 @@ public class UtilitariosVisualizacao
                 break;
         }
     }
-    public Equipamento PegarEquipamentoEscolhido(string prompt, string erroIdNaoEncontrado, RepositorioEquipamento repositorioEquipamento)
+    public static Equipamento PegarEquipamentoEscolhido(string prompt, string erroIdNaoEncontrado, RepositorioEquipamento repositorioEquipamento)
     {
         do
         {
@@ -55,31 +53,31 @@ public class UtilitariosVisualizacao
             return equipamentoEscolhido;
         } while (true);
     }
-    public string PegarNomeDoEquipamento()
+    public static string PegarNomeDoEquipamento()
     {
         return Validador.StringEValido("\nNome do Equipamento: ", "Esse não é um nome válido!", 2);
     }
-    public double PegarPrecoDeAquisicaoDoEquipamento()
+    public static double PegarPrecoDeAquisicaoDoEquipamento()
     {
         return Validador.DoubleEValido("Preço de Aquisição: R$ ", 1);
     }
-    public string PegarNomeDoFabricanteDoEquipamento()
+    public static string PegarNomeDoFabricanteDoEquipamento()
     {
         return Validador.StringEValido("Nome do Fabricante: ", "Esse não é um nome válido!", 2);
     }
-    public DateTime PegarDataDeFabricaDoEquipamento()
+    public static DateTime PegarDataDeFabricaDoEquipamento()
     {
         return Validador.DataEValida("Data de Fabricação (dd/MM/yyyy): ");
     }
-    public string PegarTituloDoChamado()
+    public static string PegarTituloDoChamado()
     {
         return Validador.StringEValido("\nTítulo: ", "Esse não é um título válido!", 3);
     }
-    public string PegarDescricaoDoChamado()
+    public static string PegarDescricaoDoChamado()
     {
         return Validador.StringEValido("Descrição: ", "Esse não é uma descrição válida!", 5);
     }
-    public Chamado PegarChamadoEscolhido(string prompt, string erroIdNaoEncontrado, RepositorioChamado repositorioChamado)
+    public static Chamado PegarChamadoEscolhido(string prompt, string erroIdNaoEncontrado, RepositorioChamado repositorioChamado)
     {
         do
         {
@@ -106,15 +104,15 @@ public class UtilitariosVisualizacao
             return chamadoEscolhido;
         } while (true);
     }
-    public string PegarEmailDoFabricante()
+    public static string PegarEmailDoFabricante()
     {
         return Validador.EmailEValido("\nEmail do Fabricante: ");
     }
-    public string PegarNumeroDoFabricante()
+    public static string PegarNumeroDoFabricante()
     {
         return Validador.NumeroCelularEValido("\nNúmero do Fabricante: ");
     }
-    public Fabricante PegarFabricanteEscolhido(string prompt, string erroIdNaoEncontrado, RepositorioFabricante repositorioFabricante)
+    public static Fabricante PegarFabricanteEscolhido(string prompt, string erroIdNaoEncontrado, RepositorioFabricante repositorioFabricante)
     {
         do
         {

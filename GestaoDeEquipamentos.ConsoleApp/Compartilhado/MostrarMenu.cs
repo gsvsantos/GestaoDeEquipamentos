@@ -1,10 +1,9 @@
 ﻿
 namespace GestaoDeEquipamentos.ConsoleApp.UI;
 
-public class MostrarMenu
+public static class MostrarMenu
 {
-    public EscritaVisualizacao EscritaVisualizacao = new EscritaVisualizacao();
-    public void MenuPrincipal()
+    public static void MenuPrincipal()
     {
         Console.Clear();
         EscritaVisualizacao.MostrarCabecalho("              Menu Principal");
@@ -13,7 +12,7 @@ public class MostrarMenu
         VisualizacaoCores.EscrevaColoridoComLinha("3 - Gerenciar Fabricantes");
         VisualizacaoCores.EscrevaColoridoComLinha("S - Sair");
     }
-    public void MenuEquipamento()
+    public static void MenuEquipamento()
     {
         Console.Clear();
         EscritaVisualizacao.MostrarCabecalho("      Gerenciamento de Equipamentos", 39);
@@ -23,7 +22,7 @@ public class MostrarMenu
         VisualizacaoCores.EscrevaColoridoComLinha("4 - Remover Equipamento");
         VisualizacaoCores.EscrevaColoridoComLinha("S - Voltar");
     }
-    public void MenuChamado()
+    public static void MenuChamado()
     {
         Console.Clear();
         EscritaVisualizacao.MostrarCabecalho("        Gerenciamento de Chamados", 39);
@@ -33,7 +32,7 @@ public class MostrarMenu
         VisualizacaoCores.EscrevaColoridoComLinha("4 - Encerrar Chamado");
         VisualizacaoCores.EscrevaColoridoComLinha("S - Voltar");
     }
-    public void MenuFabricante()
+    public static void MenuFabricante()
     {
         Console.Clear();
         EscritaVisualizacao.MostrarCabecalho("       Gerenciamento de Fabricantes", 40);

@@ -7,9 +7,6 @@ public class TelaEquipamento
 {
     public RepositorioEquipamento RepositorioEquipamento;
     public RepositorioFabricante RepositorioFabricante;
-    public VisualizacaoErros VisualizacaoErros = new VisualizacaoErros();
-    public UtilitariosVisualizacao UtilitariosVisualizacao = new UtilitariosVisualizacao();
-    public EscritaVisualizacao EscritaVisualizacao = new EscritaVisualizacao();
 
     public TelaEquipamento(RepositorioEquipamento repositorioEquipamento, RepositorioFabricante repositorioFabricante)
     {
@@ -18,11 +15,9 @@ public class TelaEquipamento
     }
     public void OpcoesTelaEquipamento()
     {
-        MostrarMenu mostrarMenu = new MostrarMenu();
-
         do
         {
-            mostrarMenu.MenuEquipamento();
+            MostrarMenu.MenuEquipamento();
             string opcao = UtilitariosVisualizacao.PegarOpcao();
             switch (opcao)
             {

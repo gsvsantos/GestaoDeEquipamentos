@@ -1,6 +1,6 @@
 ﻿namespace GestaoDeEquipamentos.ConsoleApp.UI;
 
-public class VisualizacaoCores
+public static class VisualizacaoCores
 {
     public static void EscrevaColoridoSemLinha(string message, ConsoleColor color = ConsoleColor.White)
     {
