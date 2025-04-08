@@ -49,7 +49,7 @@ public class ManufacturerManager
         } while (true);
     }
 
-    private void RegisterManufacturer()
+    public void RegisterManufacturer()
     {
         Console.Clear();
         ViewWrite.ShowHeader("         Registro de Fabricante", 39);
@@ -63,5 +63,34 @@ public class ManufacturerManager
 
         ViewWrite.ShowMessageManufacturerRegistered();
         ViewUtils.PressEnter("VOLTAR-MENU");
+    }
+    public void ShowManufacturerList(string clearAction, string typeList)
+    {
+        if (clearAction == "LIMPAR-TELA")
+            Console.Clear();
+
+        ViewWrite.ShowHeader("            Lista de Fabricantes", 39);
+        ViewWrite.ShowManufacturerListColumns(typeList);
+
+        Manufacturer[] registeredManufacturer = ManufacturerRepository.GetRegisteredMaintenanceRequests();
+
+        int ManufacturerCount = 0;
+        foreach (Manufacturer manufacturer in registeredManufacturer)
+        {
+            if (manufacturer == null)
+                continue;
+
+            ManufacturerCount++;
+            ManufacturerRepository.ListIsEmpty = false;
+            ViewWrite.ShowManufacturerOnListColumns(EquipmentRepository, manufacturer, ManufacturerRepository, typeList);
+
+            if (ManufacturerCount == registeredManufacturer.Count(m => m != null))
+                break;
+        }
+        if (ManufacturerCount == 0)
+        {
+            ViewErrors.ShowMessageNoneManufacturerRegistered();
+            ManufacturerRepository.ListIsEmpty = true;
+        }
     }
 }
