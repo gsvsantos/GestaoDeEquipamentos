@@ -13,4 +13,22 @@ public class ManufacturerRepository
         newManufacturer.GenerateId();
         ManufacturerList[ManufacturerListIndex] = newManufacturer;
     }
+    public Manufacturer[] GetRegisteredMaintenanceRequests()
+    {
+        return ManufacturerList;
+    }
+    public int GetQuantityManufacturerEquipmentsRegistered(EquipmentRepository equipmentRepository)
+    {
+        int manufacturerEquipmentsCount = 0;
+
+        foreach (Equipment equipment in equipmentRepository.EquipmentList)
+        {
+            foreach (Manufacturer manufacturer in ManufacturerList)
+            {
+                if (manufacturer != null && equipment.Manufacturer == manufacturer.Name)
+                    manufacturerEquipmentsCount++;
+            }
+        }
+        return manufacturerEquipmentsCount;
+    }
 }
