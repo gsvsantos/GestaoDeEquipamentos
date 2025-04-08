@@ -93,4 +93,29 @@ public class ManufacturerManager
             ManufacturerRepository.ListIsEmpty = true;
         }
     }
+    public void EditManufacturer()
+    {
+        Console.Clear();
+        ViewWrite.ShowHeader("          Edição de Fabricantes", 39);
+
+        ShowManufacturerList("NAO-LIMPAR-TELA", "COM-ID");
+        if (ManufacturerRepository.ListIsEmpty)
+        {
+            ViewUtils.PressEnter("VOLTAR-MENU");
+            return;
+        }
+
+        Manufacturer manufacturerChosen = ViewUtils.GetManufacturerChosen(ViewWrite.ShowMessageInputManufacturerIdToEdit(), ViewErrors.ShowMessageManufacturerNotFound(), ManufacturerRepository);
+
+        ViewWrite.ShowMessageInputNewEquipmentData();
+
+        string newName = ViewUtils.GetManufacturerName();
+        string newEmail = ViewUtils.GetManufacturerEmail();
+        string newPhone = ViewUtils.GetManufacturerPhone();
+
+        ManufacturerRepository.EditManufacturer(manufacturerChosen, new Manufacturer(newName, newEmail, newPhone));
+
+        ViewWrite.ShowMessageEquipmentSuccessfullyEdited();
+    }
+
 }
