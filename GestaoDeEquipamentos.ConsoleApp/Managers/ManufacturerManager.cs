@@ -1,4 +1,5 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.Repositories;
+﻿using GestaoDeEquipamentos.ConsoleApp.Entities;
+using GestaoDeEquipamentos.ConsoleApp.Repositories;
 using GestaoDeEquipamentos.ConsoleApp.UI;
 
 namespace GestaoDeEquipamentos.ConsoleApp.Managers;
@@ -6,6 +7,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.Managers;
 public class ManufacturerManager
 {
     public EquipmentRepository EquipmentRepository;
+    public ManufacturerRepository ManufacturerRepository;
     public ViewErrors ViewErrors = new ViewErrors();
     public ViewUtils ViewUtils = new ViewUtils();
     public ViewWrite ViewWrite = new ViewWrite();
@@ -13,6 +15,7 @@ public class ManufacturerManager
     public ManufacturerManager(EquipmentRepository equipmentRepository)
     {
         EquipmentRepository = equipmentRepository;
+        ManufacturerRepository = new ManufacturerRepository();
     }
     public void ManufacturerOptions()
     {
@@ -44,5 +47,21 @@ public class ManufacturerManager
                     break;
             }
         } while (true);
+    }
+
+    private void RegisterManufacturer()
+    {
+        Console.Clear();
+        ViewWrite.ShowHeader("         Registro de Fabricante", 39);
+
+        string name = ViewUtils.GetManufacturerName();
+        string email = ViewUtils.GetManufacturerEmail();
+        string phone = ViewUtils.GetManufacturerPhone();
+
+        Manufacturer newManufacturer = new Manufacturer(name, email, phone);
+        ManufacturerRepository.RegisterManufacturer(newManufacturer);
+
+        ViewWrite.ShowMessageManufacturerRegistered();
+        ViewUtils.PressEnter("VOLTAR-MENU");
     }
 }
