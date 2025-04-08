@@ -20,7 +20,6 @@ public class RepositorioChamado
         chamadoEscolhido.Titulo = novasInformacoesEditadas.Titulo;
         chamadoEscolhido.Descricao = novasInformacoesEditadas.Descricao;
     }
-
     public void DeletarChamado(Chamado chamadoEscolhido)
     {
         for (int i = 0; i < ListaDeChamados.Length; i++)
