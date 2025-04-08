@@ -6,15 +6,18 @@ public class MaintenanceRequest : Entity
     public string Description;
     public Equipment Equipment;
     public DateTime OpenDate;
-    public static int id = 0;
+    private static int id = 0;
 
     public MaintenanceRequest(string title, string description, Equipment equipment, DateTime openDate)
     {
-        Id = ++id;
         Title = title;
         Description = description;
         Equipment = equipment;
         OpenDate = openDate;
+    }
+    public int GenerateId()
+    {
+        return Id = ++id;
     }
     public int CalculateOpenDays()
     {

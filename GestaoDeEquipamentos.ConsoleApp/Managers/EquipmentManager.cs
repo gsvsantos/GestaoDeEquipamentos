@@ -1,16 +1,20 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
+﻿using GestaoDeEquipamentos.ConsoleApp.Entities;
+using GestaoDeEquipamentos.ConsoleApp.Repositories;
+using GestaoDeEquipamentos.ConsoleApp.UI;
 
-namespace GestaoDeEquipamentos.ConsoleApp.Entities;
+namespace GestaoDeEquipamentos.ConsoleApp.Services;
 
 public class EquipmentManager
 {
-    public Equipment[] EquipmentList = new Equipment[100];
-    public int EquipmentListIndex = 0;
-    public bool ListIsEmpty = false;
+    public EquipmentRepository EquipmentRepository;
     public ViewErrors ViewErrors = new ViewErrors();
     public ViewUtils ViewUtils = new ViewUtils();
     public ViewWrite ViewWrite = new ViewWrite();
 
+    public EquipmentManager()
+    {
+        EquipmentRepository = new EquipmentRepository();
+    }
     public void EquipmentManagerOptions()
     {
         ShowMenu showMenu = new ShowMenu();
@@ -53,7 +57,7 @@ public class EquipmentManager
         DateTime manufacturingDate = ViewUtils.GetEquipmentManufacturingDate();
 
         Equipment newEquipment = new Equipment(name, acquisitionPrice, manufacturingDate, manufacturer);
-        EquipmentList[EquipmentListIndex++] = newEquipment;
+        EquipmentRepository.RegisterEquipment(newEquipment);
 
         ViewWrite.ShowMessageEquipmentRegistered();
         ViewUtils.PressEnter("VOLTAR-MENU");
@@ -66,23 +70,25 @@ public class EquipmentManager
         ViewWrite.ShowHeader("          Lista de Equipamentos", 39);
         ViewWrite.ShowEquipmentListColumns(typeList);
 
+        Equipment[] registeredEquipments = EquipmentRepository.GetRegisteredEquipments();
+
         int equipmentCount = 0;
-        foreach (Equipment equipment in EquipmentList)
+        foreach (Equipment equipment in registeredEquipments)
         {
             if (equipment == null)
                 continue;
 
             equipmentCount++;
-            ListIsEmpty = false;
+            EquipmentRepository.ListIsEmpty = false;
             ViewWrite.ShowEquipmentsOnListColumns(equipment, typeList);
 
-            if (equipmentCount == EquipmentList.Count(e => e != null))
+            if (equipmentCount == registeredEquipments.Count(e => e != null))
                 break;
         }
         if (equipmentCount == 0)
         {
             ViewErrors.ShowMessageNoneEquipmentRegistered();
-            ListIsEmpty = true;
+            EquipmentRepository.ListIsEmpty = true;
         }
     }
     public void EditEquipment()
@@ -91,13 +97,13 @@ public class EquipmentManager
         ViewWrite.ShowHeader("          Edição de Equipamento", 39);
 
         ShowEquipmentList("NAO-LIMPAR-TELA", "COM-ID");
-        if (ListIsEmpty)
+        if (EquipmentRepository.ListIsEmpty)
         {
             ViewUtils.PressEnter("VOLTAR-MENU");
             return;
         }
 
-        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen(ViewWrite.ShowMessageInputEquipmentIdToEdit(), ViewErrors.ShowMessageEquipmentNotFound(), this);
+        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen(ViewWrite.ShowMessageInputEquipmentIdToEdit(), ViewErrors.ShowMessageEquipmentNotFound(), EquipmentRepository);
 
         ViewWrite.ShowMessageInputNewEquipmentData();
 
@@ -106,10 +112,7 @@ public class EquipmentManager
         string newManufacturer = ViewUtils.GetManufacturerName();
         DateTime newManufacturingDate = ViewUtils.GetEquipmentManufacturingDate();
 
-        equipmentChosen.Name = newName;
-        equipmentChosen.AcquisitionPrice = newAcquisitionPrice;
-        equipmentChosen.Manufacturer = newManufacturer;
-        equipmentChosen.ManufacturingDate = newManufacturingDate;
+        EquipmentRepository.EditEquipment(equipmentChosen, new Equipment(newName, newAcquisitionPrice, newManufacturingDate, newManufacturer));
 
         ViewWrite.ShowMessageEquipmentSuccessfullyEdited();
     }
@@ -119,24 +122,15 @@ public class EquipmentManager
         ViewWrite.ShowHeader("         Exclusão de Equipamento", 39);
 
         ShowEquipmentList("NAO-LIMPAR-TELA", "COM-ID");
-        if (ListIsEmpty)
+        if (EquipmentRepository.ListIsEmpty)
         {
             ViewUtils.PressEnter("VOLTAR-MENU");
             return;
         }
 
-        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen(ViewWrite.ShowMessageInputEquipmentIdToDelete(), ViewErrors.ShowMessageEquipmentNotFound(), this);
+        Equipment equipmentChosen = ViewUtils.GetEquipmentChosen(ViewWrite.ShowMessageInputEquipmentIdToDelete(), ViewErrors.ShowMessageEquipmentNotFound(), EquipmentRepository);
 
-        for (int i = 0; i < EquipmentList.Length; i++)
-        {
-            if (EquipmentList[i] == null)
-                continue;
-            else if (EquipmentList[i].Id == equipmentChosen.Id)
-            {
-                EquipmentList[i] = null!;
-                break;
-            }
-        }
+        EquipmentRepository.DeleteEquipment(equipmentChosen);
 
         ViewWrite.ShowMessageEquipmentSuccessfullyDeleted();
         ViewUtils.PressEnter("VOLTAR-MENU");

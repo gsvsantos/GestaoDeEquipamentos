@@ -1,4 +1,7 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
+﻿using GestaoDeEquipamentos.ConsoleApp.Entities;
+using GestaoDeEquipamentos.ConsoleApp.Repositories;
+
+namespace GestaoDeEquipamentos.ConsoleApp.UI;
 
 public class ViewWrite
 {
@@ -12,9 +15,9 @@ public class ViewWrite
     {
         ViewColors.WriteLineWithColor("\nEquipamento registrado com sucesso!");
     }
-    public void ShowEquipmentListColumns(string type)
+    public void ShowEquipmentListColumns(string typeList)
     {
-        switch (type)
+        switch (typeList)
         {
             case "COM-ID":
                 Console.ForegroundColor = ConsoleColor.Magenta;
@@ -34,15 +37,15 @@ public class ViewWrite
                 break;
         }
     }
-    public void ShowEquipmentsOnListColumns(Equipment equipment, string type)
+    public void ShowEquipmentsOnListColumns(Equipment equipment, string typeList)
     {
-        switch (type)
+        switch (typeList)
         {
             case "COM-ID":
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(
                     "{0, -7} | {1, -12} | {2, -20} | {3, -15} | {4, -15} | {5, -15}",
-                    equipment.Id, equipment.SerialNumber, equipment.Name, "R$ " + equipment.AcquisitionPrice.ToString("F2"),
+                    equipment.Id, equipment.GetSerialNumber(), equipment.Name, "R$ " + equipment.AcquisitionPrice.ToString("F2"),
                     equipment.Manufacturer, equipment.ManufacturingDate.ToString("dd/MM/yyyy"));
                 Console.ResetColor();
                 break;
@@ -50,7 +53,7 @@ public class ViewWrite
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine(
                     "{0, -12} | {1, -20} | {2, -15} | {3, -15} | {4, -15}",
-                    equipment.SerialNumber, equipment.Name, "R$ " + equipment.AcquisitionPrice.ToString("F2"),
+                    equipment.GetSerialNumber(), equipment.Name, "R$ " + equipment.AcquisitionPrice.ToString("F2"),
                     equipment.Manufacturer, equipment.ManufacturingDate.ToString("dd/MM/yyyy"));
                 Console.ResetColor();
                 break;
@@ -84,9 +87,9 @@ public class ViewWrite
     {
         ViewColors.WriteLineWithColor("\nChamado registrado com sucesso!");
     }
-    public void ShowMaintenanceRequestListColumns(string type)
+    public void ShowMaintenanceRequestListColumns(string typeList)
     {
-        switch (type)
+        switch (typeList)
         {
             case "COM-ID":
                 Console.ForegroundColor = ConsoleColor.Magenta;
@@ -106,9 +109,9 @@ public class ViewWrite
                 break;
         }
     }
-    public void ShowMaintenanceRequestOnListColumns(MaintenanceRequest maintenanceRequest, string type)
+    public void ShowMaintenanceRequestOnListColumns(MaintenanceRequest maintenanceRequest, string typeList)
     {
-        switch (type)
+        switch (typeList)
         {
             case "COM-ID":
                 Console.ForegroundColor = ConsoleColor.White;
@@ -147,5 +150,66 @@ public class ViewWrite
     public void ShowMessageMaintenanceRequestSuccessfullyDeleted()
     {
         ViewColors.WriteLineWithColor("\nO chamado foi excluído com sucesso!");
+    }
+    public void ShowMessageManufacturerSuccessfullyRegistered()
+    {
+        ViewColors.WriteLineWithColor("\nFabricante registrado com sucesso!");
+    }
+    public void ShowManufacturerListColumns(string typeList)
+    {
+        switch (typeList)
+        {
+            case "COM-ID":
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine(
+                    "{0, -7} | {1, -15} | {2, -20} | {3, -25} | {4, -20}",
+                    "Id", "Nome", "Email", "Telefone", "Equipamentos Registrados"); // falta descrição
+                Console.ResetColor();
+                ViewColors.WriteLineWithColor(new string('-', 110));
+                break;
+            case "SEM-ID":
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine(
+                    "{0, -15} | {1, -20} | {2, -15} | {3, -15}",
+                    "Nome", "Email", "Telefone", "Equipamentos Registrados");
+                Console.ResetColor();
+                ViewColors.WriteLineWithColor(new string('-', 72));
+                break;
+        }
+    }
+    public void ShowManufacturerOnListColumns(EquipmentRepository equipmentRepository, Manufacturer manufacturer, ManufacturerRepository manufacturerRepository, string typeList)
+    {
+        switch (typeList)
+        {
+            case "COM-ID":
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(
+                    "{0, -7} | {1, -15} | {2, -20} | {3, -25} | {4, -15}",
+                    manufacturer.Id, manufacturer.Name, manufacturer.Email, manufacturer.Phone,
+                    manufacturer.EquipmentCount);
+                Console.ResetColor();
+                break;
+            case "SEM-ID":
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine(
+                    "{0, -15} | {1, -20} | {2, -15} | {3, -15}",
+                    manufacturer.Name, manufacturer.Email, manufacturer.Phone,
+                    manufacturer.EquipmentCount);
+                Console.ResetColor();
+                break;
+        }
+    }
+    public string ShowMessageInputManufacturerIdToEdit()
+    {
+        return "\nDigite o ID do fabricante que deseja editar: ";
+    }
+    public void ShowMessageManufacturerSuccessfullyEdited()
+    {
+        ViewColors.WriteLineWithColor("\nFabricante atualizado com sucesso!");
+    }
+
+    internal void ShowMessageManufacturerSuccessfullyDeleted()
+    {
+        ViewColors.WriteLineWithColor("\nO fabricante foi excluído com sucesso!");
     }
 }

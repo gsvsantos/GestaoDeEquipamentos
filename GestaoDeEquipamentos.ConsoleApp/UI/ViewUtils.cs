@@ -1,4 +1,8 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
+﻿using GestaoDeEquipamentos.ConsoleApp.Entities;
+using GestaoDeEquipamentos.ConsoleApp.Repositories;
+using GestaoDeEquipamentos.ConsoleApp.Utils;
+
+namespace GestaoDeEquipamentos.ConsoleApp.UI;
 
 public class ViewUtils
 {
@@ -22,7 +26,7 @@ public class ViewUtils
                 break;
         }
     }
-    public Equipment GetEquipmentChosen(string prompt, string idNotFoundError, EquipmentManager equipmentManager)
+    public Equipment GetEquipmentChosen(string prompt, string idNotFoundError, EquipmentRepository equipmentRepository)
     {
         do
         {
@@ -30,7 +34,7 @@ public class ViewUtils
 
             bool idFound = false;
             Equipment equipmentChosen = null!;
-            foreach (Equipment equipment in equipmentManager.EquipmentList)
+            foreach (Equipment equipment in equipmentRepository.EquipmentList)
             {
                 if (equipment == null)
                     continue;
@@ -74,7 +78,7 @@ public class ViewUtils
     {
         return Validators.IsValidString("Descrição: ", "Esse não é uma descrição válida!", 5);
     }
-    public MaintenanceRequest GetMaintenanceRequest(string prompt, string idNotFoundError, MaintenanceRequestManager maintenanceRequestList)
+    public MaintenanceRequest GetMaintenanceRequest(string prompt, string idNotFoundError, MaintenanceRequestRepository maintenanceRequestRepository)
     {
         do
         {
@@ -82,7 +86,7 @@ public class ViewUtils
 
             bool idFound = false;
             MaintenanceRequest maintenanceChosen = null!;
-            foreach (MaintenanceRequest maintenanceRequest in maintenanceRequestList.MaintenanceRequestList)
+            foreach (MaintenanceRequest maintenanceRequest in maintenanceRequestRepository.MaintenanceRequestList)
             {
                 if (maintenanceRequest == null)
                     continue;
@@ -95,9 +99,46 @@ public class ViewUtils
             }
             if (!idFound)
             {
+                ViewColors.WriteLineWithColor(idNotFoundError);
                 continue;
             }
             return maintenanceChosen;
+        } while (true);
+    }
+    public string GetManufacturerEmail()
+    {
+        return Validators.IsValidEmail("\nEmail do Fabricante: ");
+    }
+    public string GetManufacturerPhone()
+    {
+        return Validators.IsValidPhone("\nNúmero do Fabricante: ");
+    }
+    public Manufacturer GetManufacturerChosen(string prompt, string idNotFoundError, ManufacturerRepository manufacturerRepository)
+    {
+        do
+        {
+            int idChosen = Validators.IsValidInt(prompt);
+
+            bool idFound = false;
+            Manufacturer manufacturerChosen = null!;
+            foreach (Manufacturer manufacturer in manufacturerRepository.ManufacturerList)
+            {
+                if (manufacturer == null)
+                    continue;
+                if (manufacturer.Id == idChosen)
+                {
+                    manufacturerChosen = manufacturer;
+                    idFound = true;
+                    break;
+                }
+            }
+            if (!idFound)
+            {
+                ViewColors.WriteLineWithColor(idNotFoundError);
+                continue;
+            }
+
+            return manufacturerChosen;
         } while (true);
     }
 }

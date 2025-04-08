@@ -1,5 +1,7 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.Entities;
-using GestaoDeEquipamentos.ConsoleApp.Entities.Utils;
+﻿using GestaoDeEquipamentos.ConsoleApp.Managers;
+using GestaoDeEquipamentos.ConsoleApp.Repositories;
+using GestaoDeEquipamentos.ConsoleApp.Services;
+using GestaoDeEquipamentos.ConsoleApp.UI;
 
 namespace GestaoDeEquipamentos.ConsoleApp;
 
@@ -11,7 +13,9 @@ internal class Program
         ViewUtils ViewUtils = new ViewUtils();
         ViewWrite ViewWrite = new ViewWrite();
         EquipmentManager equipmentManager = new EquipmentManager();
-        MaintenanceRequestManager maintenanceRequestManager = new MaintenanceRequestManager();
+        EquipmentRepository equipmentRepository = equipmentManager.EquipmentRepository;
+        MaintenanceRequestManager maintenanceRequestManager = new MaintenanceRequestManager(equipmentRepository);
+        ManufacturerManager manufacturerManager = new ManufacturerManager(equipmentRepository);
 
         do
         {
@@ -25,7 +29,10 @@ internal class Program
                     equipmentManager.EquipmentManagerOptions();
                     break;
                 case "2":
-                    maintenanceRequestManager.MaintenanceRequestManagerOptions(equipmentManager);
+                    maintenanceRequestManager.MaintenanceRequestManagerOptions();
+                    break;
+                case "3":
+                    manufacturerManager.ManufacturerOptions();
                     break;
                 case "S":
                     Console.Clear();
