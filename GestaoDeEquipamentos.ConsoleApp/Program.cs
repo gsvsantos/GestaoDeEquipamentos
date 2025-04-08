@@ -9,30 +9,30 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        MostrarMenu showMenu = new MostrarMenu();
-        UtilitariosVisualizacao ViewUtils = new UtilitariosVisualizacao();
-        EscritaVisualizacao ViewWrite = new EscritaVisualizacao();
-        TelaEquipamento equipmentManager = new TelaEquipamento();
-        RepositorioEquipamento equipmentRepository = equipmentManager.RepositorioEquipamento;
-        TelaChamado maintenanceRequestManager = new TelaChamado(equipmentRepository);
-        TelaFabricante manufacturerManager = new TelaFabricante(equipmentRepository);
+        MostrarMenu MostrarMenu = new MostrarMenu();
+        UtilitariosVisualizacao UtilitariosVisualizacao = new UtilitariosVisualizacao();
+        EscritaVisualizacao EscritaVisualizacao = new EscritaVisualizacao();
+        TelaEquipamento TelaEquipamento = new TelaEquipamento();
+        RepositorioEquipamento RepositorioEquipamento = TelaEquipamento.RepositorioEquipamento;
+        TelaChamado TelaChamado = new TelaChamado(RepositorioEquipamento);
+        TelaFabricante TelaFabricante = new TelaFabricante(RepositorioEquipamento);
 
         do
         {
             Console.Clear();
-            ViewWrite.MostrarCabecalho("     Projeto - Gestão de Equipamentos");
-            showMenu.MenuPrincipal();
-            string option = ViewUtils.PegarOpcao();
-            switch (option)
+            EscritaVisualizacao.MostrarCabecalho("     Projeto - Gestão de Equipamentos");
+            MostrarMenu.MenuPrincipal();
+            string opcao = UtilitariosVisualizacao.PegarOpcao();
+            switch (opcao)
             {
                 case "1":
-                    equipmentManager.EquipmentManagerOptions();
+                    TelaEquipamento.OpcoesTelaEquipamento();
                     break;
                 case "2":
-                    maintenanceRequestManager.MaintenanceRequestManagerOptions();
+                    TelaChamado.OpcoesTelaChamado();
                     break;
                 case "3":
-                    manufacturerManager.ManufacturerOptions();
+                    TelaFabricante.OpcoesTelaFabricante();
                     break;
                 case "S":
                     Console.Clear();

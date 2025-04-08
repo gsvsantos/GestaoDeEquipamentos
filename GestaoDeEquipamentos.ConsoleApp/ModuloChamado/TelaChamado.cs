@@ -5,173 +5,173 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 
 public class TelaChamado
 {
-    RepositorioEquipamento EquipmentRepository;
-    RepositorioChamado MaintenanceRequestRepository;
-    public VisualizacaoErros ViewErrors = new VisualizacaoErros();
-    public UtilitariosVisualizacao ViewUtils = new UtilitariosVisualizacao();
-    public EscritaVisualizacao ViewWrite = new EscritaVisualizacao();
+    RepositorioEquipamento RepositorioEquipamento;
+    RepositorioChamado RepositorioChamado;
+    public VisualizacaoErros VisualizacaoErros = new VisualizacaoErros();
+    public UtilitariosVisualizacao UtilitariosVisualizacao = new UtilitariosVisualizacao();
+    public EscritaVisualizacao EscritaVisualizacao = new EscritaVisualizacao();
 
-    public TelaChamado(RepositorioEquipamento equipmentRepository)
+    public TelaChamado(RepositorioEquipamento repositorioEquipamento)
     {
-        EquipmentRepository = equipmentRepository;
-        MaintenanceRequestRepository = new RepositorioChamado();
+        RepositorioEquipamento = repositorioEquipamento;
+        RepositorioChamado = new RepositorioChamado();
     }
-    public void MaintenanceRequestManagerOptions()
+    public void OpcoesTelaChamado()
     {
-        MostrarMenu showMenu = new MostrarMenu();
+        MostrarMenu mostrarMenu = new MostrarMenu();
 
         do
         {
-            showMenu.MenuChamado();
-            string option = ViewUtils.PegarOpcao();
-            switch (option)
+            mostrarMenu.MenuChamado();
+            string opcao = UtilitariosVisualizacao.PegarOpcao();
+            switch (opcao)
             {
                 case "1":
-                    RegisterMaintenanceRequest();
+                    RegistrarChamado();
                     break;
                 case "2":
-                    ShowMaintenanceRequestList("LIMPAR-TELA", "SEM-ID");
-                    ViewUtils.PressioneEnterPara("VOLTAR-MENU");
+                    MostrarListaDeChamados("LIMPAR-TELA", "SEM-ID");
+                    UtilitariosVisualizacao.PressioneEnterPara("VOLTAR-MENU");
                     break;
                 case "3":
-                    EditMaintenanceRequest();
+                    EditarChamado();
                     break;
                 case "4":
-                    DeleteMaintenanceRequest();
+                    DeletarChamado();
                     break;
                 case "S":
                     return;
                 default:
-                    ViewErrors.MostrarMensagemOpcaoInvalida();
+                    VisualizacaoErros.MostrarMensagemOpcaoInvalida();
                     break;
             }
         } while (true);
     }
-    public void RegisterMaintenanceRequest()
+    public void RegistrarChamado()
     {
         Console.Clear();
-        ViewWrite.MostrarCabecalho("           Registro de Chamado", 39);
+        EscritaVisualizacao.MostrarCabecalho("           Registro de Chamado", 39);
 
-        ShowEquipmentList("NAO-LIMPAR-TELA", "COM-ID");
-        if (EquipmentRepository.ListaVazia)
+        MostrarListaDeEquipamentos("NAO-LIMPAR-TELA", "COM-ID");
+        if (RepositorioEquipamento.ListaVazia)
         {
-            ViewUtils.PressioneEnterPara("VOLTAR-MENU");
+            UtilitariosVisualizacao.PressioneEnterPara("VOLTAR-MENU");
             return;
         }
 
-        Equipamento equipmentChosen = ViewUtils.PegarEquipamentoEscolhido(ViewWrite.MostrarMensagemInserirIdDoEquipamentoParaAbrirChamado(), ViewErrors.MostrarMensagemEquipamentoNaoEncontrado(), EquipmentRepository);
+        Equipamento equipamentoEscolhido = UtilitariosVisualizacao.PegarEquipamentoEscolhido(EscritaVisualizacao.MostrarMensagemInserirIdDoEquipamentoParaAbrirChamado(), VisualizacaoErros.MostrarMensagemEquipamentoNaoEncontrado(), RepositorioEquipamento);
 
         Console.Clear();
-        ViewWrite.MostrarCabecalho($"   Registro de chamado para {equipmentChosen.Nome}", 39);
+        EscritaVisualizacao.MostrarCabecalho($"   Registro de chamado para {equipamentoEscolhido.Nome}", 39);
 
-        string title = ViewUtils.PegarTituloDoChamado();
-        string description = ViewUtils.PegarDescricaoDoChamado();
-        DateTime openDate = DateTime.Now;
+        string titulo = UtilitariosVisualizacao.PegarTituloDoChamado();
+        string descricao = UtilitariosVisualizacao.PegarDescricaoDoChamado();
+        DateTime DataAbertura = DateTime.Now;
 
-        Chamado newMaintenanceRequest = new Chamado(title, description, equipmentChosen, openDate);
-        MaintenanceRequestRepository.RegistrarChamado(newMaintenanceRequest);
+        Chamado novoChamado = new Chamado(titulo, descricao, equipamentoEscolhido, DataAbertura);
+        RepositorioChamado.RegistrarChamado(novoChamado);
 
-        ViewWrite.MostrarMensagemChamadoRegistrado();
-        ViewUtils.PressioneEnterPara("VOLTAR-MENU");
+        EscritaVisualizacao.MostrarMensagemChamadoRegistrado();
+        UtilitariosVisualizacao.PressioneEnterPara("VOLTAR-MENU");
     }
-    public void ShowMaintenanceRequestList(string clearAction, string typeList)
+    public void MostrarListaDeChamados(string acaoLimpeza, string tipoDeLista)
     {
-        if (clearAction == "LIMPAR-TELA")
+        if (acaoLimpeza == "LIMPAR-TELA")
             Console.Clear();
 
-        ViewWrite.MostrarCabecalho("            Lista de Chamados", 39);
-        ViewWrite.MostrarColunasListaDeChamados(typeList);
+        EscritaVisualizacao.MostrarCabecalho("            Lista de Chamados", 39);
+        EscritaVisualizacao.MostrarColunasListaDeChamados(tipoDeLista);
 
-        Chamado[] registeredMaintenanceRequest = MaintenanceRequestRepository.PegarChamadosRegistrados();
+        Chamado[] chamadosRegistrados = RepositorioChamado.PegarChamadosRegistrados();
 
-        int maintenanceRequestCount = 0;
-        foreach (Chamado maintenanceRequest in registeredMaintenanceRequest)
+        int quantidadeChamados = 0;
+        foreach (Chamado chamado in chamadosRegistrados)
         {
-            if (maintenanceRequest == null)
+            if (chamado == null)
                 continue;
 
-            maintenanceRequestCount++;
-            MaintenanceRequestRepository.ListaVazia = false;
-            ViewWrite.MostrarChamadosNaListaComColunas(maintenanceRequest, typeList);
+            quantidadeChamados++;
+            RepositorioChamado.ListaVazia = false;
+            EscritaVisualizacao.MostrarChamadosNaListaComColunas(chamado, tipoDeLista);
 
-            if (maintenanceRequestCount == registeredMaintenanceRequest.Count(m => m != null))
+            if (quantidadeChamados == chamadosRegistrados.Count(m => m != null))
                 break;
         }
-        if (maintenanceRequestCount == 0)
+        if (quantidadeChamados == 0)
         {
-            ViewErrors.MostrarMensagemNenhumChamadoRegistrado();
-            MaintenanceRequestRepository.ListaVazia = true;
+            VisualizacaoErros.MostrarMensagemNenhumChamadoRegistrado();
+            RepositorioChamado.ListaVazia = true;
         }
     }
-    public void EditMaintenanceRequest()
+    public void EditarChamado()
     {
         Console.Clear();
-        ViewWrite.MostrarCabecalho("            Edição de Chamado", 39);
+        EscritaVisualizacao.MostrarCabecalho("            Edição de Chamado", 39);
 
-        ShowMaintenanceRequestList("NAO-LIMPAR-TELA", "COM-ID");
-        if (MaintenanceRequestRepository.ListaVazia)
+        MostrarListaDeChamados("NAO-LIMPAR-TELA", "COM-ID");
+        if (RepositorioChamado.ListaVazia)
         {
-            ViewUtils.PressioneEnterPara("VOLTAR-MENU");
+            UtilitariosVisualizacao.PressioneEnterPara("VOLTAR-MENU");
             return;
         }
 
-        Chamado maintenanceRequestChosen = ViewUtils.PegarChamadoEscolhido(ViewWrite.MostrarMensagemInserirIdDoChamadoParaEditar(), ViewErrors.MostrarMensagemChamadoNaoEncontrado(), MaintenanceRequestRepository);
+        Chamado chamadoEscolhido = UtilitariosVisualizacao.PegarChamadoEscolhido(EscritaVisualizacao.MostrarMensagemInserirIdDoChamadoParaEditar(), VisualizacaoErros.MostrarMensagemChamadoNaoEncontrado(), RepositorioChamado);
 
-        ViewWrite.MostrarMensagemInserirNovosDadosDoChamado();
+        EscritaVisualizacao.MostrarMensagemInserirNovosDadosDoChamado();
 
-        string newTitle = ViewUtils.PegarTituloDoChamado();
-        string newDescription = ViewUtils.PegarDescricaoDoChamado();
+        string novoTitulo = UtilitariosVisualizacao.PegarTituloDoChamado();
+        string novaDescricao = UtilitariosVisualizacao.PegarDescricaoDoChamado();
 
-        MaintenanceRequestRepository.EditarChamado(maintenanceRequestChosen, new Chamado(newTitle, newDescription, maintenanceRequestChosen.Equipamento, DateTime.Now));
+        RepositorioChamado.EditarChamado(chamadoEscolhido, new Chamado(novoTitulo, novaDescricao, chamadoEscolhido.Equipamento, DateTime.Now));
 
-        ViewWrite.MostrarMensagemChamadoEditado();
+        EscritaVisualizacao.MostrarMensagemChamadoEditado();
     }
-    public void DeleteMaintenanceRequest()
+    public void DeletarChamado()
     {
         Console.Clear();
-        ViewWrite.MostrarCabecalho("           Exclusão de Chamado");
+        EscritaVisualizacao.MostrarCabecalho("           Exclusão de Chamado");
 
-        ShowMaintenanceRequestList("NAO-LIMPAR-TELA", "COM-ID");
-        if (MaintenanceRequestRepository.ListaVazia)
+        MostrarListaDeChamados("NAO-LIMPAR-TELA", "COM-ID");
+        if (RepositorioChamado.ListaVazia)
         {
-            ViewUtils.PressioneEnterPara("VOLTAR-MENU");
+            UtilitariosVisualizacao.PressioneEnterPara("VOLTAR-MENU");
             return;
         }
 
-        Chamado maintenanceRequestChosen = ViewUtils.PegarChamadoEscolhido(ViewWrite.MostrarMensagemInserirIdDoChamadoParaDeletar(), ViewErrors.MostrarMensagemChamadoNaoEncontrado(), MaintenanceRequestRepository);
+        Chamado chamadoEscolhido = UtilitariosVisualizacao.PegarChamadoEscolhido(EscritaVisualizacao.MostrarMensagemInserirIdDoChamadoParaDeletar(), VisualizacaoErros.MostrarMensagemChamadoNaoEncontrado(), RepositorioChamado);
 
-        MaintenanceRequestRepository.DeletarChamado(maintenanceRequestChosen);
+        RepositorioChamado.DeletarChamado(chamadoEscolhido);
 
-        ViewWrite.MostrarMensagemChamadoDeletado();
-        ViewUtils.PressioneEnterPara("VOLTAR-MENU");
+        EscritaVisualizacao.MostrarMensagemChamadoDeletado();
+        UtilitariosVisualizacao.PressioneEnterPara("VOLTAR-MENU");
     }
-    public void ShowEquipmentList(string clearAction, string typeList)
+    public void MostrarListaDeEquipamentos(string acaoLimpeza, string tipoDeLista)
     {
-        if (clearAction == "LIMPAR-TELA")
+        if (acaoLimpeza == "LIMPAR-TELA")
             Console.Clear();
 
-        ViewWrite.MostrarCabecalho("          Lista de Equipamentos", 39);
-        ViewWrite.MostrarColunasListaDeEquipamentos(typeList);
+        EscritaVisualizacao.MostrarCabecalho("          Lista de Equipamentos", 39);
+        EscritaVisualizacao.MostrarColunasListaDeEquipamentos(tipoDeLista);
 
-        Equipamento[] registeredEquipments = EquipmentRepository.PegarEquipamentosRegistrados();
+        Equipamento[] equipamentosRegistrados = RepositorioEquipamento.PegarEquipamentosRegistrados();
 
-        int equipmentCount = 0;
-        foreach (Equipamento equipment in registeredEquipments)
+        int quantidadeEquipamentos = 0;
+        foreach (Equipamento equipamento in equipamentosRegistrados)
         {
-            if (equipment == null)
+            if (equipamento == null)
                 continue;
 
-            equipmentCount++;
-            MaintenanceRequestRepository.ListaVazia = false;
-            ViewWrite.MostrarEquipamentosNaListaComColunas(equipment, typeList);
+            quantidadeEquipamentos++;
+            RepositorioChamado.ListaVazia = false;
+            EscritaVisualizacao.MostrarEquipamentosNaListaComColunas(equipamento, tipoDeLista);
 
-            if (equipmentCount == registeredEquipments.Count(e => e != null))
+            if (quantidadeEquipamentos == equipamentosRegistrados.Count(e => e != null))
                 break;
         }
-        if (equipmentCount == 0)
+        if (quantidadeEquipamentos == 0)
         {
-            ViewErrors.MostrarMensagemNenhumEquipamentoRegistrado();
-            MaintenanceRequestRepository.ListaVazia = true;
+            VisualizacaoErros.MostrarMensagemNenhumEquipamentoRegistrado();
+            RepositorioChamado.ListaVazia = true;
         }
     }
 }

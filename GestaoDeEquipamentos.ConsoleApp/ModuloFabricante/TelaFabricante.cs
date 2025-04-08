@@ -16,13 +16,13 @@ public class TelaFabricante
         RepositorioEquipamento = repositorioEquipamento;
         RepositorioFabricante = new RepositorioFabricante();
     }
-    public void ManufacturerOptions()
+    public void OpcoesTelaFabricante()
     {
-        MostrarMenu MostrarMenu = new MostrarMenu();
+        MostrarMenu mostrarMenu = new MostrarMenu();
 
         do
         {
-            MostrarMenu.MenuFabricante();
+            mostrarMenu.MenuFabricante();
             string opcao = UtilitariosVisualizacao.PegarOpcao();
             switch (opcao)
             {
@@ -72,21 +72,21 @@ public class TelaFabricante
 
         Fabricante[] fabricantesRegistrados = RepositorioFabricante.PegarFabricantesRegistrados();
 
-        int fabricantes = 0;
+        int quantidadeFabricantes = 0;
         foreach (Fabricante fabricante in fabricantesRegistrados)
         {
             if (fabricante == null)
                 continue;
 
-            fabricantes++;
+            quantidadeFabricantes++;
             RepositorioFabricante.ListaVazia = false;
             RepositorioFabricante.PegarQuantidadeDeEquipamentosDoFabricante(RepositorioEquipamento);
             EscritaVisualizacao.MostrarFabricantesNaListaComColunas(RepositorioEquipamento, fabricante, RepositorioFabricante, tipoDeLista);
 
-            if (fabricantes == fabricantesRegistrados.Count(m => m != null))
+            if (quantidadeFabricantes == fabricantesRegistrados.Count(m => m != null))
                 break;
         }
-        if (fabricantes == 0)
+        if (quantidadeFabricantes == 0)
         {
             VisualizacaoErros.MostrarMensagemNenhumFabricanteRegistrado();
             RepositorioFabricante.ListaVazia = true;

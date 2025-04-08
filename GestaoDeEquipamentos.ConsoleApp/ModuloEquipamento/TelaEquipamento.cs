@@ -13,13 +13,13 @@ public class TelaEquipamento
     {
         RepositorioEquipamento = new RepositorioEquipamento();
     }
-    public void EquipmentManagerOptions()
+    public void OpcoesTelaEquipamento()
     {
-        MostrarMenu MostrarMenu = new MostrarMenu();
+        MostrarMenu mostrarMenu = new MostrarMenu();
 
         do
         {
-            MostrarMenu.MenuEquipamento();
+            mostrarMenu.MenuEquipamento();
             string opcao = UtilitariosVisualizacao.PegarOpcao();
             switch (opcao)
             {
@@ -70,20 +70,20 @@ public class TelaEquipamento
 
         Equipamento[] equipamentosRegistrados = RepositorioEquipamento.PegarEquipamentosRegistrados();
 
-        int equipamentos = 0;
+        int quantidadeEquipamentos = 0;
         foreach (Equipamento equipamento in equipamentosRegistrados)
         {
             if (equipamento == null)
                 continue;
 
-            equipamentos++;
+            quantidadeEquipamentos++;
             RepositorioEquipamento.ListaVazia = false;
             EscritaVisualizacao.MostrarEquipamentosNaListaComColunas(equipamento, tipoDeLista);
 
-            if (equipamentos == equipamentosRegistrados.Count(e => e != null))
+            if (quantidadeEquipamentos == equipamentosRegistrados.Count(e => e != null))
                 break;
         }
-        if (equipamentos == 0)
+        if (quantidadeEquipamentos == 0)
         {
             VisualizacaoErros.MostrarMensagemNenhumEquipamentoRegistrado();
             RepositorioEquipamento.ListaVazia = true;
