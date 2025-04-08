@@ -104,4 +104,14 @@ public class ViewUtils
             return maintenanceChosen;
         } while (true);
     }
+    public string GetManufacturerEmail()
+    {
+        return Validators.IsValidEmail("\nEmail do Fabricante: ");
+    }
+    public string GetManufacturerPhone()
+    {
+        return Validators.IsValidPhone("\nNúmero do Fabricante: ");
+    }
+}
+
 }
