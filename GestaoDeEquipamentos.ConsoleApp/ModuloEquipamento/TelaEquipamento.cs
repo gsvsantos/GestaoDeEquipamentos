@@ -57,7 +57,8 @@ public class TelaEquipamento
         Fabricante fabricanteEscolhido = UtilitariosVisualizacao.PegarFabricanteEscolhido(EscritaVisualizacao.MostrarMensagemInserirIdDoFabricanteParaRegistrarEquipamento(), VisualizacaoErros.MostrarMensagemFabricanteNaoEncontrado(), RepositorioFabricante);
 
         Console.Clear();
-        EscritaVisualizacao.MostrarCabecalho($"   Registro de equipamento do fabricante {fabricanteEscolhido.Nome}", 45);
+        EscritaVisualizacao.MostrarCabecalho("         Registro de Equipamento", 39);
+        EscritaVisualizacao.MostrarCabecalho($"         Fabricante: {fabricanteEscolhido.Nome}", 39);
 
         Equipamento novoEquipamento = ObterDadosEquipamentos(fabricanteEscolhido);
         RepositorioEquipamento.RegistrarEquipamento(novoEquipamento);
@@ -108,8 +109,8 @@ public class TelaEquipamento
 
         Equipamento equipamentoEscolhido = UtilitariosVisualizacao.PegarEquipamentoEscolhido(EscritaVisualizacao.MostrarMensagemInserirIdDoEquipamentoParaEditar(), VisualizacaoErros.MostrarMensagemEquipamentoNaoEncontrado(), RepositorioEquipamento);
 
-        EscritaVisualizacao.MostrarMensagemInserirNovosDadosDoEquipamento();
-
+        Console.Clear();
+        EscritaVisualizacao.MostrarCabecalho("        Atualização de Equipamento", 40);
         MostrarListaDeFabricantes("NAO-LIMPAR-TELA", "COM-ID");
         if (RepositorioFabricante.ListaVazia)
         {
@@ -119,7 +120,9 @@ public class TelaEquipamento
         Fabricante fabricanteEscolhido = UtilitariosVisualizacao.PegarFabricanteEscolhido(EscritaVisualizacao.MostrarMensagemInserirIdDoFabricanteParaRegistrarEquipamento(), VisualizacaoErros.MostrarMensagemFabricanteNaoEncontrado(), RepositorioFabricante);
 
         Console.Clear();
-        EscritaVisualizacao.MostrarCabecalho($"   Atualização de equipamento do fabricante {fabricanteEscolhido.Nome}", 45);
+        EscritaVisualizacao.MostrarCabecalho("        Atualização de Equipamento", 40);
+        EscritaVisualizacao.MostrarCabecalho($"        Fabricante: {fabricanteEscolhido.Nome}", 40);
+        EscritaVisualizacao.MostrarMensagemInserirNovosDadosDoEquipamento();
 
         RepositorioEquipamento.EditarEquipamentos(equipamentoEscolhido, ObterDadosEquipamentos(fabricanteEscolhido));
 

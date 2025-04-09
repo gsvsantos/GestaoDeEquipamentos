@@ -51,7 +51,7 @@ public class TelaFabricante
         Fabricante novoFabricante = ObterDadosFabricante();
         RepositorioFabricante.RegistrarFabricante(novoFabricante);
 
-        EscritaVisualizacao.MostrarMensagemChamadoRegistrado();
+        EscritaVisualizacao.MostrarMensagemFabricanteRegistrado();
         UtilitariosVisualizacao.PressioneEnterPara("VOLTAR-MENU");
     }
     public void MostrarListaDeFabricantes(string acaoLimpeza, string tipoDeLista)
@@ -98,11 +98,12 @@ public class TelaFabricante
 
         Fabricante fabricanteEscolhido = UtilitariosVisualizacao.PegarFabricanteEscolhido(EscritaVisualizacao.MostrarMensagemInserirIdDoFabricanteParaEditar(), VisualizacaoErros.MostrarMensagemFabricanteNaoEncontrado(), RepositorioFabricante);
 
-        EscritaVisualizacao.MostrarMensagemInserirNovosDadosDoEquipamento();
+        EscritaVisualizacao.MostrarMensagemInserirNovosDadosDoFabricante();
 
         RepositorioFabricante.EditarFabricante(fabricanteEscolhido, ObterDadosFabricante());
 
         EscritaVisualizacao.MostrarMensagemFabricanteEditado();
+        UtilitariosVisualizacao.PressioneEnterPara("VOLTAR-MENU");
     }
     public void DeletarFabricante()
     {
@@ -116,11 +117,11 @@ public class TelaFabricante
             return;
         }
 
-        Fabricante fabricanteEscolhido = UtilitariosVisualizacao.PegarFabricanteEscolhido(EscritaVisualizacao.MostrarMensagemInserirIdDoFabricanteParaEditar(), VisualizacaoErros.MostrarMensagemFabricanteNaoEncontrado(), RepositorioFabricante);
+        Fabricante fabricanteEscolhido = UtilitariosVisualizacao.PegarFabricanteEscolhido(EscritaVisualizacao.MostrarMensagemInserirIdDoFabricanteParaDeletar(), VisualizacaoErros.MostrarMensagemFabricanteNaoEncontrado(), RepositorioFabricante);
 
         if (fabricanteEscolhido.Equipamentos != 0)
         {
-            bool deveDeletarEquipamentos = Validador.DeveDeletarOFabricanteDaLista("Excluir esse fabricante irá deletar os equipamentos dele, deseja continuar? (S/n)");
+            bool deveDeletarEquipamentos = Validador.DeveDeletarOFabricanteDaLista("Excluir esse fabricante irá deletar os equipamentos dele, deseja continuar? (S/n) ");
             if (!deveDeletarEquipamentos)
                 return;
 

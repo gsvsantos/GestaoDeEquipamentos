@@ -57,7 +57,8 @@ public class TelaChamado
         Equipamento equipamentoEscolhido = UtilitariosVisualizacao.PegarEquipamentoEscolhido(EscritaVisualizacao.MostrarMensagemInserirIdDoEquipamentoParaAbrirChamado(), VisualizacaoErros.MostrarMensagemEquipamentoNaoEncontrado(), RepositorioEquipamento);
 
         Console.Clear();
-        EscritaVisualizacao.MostrarCabecalho($"   Registro de chamado para {equipamentoEscolhido.Nome}", 39);
+        EscritaVisualizacao.MostrarCabecalho("           Registro de Chamado", 39);
+        EscritaVisualizacao.MostrarCabecalho($"           Equipamento: {equipamentoEscolhido.Nome}", 39);
 
         string titulo = UtilitariosVisualizacao.PegarTituloDoChamado();
         string descricao = UtilitariosVisualizacao.PegarDescricaoDoChamado();
@@ -166,7 +167,7 @@ public class TelaChamado
         if (quantidadeEquipamentos == 0)
         {
             VisualizacaoErros.MostrarMensagemNenhumEquipamentoRegistrado();
-            RepositorioChamado.ListaVazia = true;
+            RepositorioEquipamento.ListaVazia = true;
         }
     }
 }

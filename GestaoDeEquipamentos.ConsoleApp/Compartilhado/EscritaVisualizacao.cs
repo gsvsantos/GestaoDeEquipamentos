@@ -12,6 +12,10 @@ public static class EscritaVisualizacao
         VisualizacaoCores.EscrevaColoridoComLinha(title.ToUpper(), ConsoleColor.Cyan);
         VisualizacaoCores.EscrevaColoridoComLinha("\\" + new string('=', linesQuantity) + "/\n");
     }
+    public static string MostrarMensagemInserirIdDoFabricanteParaRegistrarEquipamento()
+    {
+        return "\nDigite o ID do fabricante do equipamento: ";
+    }
     public static void MostrarMensagemEquipamentoRegistrado()
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nEquipamento registrado com sucesso!");
@@ -60,13 +64,13 @@ public static class EscritaVisualizacao
                 break;
         }
     }
-    public static void MostrarMensagemInserirNovosDadosDoEquipamento()
-    {
-        VisualizacaoCores.EscrevaColoridoComLinha("\nDigite abaixo os novos dados do equipamento: ");
-    }
     public static string MostrarMensagemInserirIdDoEquipamentoParaEditar()
     {
         return "\nDigite o ID do equipamento que deseja editar: ";
+    }
+    public static void MostrarMensagemInserirNovosDadosDoEquipamento()
+    {
+        VisualizacaoCores.EscrevaColoridoComLinha("\nDigite abaixo os novos dados do equipamento: ");
     }
     public static void MostrarMensagemEquipamentoEditado()
     {
@@ -84,7 +88,7 @@ public static class EscritaVisualizacao
     {
         return "\nDigite o ID do equipamento no qual será feito o chamado: ";
     }
-    public static void MostrarMensagemFabricanteRegistrado()
+    public static void MostrarMensagemChamadoRegistrado()
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nChamado registrado com sucesso!");
     }
@@ -132,13 +136,13 @@ public static class EscritaVisualizacao
                 break;
         }
     }
-    public static void MostrarMensagemInserirNovosDadosDoChamado()
-    {
-        VisualizacaoCores.EscrevaColoridoComLinha("\nDigite abaixo as novas informações do chamado: ");
-    }
     public static string MostrarMensagemInserirIdDoChamadoParaEditar()
     {
         return "\nDigite o ID do chamado que deseja editar: ";
+    }
+    public static void MostrarMensagemInserirNovosDadosDoChamado()
+    {
+        VisualizacaoCores.EscrevaColoridoComLinha("\nDigite abaixo as novas informações do chamado: ");
     }
     public static void MostrarMensagemChamadoEditado()
     {
@@ -152,7 +156,7 @@ public static class EscritaVisualizacao
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nO chamado foi excluído com sucesso!");
     }
-    public static void MostrarMensagemChamadoRegistrado()
+    public static void MostrarMensagemFabricanteRegistrado()
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nFabricante registrado com sucesso!");
     }
@@ -204,6 +208,10 @@ public static class EscritaVisualizacao
     {
         return "\nDigite o ID do fabricante que deseja editar: ";
     }
+    public static void MostrarMensagemInserirNovosDadosDoFabricante()
+    {
+        VisualizacaoCores.EscrevaColoridoComLinha("\nDigite abaixo as novas informações do fabricante: ");
+    }
     public static void MostrarMensagemFabricanteEditado()
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nFabricante atualizado com sucesso!");
@@ -212,8 +220,9 @@ public static class EscritaVisualizacao
     {
         VisualizacaoCores.EscrevaColoridoComLinha("\nO fabricante foi excluído com sucesso!");
     }
-    public static string MostrarMensagemInserirIdDoFabricanteParaRegistrarEquipamento()
+    public static string MostrarMensagemInserirIdDoFabricanteParaDeletar()
     {
-        return "\nDigite o ID do fabricante do equipamento: ";
+        return "\nDigite o ID do fabricante que deseja remover: ";
     }
+
 }
