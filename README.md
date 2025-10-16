@@ -5,6 +5,10 @@ Um simples programa que permite registrar, listar, editar e excluir equipamentos
 Planejamento do projeto no Whimsical: [Atividade - Gestão de Equipamentos v1](https://whimsical.com/atividade-gestao-de-equipamentos-EFv5bntPie38qufMixdGjg)   
 *versão atual (branch v3) não consta no planejamento no Whimsical ou nas issues!*
 
+---
+
+[![wakatime](https://wakatime.com/badge/user/d66fe803-196c-4729-b330-f8a026db44ec/project/f7234c06-0bdd-420a-828f-94e79a449d66.svg)](https://wakatime.com/badge/user/d66fe803-196c-4729-b330-f8a026db44ec/project/f7234c06-0bdd-420a-828f-94e79a449d66)
+
 ## Como Usar
 1. Menu de equipamentos contém:
    - Gerenciar Equipamentos
